@@ -7,7 +7,6 @@ public class Door : MonoBehaviour, IInteractable
     [SerializeField] private Door linkedDoor;
     [SerializeField] private bool isLocked = false;
     [SerializeField] private AudioClip openSound;
-    [SerializeField] private bool preserveYPosition = true;
     
     private VisualCue visualCue;
     private AudioSource audioSource;
@@ -33,23 +32,29 @@ public class Door : MonoBehaviour, IInteractable
         Transform currentParent = transform.parent;
         Transform linkedParent = linkedDoor.transform.parent;
         
-        if(linkedParent != null && !linkedParent.gameObject.activeSelf)
-            linkedParent.gameObject.SetActive(true);
-        if(currentParent != null && currentParent.gameObject.activeSelf)
-            currentParent.gameObject.SetActive(false);
+        bool hasDifferentParent = currentParent != linkedParent;
         
-        LocationUI.Instance.SetLocation(linkedParent.gameObject.name);
-        PlayerCam.Instance.SetConfiner(linkedParent.gameObject.GetComponent<BoxCollider2D>());
-
+        if(hasDifferentParent){
+            if(linkedParent != null && !linkedParent.gameObject.activeSelf)
+                linkedParent.gameObject.SetActive(true);
+            if(currentParent != null && currentParent.gameObject.activeSelf)
+                currentParent.gameObject.SetActive(false);
+            
+            LocationUI.Instance.SetLocation(linkedParent.gameObject.name);
+            PlayerCam.Instance.SetConfiner(linkedParent.gameObject.GetComponent<BoxCollider2D>());
+        }else{
+            if(currentParent != null) LocationUI.Instance.SetLocation(currentParent.gameObject.name);
+        }
+        
         Vector3 newPosition = linkedDoor.transform.position;
-        if(preserveYPosition) newPosition.y = player.transform.position.y;
+        newPosition.y = player.transform.position.y;
+        newPosition.z = player.transform.position.z;
         player.transform.position = newPosition;
         
-        if(visualCue != null){
-            InteractableObject linkedInteractable = linkedDoor.GetComponent<InteractableObject>();
-            visualCue.SetCurrentInteractable(linkedInteractable);
-        }
-
+        InteractableObject linkedInteractable = linkedDoor.GetComponent<InteractableObject>();
+        Debug.Log(linkedInteractable);
+        visualCue.SetCurrentInteractable(linkedInteractable);
+        
         if(openSound != null && audioSource != null) audioSource.PlayOneShot(openSound);
     }
 }

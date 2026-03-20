@@ -27,6 +27,9 @@ public class PlayerCam : MonoBehaviour
     [SerializeField] private BoxCollider2D boundaryCollider;
     [SerializeField] private bool clampToBoundary = true;
 
+    [Header("CUTSCENE")]
+    [SerializeField] private float cutsceneSmoothSpeed = 5f;
+    
     private Vector3 targetPosition;
     private Vector3 velocity = Vector3.zero;
     private Mouse mouse;
@@ -37,6 +40,11 @@ public class PlayerCam : MonoBehaviour
     private float cameraHalfWidth;
     private float currentFollowDistance;
     private float followDistanceVelocity;
+    
+    private Transform cutsceneTarget;
+    private bool isCutsceneMode = false;
+    private Vector3 cutsceneOffset;
+    private System.Action onCutsceneComplete;
 
     void Awake(){
         if(Instance == null) Instance = this;
@@ -63,7 +71,20 @@ public class PlayerCam : MonoBehaviour
 
     void LateUpdate(){
         if(playerTransform == null || mouse == null || pm == null) return;
-        if(!GameManager.Instance.isInitialized) return;
+        if(!GameManager.Instance.isInitialized && !isCutsceneMode) return;
+
+        if(isCutsceneMode && cutsceneTarget != null){
+            targetPosition = cutsceneTarget.position + cutsceneOffset + (Vector3)offset;
+            targetPosition.z = transform.position.z;
+            
+            if(clampToBoundary && boundaryCollider != null)
+                targetPosition = ClampToBoundary(targetPosition);
+
+            float cutsceneTime = cutsceneSmoothSpeed * Time.deltaTime;
+            transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref velocity, cutsceneTime, Mathf.Infinity, Time.deltaTime);
+            
+            return;
+        }
 
         float horizontalOffset = 0f;
 
@@ -98,8 +119,8 @@ public class PlayerCam : MonoBehaviour
         if(clampToBoundary && boundaryCollider != null)
             targetPosition = ClampToBoundary(targetPosition);
 
-        float smoothTime = smoothSpeed * Time.deltaTime;
-        transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref velocity, smoothTime, Mathf.Infinity, Time.deltaTime);
+        float followTime = smoothSpeed * Time.deltaTime;
+        transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref velocity, followTime, Mathf.Infinity, Time.deltaTime);
     }
 
     Vector3 ClampToBoundary(Vector3 targetPos){
@@ -124,6 +145,32 @@ public class PlayerCam : MonoBehaviour
             }
         }
     }
+
+    public void FocusOnTarget(Transform target, Vector3 offset, System.Action onComplete = null){
+        cutsceneTarget = target;
+        cutsceneOffset = offset;
+        isCutsceneMode = true;
+        onCutsceneComplete = onComplete;
+    }
+
+    public void FocusOnTarget(Transform target, System.Action onComplete = null){
+        FocusOnTarget(target, Vector3.zero, onComplete);
+    }
+
+    public void ReturnToPlayer(System.Action onComplete = null){
+        cutsceneTarget = playerTransform;
+        cutsceneOffset = Vector3.zero;
+        onCutsceneComplete = onComplete;
+    }
+
+    public void EndCutsceneMode(){
+        isCutsceneMode = false;
+        cutsceneTarget = null;
+        onCutsceneComplete?.Invoke();
+        onCutsceneComplete = null;
+    }
+
+    public bool IsCutsceneMode() => isCutsceneMode;
 
     void OnDrawGizmosSelected(){
         if(playerTransform != null){

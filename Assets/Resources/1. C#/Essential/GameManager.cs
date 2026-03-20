@@ -13,12 +13,14 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Door classDoor;
     [SerializeField] private GameObject pooMeter;
     [SerializeField] private GameObject locationUI;
+    [SerializeField] private GameObject objectiveUI;
     [Space(10)]
     [SerializeField] private bool cutscene;
 
     [Header("SETTINGS")]
     public bool isInitialized;
     public bool isEnded;
+    public bool isInMiniGame;
 
     void Awake(){
         if(Instance == null) Instance = this;
@@ -38,7 +40,9 @@ public class GameManager : MonoBehaviour
 
     IEnumerator StartGame(){
         yield return new WaitForSeconds(0.1f);
-        DialogueManager.Instance.ShowDialogueUI();
+        bool uiReady = false;
+        DialogueManager.Instance.ShowDialogueUI(() => uiReady = true);
+        yield return new WaitUntil(() => uiReady);
         
         DialogueManager.Instance.SetDialogue(
             DLib.NARRATOR,
@@ -98,6 +102,12 @@ public class GameManager : MonoBehaviour
         yield return new WaitWhile(() => DialogueManager.Instance.IsTypingActive());
 
         DialogueManager.Instance.SetDialogue(
+            DLib.NARRATOR,
+            "[Classroom - Recess Time]"
+        );
+        yield return new WaitWhile(() => DialogueManager.Instance.IsTypingActive());
+
+        DialogueManager.Instance.SetDialogue(
             DLib.PLAYER,
             "*Looks at Kana*~ \nIta daki mas Kana, nice to meet you <color=#FFA6A6>0///0</color>"
         );
@@ -111,13 +121,13 @@ public class GameManager : MonoBehaviour
 
         DialogueManager.Instance.SetDialogue(
             DLib.PLAYER,
-            "I have a question. Kana..~ \nMay i know where the bathroom is?"
+            "I have a question. Kana..~ \nMay i know where the <color=#E76F2E>restroom</color> is?"
         );
         yield return new WaitWhile(() => DialogueManager.Instance.IsTypingActive());
 
         DialogueManager.Instance.SetDialogue(
             DLib.PLAYER,
-            "I need to..~ take a <color=#8C5A3C>poopie</color> pwease? <color=#FFA6A6>UwU</color>"
+            "I need to..~ I need to take a <color=#8C5A3C>poopie</color> pwease? <color=#FFA6A6>UwU</color>"
         );
         yield return new WaitWhile(() => DialogueManager.Instance.IsTypingActive());
 
@@ -127,15 +137,53 @@ public class GameManager : MonoBehaviour
         );
         yield return new WaitWhile(() => DialogueManager.Instance.IsTypingActive());
 
-        DialogueManager.Instance.HideDialogueUI();
         classDoor.Interact();
-        pooMeter.SetActive(true);
-        locationUI.SetActive(true);
 
+        DialogueManager.Instance.SetDialogue(
+            DLib.NARRATOR,
+            "As you can see, this onyo needs to take a dookie."
+        );
+        yield return new WaitWhile(() => DialogueManager.Instance.IsTypingActive());
+
+        objectiveUI.SetActive(true);
+        ObjectiveUI.Instance.SetObjective("Go to a toilet");
+        AnimationLib.Instance.PopInObjectiveUI();
+
+        DialogueManager.Instance.SetDialogue(
+            DLib.NARRATOR,
+            "Press <color=#408A71>A</color> or <color=#408A71>D</color> to move, and <color=#B0E4CC>E</color> to interact"
+        );
+        yield return new WaitWhile(() => DialogueManager.Instance.IsTypingActive());
+
+        DialogueManager.Instance.SetDialogue(
+            DLib.PLAYER,
+            "I need to find the restroom <color=#4F6F52>ASAP</color>. \nI can feel it coming out."
+        );
+        yield return new WaitWhile(() => DialogueManager.Instance.IsTypingActive());
+
+        AnimationLib.Instance.SlideInPooMeter();
+        DialogueManager.Instance.SetDialogue(
+            DLib.PLAYER,
+            "I'm on 3rd floor right now. Let's try to find it."
+        );
+        yield return new WaitWhile(() => DialogueManager.Instance.IsTypingActive());
+        AnimationLib.Instance.SlideInLocationUI();
+        DialogueManager.Instance.HideDialogueUI();
+
+        yield return new WaitForSeconds(0.5f);
+
+        DialogueManager.Instance.ResetSkip();
         isInitialized = true;
     }
 
-    public void EndGame(){
+    public void EndGame(int type){
+        switch(type){
+            case 1: //Ran out of time
+                break;
+            case 2: //Caught by Hanako
+                pooMeter.GetComponent<PooMeter>().UpdateMultiplier();
+                break;
+        }
         isEnded = true;
     }
 }

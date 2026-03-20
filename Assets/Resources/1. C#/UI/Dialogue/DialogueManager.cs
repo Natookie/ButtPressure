@@ -31,6 +31,7 @@ public class DialogueManager : MonoBehaviour
 
     private Coroutine typingRoutine;
     private bool isTyping = false;
+    public bool IsTyping => isTyping;
     private bool skipAllDialogues = false;
 
     void Awake(){
@@ -141,13 +142,18 @@ public class DialogueManager : MonoBehaviour
     public void ResetSkip() => skipAllDialogues = false;
     public bool IsTypingActive() => isTyping && !skipAllDialogues;
 
-    public void ShowDialogueUI(){
+    public void ShowDialogueUI(System.Action onComplete = null){
+        PlayerMovement.Instance.canMove = false;
+
         if(dialogueUI != null) dialogueUI.PopGradient(true, () => {
             if(visualGameObject != null) visualGameObject.SetActive(true);
+            onComplete?.Invoke();
         });
     }
 
     public void HideDialogueUI(){
+        PlayerMovement.Instance.canMove = true;
+
         if(visualGameObject != null) visualGameObject.SetActive(false);
         if(dialogueUI != null) dialogueUI.PopGradient(false);
     }
@@ -159,7 +165,7 @@ public class DialogueManager : MonoBehaviour
     }
     void skipHover(Gesture.OnHover evt) => StartCoroutine(LerpSkipButton(skipHoverColor, 1.1f));
     void skipUnhover(Gesture.OnUnhover evt) => StartCoroutine(LerpSkipButton(skipUnhoverColor, 1f));
-    
+
     IEnumerator LerpSkipButton(Color32 targetColor, float targetScale){
         if(skipButton == null) yield break;
 

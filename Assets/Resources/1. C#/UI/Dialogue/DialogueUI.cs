@@ -17,6 +17,7 @@ public class DialogueUI : MonoBehaviour
         upPosition = 0f;
         
         gradientBlock.Position.Y.Value = downPosition;
+        PopGradient(false);
     }
 
     public void PopGradient(bool show, System.Action onComplete = null){
@@ -42,4 +43,6 @@ public class DialogueUI : MonoBehaviour
         gradientBlock.Position.Y.Value = targetPosition;
         onComplete?.Invoke();
     }
+
+    public float GradientPos() => gradientBlock.Position.Y.Value;
 }

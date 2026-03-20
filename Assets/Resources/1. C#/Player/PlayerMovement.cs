@@ -9,6 +9,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private Rigidbody2D rb; 
     [SerializeField] private SpriteRenderer sr;
 
+    [HideInInspector] public bool canMove;
+
     [Header("MOVEMENT SETTINGS")]
     [SerializeField] private float moveSpeed = 5f;
     [SerializeField] private float forceMoveSpeed = 3f;
@@ -16,7 +18,8 @@ public class PlayerMovement : MonoBehaviour
     
     [HideInInspector] public float horizontal;
     [HideInInspector] public bool hasReachedTarget;
-    
+    [HideInInspector] public Hanako hanako;
+
     private bool isForcedMoving = false;
     private Transform forceMoveTarget;
     private BoxCollider2D boundaryCollider;
@@ -66,6 +69,7 @@ public class PlayerMovement : MonoBehaviour
         }else{
             if(!GameManager.Instance.isInitialized || GameManager.Instance.isEnded) return;
             if(!sr.enabled) return;
+            if(!canMove || GameManager.Instance.isInMiniGame) return;
 
             horizontal = (Keyboard.current.aKey.isPressed) ? -1f : (Keyboard.current.dKey.isPressed) ? 1f : 0f;
             Vector2 newVelocity = new Vector2(horizontal * moveSpeed, rb.linearVelocity.y);
@@ -125,8 +129,8 @@ public class PlayerMovement : MonoBehaviour
     }
 
     public void HideInLocker(Vector3 position, bool isInLocker){
-        sr.enabled = isInLocker;
+        sr.enabled = !isInLocker;
         rb.linearVelocity = Vector2.zero;
-        this.transform.position = position;
+        this.transform.position = new Vector3(position.x, transform.position.y, transform.position.z);
     }
 }

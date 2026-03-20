@@ -19,29 +19,40 @@ public class PooMeter : MonoBehaviour
     [SerializeField] private UIBlock2D pooFillBlock;
     [SerializeField] private UIBlock2D pooIcon;
 
+    [HideInInspector] public float pooMultiplier = 1f;
+
     private float pendulumTimer;
     private GameManager gm;
 
     void Start(){
         gm = GameManager.Instance;
         pooFill = 0f;
-
-        this.gameObject.SetActive(false);
     }
 
     void Update(){
+        if(!gm.isInitialized) return;
+        
         CheckPoo();
         HandlePooFill();
     }
 
     void CheckPoo(){
-        if(pooFill > pooFillTarget) GameManager.Instance.EndGame();
+        if(pooFill >= pooFillTarget) GameManager.Instance.EndGame(1);
+    }
+
+    public void UpdateMultiplier(){
+        float remainingFill = pooFillTarget - pooFill;
+        float remainingPercent = remainingFill / 100f;
+        float targetTime = Mathf.Lerp(0.5f, 2f, remainingPercent);
+        
+        pooMultiplier = remainingFill / targetTime;
+        pooMultiplier = Mathf.Clamp(pooMultiplier, 0.1f, 200f);
     }
 
     void HandlePooFill(){
-        pooFill += Time.deltaTime;
+        pooFill += Time.deltaTime * pooMultiplier;
         pooFill = Mathf.Clamp(pooFill, 0f, pooFillTarget);
-        
+
         pooFillBlock.Size.X.Percent = (pooFill / 100f);
         
         float t = pooFill / 100f;

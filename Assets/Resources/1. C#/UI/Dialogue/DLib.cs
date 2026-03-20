@@ -17,6 +17,7 @@ public static class DLib
     public static readonly Character STUDENT = new Character("Student", new Color32(73, 243, 245, 255));
 
     public static readonly Character KANA = new Character("Kana", new Color32(255, 166, 166, 255));
+    public static readonly Character HANAKO = new Character("Hanako", new Color32(218, 72, 72, 255));
 
     public static readonly Character TEACHER = new Character("Teacher", new Color32(73, 243, 117, 255));
     public static readonly Character NARRATOR = new Character("Narrator", new Color32(200, 200, 200, 255));

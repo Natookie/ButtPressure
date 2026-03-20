@@ -16,11 +16,5 @@ public class LocationUI : MonoBehaviour
         }
     }
 
-    void Start(){
-        this.gameObject.SetActive(false);
-    }
-
-    public void SetLocation(string loc){
-        currentLocation.Text = loc;
-    }
+    public void SetLocation(string loc) => currentLocation.Text = loc;
 }
