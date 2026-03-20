@@ -25,7 +25,7 @@ public class MainMenuUI : MonoBehaviour
         mainContent.SetActive(true);
         settingsContent.SetActive(false);
         creditsContent.SetActive(false);
-        AudioManager.Instance.PlayMusic(mainMenuMusicName);
+        // AudioManager.Instance.PlayMusic(mainMenuMusicName);
     }
     #endregion
 
@@ -35,7 +35,7 @@ public class MainMenuUI : MonoBehaviour
     #region Button
     public void OnPlay()
     {
-        AudioManager.Instance.StopMusic();
+        // AudioManager.Instance.StopMusic();
         SceneManager.LoadScene(playTargetSceneName);
     }
 
