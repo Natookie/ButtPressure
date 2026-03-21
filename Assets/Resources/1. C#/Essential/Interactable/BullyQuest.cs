@@ -9,9 +9,12 @@ public class BullyQuest : MonoBehaviour
 
     [HideInInspector] private bool hasIntroduced;
 
+    private InteractableObject door;
     public void SetHasDrink(bool value) => hasDrink = value;
 
-    public void EnterRoom(){
+    public void EnterRoom(InteractableObject d){
+        if(door == null) door = d;
+
         if(!hasDrink){
             if(!hasIntroduced) StartCoroutine(TriggerQuest());
             else StartCoroutine(RemindQuest());
@@ -130,6 +133,7 @@ public class BullyQuest : MonoBehaviour
 
         PlayerCam.Instance.ReturnToPlayer();
         ObjectiveUI.Instance.SetObjective("Go to the 2nd floor");
+        door.enabled = false;
 
         DialogueManager.Instance.HideDialogueUI();
     }

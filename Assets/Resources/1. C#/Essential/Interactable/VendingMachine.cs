@@ -1,11 +1,12 @@
 using UnityEngine;
 using System.Collections;
 
+[RequireComponent(typeof(InteractableObject))]
 public class VendingMachine : MonoBehaviour, IMultiInteractable
 {
     [Header("REFERENCES")]
-    [SerializeField] private Homework homework;
     [SerializeField] private BullyQuest quest;
+    [SerializeField] private RichKid richKid;
     [SerializeField] private InteractableObject interactable;
  
     private bool hasMoney;
@@ -45,21 +46,35 @@ public class VendingMachine : MonoBehaviour, IMultiInteractable
         );
         yield return new WaitWhile(() => DialogueManager.Instance.IsTypingActive());
 
-        PlayerCam.Instance.FocusOnTarget(homework.gameObject.transform);
+        PlayerCam.Instance.FaceTarget(richKid.gameObject.transform);
         DialogueManager.Instance.SetDialogue(
-            DLib.PLAYER,
-            "Hey, there is a stupid looking guy over there."
+            DLib.YAMATO,
+            "HEY! NERD GUY! The one in front of the vending\nmachine."
+        );
+        yield return new WaitWhile(() => DialogueManager.Instance.IsTypingActive());
+
+        PlayerCam.Instance.FocusOnTarget(richKid.gameObject.transform);
+        DialogueManager.Instance.SetDialogue(
+            DLib.YAMATO,
+            "You look hella broke, and you seems like ultra nerd."
         );
         yield return new WaitWhile(() => DialogueManager.Instance.IsTypingActive());
 
         DialogueManager.Instance.SetDialogue(
-            DLib.PLAYER,
-            "Maybe i can help him do some of his homework.\n~Then i will ask for money. ~yay!"
+            DLib.YAMATO,
+            "I really need your help right now, i forgot to do\nmy math homework."
+        );
+        yield return new WaitWhile(() => DialogueManager.Instance.IsTypingActive());
+
+        DialogueManager.Instance.SetDialogue(
+            DLib.YAMATO,
+            "I will give you <color=#E76F2E>120 Yen</color> if you at least answer\n<color=#2FA4D7>6 questions correctly</color>"
         );
         yield return new WaitWhile(() => DialogueManager.Instance.IsTypingActive());
         
-        PlayerCam.Instance.ReturnToPlayer();
         DialogueManager.Instance.HideDialogueUI();
+        richKid.GetComponent<InteractableObject>().enabled = true;
+        PlayerCam.Instance.ReturnToPlayer();
         firstExecuted = true;
     }
 

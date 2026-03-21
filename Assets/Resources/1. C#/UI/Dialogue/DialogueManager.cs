@@ -9,10 +9,13 @@ public class DialogueManager : MonoBehaviour
     public static DialogueManager Instance { get; private set; }
 
     [Header("DIALOGUE CONFIG")]
-    [SerializeField] private CharacterConfig[] configs = new CharacterConfig[3];
     [SerializeField] private float typingSpeed = 30f;
     [SerializeField] private float punctuationDelay = 0.3f;
     [SerializeField] private float tildePauseDuration = 1f;
+    [Space(10)]
+    [SerializeField] private float fastForwardSpeed = 100f;
+    [SerializeField] private float fastForwardPunctuationDelay = 0.05f;
+    [SerializeField] private float fastForwardTildePauseDuration = 0.05f;
 
     [Header("EXTRAS")]
     [SerializeField] private UIBlock2D skipButton;
@@ -33,6 +36,7 @@ public class DialogueManager : MonoBehaviour
     private bool isTyping = false;
     public bool IsTyping => isTyping;
     private bool skipAllDialogues = false;
+    private bool isFastForwarding = false;
 
     void Awake(){
         if(Instance == null) Instance = this;
@@ -97,6 +101,10 @@ public class DialogueManager : MonoBehaviour
         int i = 0;
         string displayedText = "";
         while(i < text.Length && !skipAllDialogues){
+            float currentTypingSpeed = (isFastForwarding) ? fastForwardSpeed : typingSpeed;
+            float currentPunctuationDelay = (isFastForwarding) ? fastForwardPunctuationDelay : punctuationDelay;
+            float currentTildePause = (isFastForwarding) ? fastForwardTildePauseDuration : tildePauseDuration;
+            
             if(text[i] == '<'){
                 int tagEnd = text.IndexOf('>', i);
                 if(tagEnd != -1){
@@ -107,11 +115,11 @@ public class DialogueManager : MonoBehaviour
                     continue;
                 }
             }else if(text[i] == '~'){
-                yield return new WaitForSeconds(tildePauseDuration);
+                yield return new WaitForSeconds(currentTildePause);
                 i++;
                 continue;
             }else if(text[i] == '|'){
-                yield return new WaitForSeconds(.1f);
+                yield return new WaitForSeconds((isFastForwarding) ? 0f : .1f);
                 isTyping = false;
                 i++;
                 continue;
@@ -119,8 +127,8 @@ public class DialogueManager : MonoBehaviour
             
             displayedText += text[i];
             visual.dialogueContent.Text = displayedText;
-            if(text[i] == ',' || text[i] == '.') yield return new WaitForSeconds(punctuationDelay);
-            else yield return new WaitForSeconds(1f / typingSpeed);
+            if(text[i] == ',' || text[i] == '.') yield return new WaitForSeconds(currentPunctuationDelay);
+            else yield return new WaitForSeconds(1f / currentTypingSpeed);
             i++;
         }
         
@@ -128,7 +136,7 @@ public class DialogueManager : MonoBehaviour
             visual.dialogueContent.Text = StripTags(text);
             isTyping = false;
         }else{
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds((isFastForwarding) ? 0.1f : 1f);
             isTyping = false;
         }
     }
@@ -137,6 +145,15 @@ public class DialogueManager : MonoBehaviour
         skipAllDialogues = true;
         if(typingRoutine != null) StopCoroutine(typingRoutine);
         isTyping = false;
+    }
+
+    public void SetFastForward(bool fastForward){
+        isFastForwarding = fastForward;
+        
+        if(visual != null){
+            if(fastForward) visual.dialogueContent.Color = new Color(0.8f, 0.8f, 0.8f);
+            else visual.dialogueContent.Color = Color.white;
+        }
     }
 
     public void ForceStopDialogue(){
@@ -200,11 +217,4 @@ public class DialogueManager : MonoBehaviour
         skipButton.transform.localScale = endScale;
     }
     #endregion
-}
-
-[System.Serializable]
-public class CharacterConfig
-{
-    public string characterName;
-    public Color characterColor;
 }

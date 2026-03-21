@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using UnityEngine.InputSystem;
 
 public class GameManager : MonoBehaviour
 {
@@ -22,6 +23,8 @@ public class GameManager : MonoBehaviour
     public bool isEnded;
     public bool isInMiniGame;
 
+    private Keyboard keyboard;
+
     void Awake(){
         if(Instance == null) Instance = this;
         else{
@@ -31,11 +34,18 @@ public class GameManager : MonoBehaviour
     }
 
     void Start(){
+        keyboard = Keyboard.current;
+        
         if(cutscene){
             pm.SetPosition(playerStart.position);
             StartCoroutine(StartGame());
         }
         else isInitialized = true;
+    }
+
+    void Update(){
+        if(keyboard != null && keyboard.spaceKey.isPressed) DialogueManager.Instance.SetFastForward(true);
+        else DialogueManager.Instance.SetFastForward(false);
     }
 
     IEnumerator StartGame(){
@@ -152,6 +162,12 @@ public class GameManager : MonoBehaviour
         DialogueManager.Instance.SetDialogue(
             DLib.NARRATOR,
             "Press <color=#408A71>A</color> or <color=#408A71>D</color> to move, and <color=#B0E4CC>E</color> to interact"
+        );
+        yield return new WaitWhile(() => DialogueManager.Instance.IsTypingActive());
+
+        DialogueManager.Instance.SetDialogue(
+            DLib.NARRATOR,
+            "Tips: Hold <color=#408A71>SPACE</color> to\nfast forward dialogue, making the game easier"
         );
         yield return new WaitWhile(() => DialogueManager.Instance.IsTypingActive());
 

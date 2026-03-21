@@ -163,6 +163,14 @@ public class PlayerCam : MonoBehaviour
         onCutsceneComplete = onComplete;
     }
 
+    public void FaceTarget(Transform target){
+        if(target == null || pm == null) return;
+        
+        float direction = target.position.x - playerTransform.position.x;
+        if(direction > 0) pm.FaceRight();
+        else if(direction < 0) pm.FaceLeft();
+    }
+
     public void EndCutsceneMode(){
         isCutsceneMode = false;
         cutsceneTarget = null;
