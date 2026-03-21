@@ -93,6 +93,18 @@ public class AudioManager : MonoBehaviour
             musicSource.Play();
         }
     }
+    public void PlayMusic(AudioClip audioClip, bool isLoop = true)
+    {
+        // Check music source
+        if (!musicSource) return;
+        // Play audio
+        else
+        {
+            musicSource.loop = isLoop;
+            musicSource.clip = audioClip;
+            musicSource.Play();
+        }
+    }
     // public void PlayMusic(string audioName, float fadeDuration, bool isLoop = true)
     // {
     //     // Check music source
@@ -157,6 +169,13 @@ public class AudioManager : MonoBehaviour
         // Play audio
         else sfxSource.PlayOneShot(audioData.audioClip, audioData.volume);
     }
+    public void PlaySFX(AudioClip audioClip)
+    {
+        // Check SFX source
+        if (!sfxSource) return;
+        // Play audio
+        else sfxSource.PlayOneShot(audioClip);
+    }
 
     public void PlaySFXLooping(string audioName, bool isOverride = false)
     {
@@ -177,6 +196,21 @@ public class AudioManager : MonoBehaviour
             sfxLoopingSource.pitch = audioData.pitch;
             sfxLoopingSource.Play();
             currentSFXLoopingName = audioName;
+        }
+    }
+    public void PlaySFXLooping(AudioClip audioClip, bool isOverride = false)
+    {
+        // Check SFX source
+        if (!sfxSource) return;
+        // Check for override
+        if (audioClip.name == currentSFXLoopingName && !isOverride) return;
+        // Play audio
+        else
+        {
+            sfxLoopingSource.loop = true;
+            sfxLoopingSource.clip = audioClip;
+            sfxLoopingSource.Play();
+            currentSFXLoopingName = audioClip.name;
         }
     }
 

@@ -1,9 +1,12 @@
 using System.Collections.Generic;
 using Nova;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class MathMinigameController : MonoBehaviour
 {
+    public UnityEvent OnMinigameFinished;
+
     [Header("Component and Object")]
     [SerializeField] private GameObject content;
     [SerializeField] private TextBlock questionText;
@@ -81,6 +84,7 @@ public class MathMinigameController : MonoBehaviour
             $"Result: {GetCorrectAnswerPercentage()}%"
         );
         content.SetActive(false);
+        OnMinigameFinished?.Invoke();
     }
     #endregion
 
