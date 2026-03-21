@@ -19,11 +19,12 @@ public static class DLib
     public static readonly Character KANA = new Character("Kana", new Color32(255, 166, 166, 255));
     public static readonly Character HANAKO = new Character("Hanako", new Color32(218, 72, 72, 255));
 
-    public static readonly Character JIN = new Character("JIN", new Color32(218, 72, 72, 255));
-    public static readonly Character JOHN = new Character("JOHN", new Color32(218, 72, 72, 255));
-    public static readonly Character JAKI = new Character("JAKI", new Color32(218, 72, 72, 255));
-
+    public static readonly Character JIN = new Character("Jin", new Color32(218, 72, 72, 255));
+    public static readonly Character JOHN = new Character("John", new Color32(218, 72, 72, 255));
+    public static readonly Character JAKI = new Character("Saki", new Color32(218, 72, 72, 255));
     public static readonly Character SATO = new Character("Sato", new Color32(218, 72, 72, 255));
+
+    public static readonly Character YAMATO = new Character("Yamato", new Color32(117, 12, 202, 255));
 
     public static readonly Character TEACHER = new Character("Teacher", new Color32(73, 243, 117, 255));
     public static readonly Character NARRATOR = new Character("Narrator", new Color32(200, 200, 200, 255));

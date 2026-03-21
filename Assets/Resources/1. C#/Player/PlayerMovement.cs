@@ -56,8 +56,8 @@ public class PlayerMovement : MonoBehaviour
             
             rb.linearVelocity = newVelocity;
             
-            if(direction.x > 0) sr.flipX = false;
-            else if(direction.x < 0) sr.flipX = true;
+            if(direction.x > 0) FaceLeft();
+            else if(direction.x < 0) FaceRight();
 
             float xDifference = Mathf.Abs(forceMoveTarget.position.x - transform.position.x);
             if(xDifference <= stoppingDistance){
@@ -77,12 +77,15 @@ public class PlayerMovement : MonoBehaviour
             
             rb.linearVelocity = newVelocity;
             
-            if(horizontal > 0) sr.flipX = false;
-            else if(horizontal < 0) sr.flipX = true;
+            if(horizontal > 0) FaceLeft();
+            else if(horizontal < 0) FaceRight();
         }
 
         if(boundaryCollider != null) transform.position = ClampPositionToBoundary(transform.position);
     }
+
+    public void FaceRight() => sr.flipX = true;
+    public void FaceLeft() => sr.flipX = false;
 
     public void ChangeBoundary(){
         if(PlayerCam.Instance == null) return;
