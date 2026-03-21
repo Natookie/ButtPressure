@@ -28,4 +28,5 @@ public static class DLib
     public static readonly Character TEACHER = new Character("Teacher", new Color32(73, 243, 117, 255));
     public static readonly Character NARRATOR = new Character("Narrator", new Color32(200, 200, 200, 255));
     public static readonly Character CROWD = new Character("Crowd", new Color32(200, 200, 200, 255));
+    public static readonly Character JANITOR = new Character("Janitor", new Color32(200, 200, 200, 255));
 }
