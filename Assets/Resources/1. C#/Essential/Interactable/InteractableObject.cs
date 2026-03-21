@@ -8,7 +8,7 @@ public class InteractableObject : MonoBehaviour
     [SerializeField] private float interactionRange = 2f;
     [SerializeField] private bool isMultiInteractable = false;
 
-    [SerializeField] private bool firstHasDialogue = true;
+    [SerializeField] private bool firstHasDialogue = false;
     [SerializeField] private bool firstOneTime = true;
     [SerializeField] private bool secondHasDialogue = true;
     [SerializeField] private bool secondOneTime = true;

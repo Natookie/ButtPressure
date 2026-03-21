@@ -18,7 +18,6 @@ public class PlayerMovement : MonoBehaviour
     
     [HideInInspector] public float horizontal;
     [HideInInspector] public bool hasReachedTarget;
-    [HideInInspector] public Hanako hanako;
 
     private bool isForcedMoving = false;
     private Transform forceMoveTarget;

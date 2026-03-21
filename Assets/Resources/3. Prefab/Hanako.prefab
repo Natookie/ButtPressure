@@ -178,14 +178,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9fa6fae7af83a034c8fc568985f223ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Hanako
-  walkSpeed: 2
+  walkSpeed: 2.5
   runSpeed: 3.5
   slowDownDistance: 2
-  detectionRange: 8
+  detectionRange: 4
   playerLayer:
     serializedVersion: 2
     m_Bits: 64
-  patrolRange: 5
-  idleTime: 2
-  canMove: 0
+  catchDistance: 0.1
+  idleTime: 5
+  tauntIdleTime: 10
+  canMove: 1
   hasTeleported: 0

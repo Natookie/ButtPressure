@@ -170,7 +170,7 @@ public class GameManager : MonoBehaviour
         AnimationLib.Instance.SlideInLocationUI();
         DialogueManager.Instance.HideDialogueUI();
 
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(1.5f);
 
         DialogueManager.Instance.ResetSkip();
         isInitialized = true;

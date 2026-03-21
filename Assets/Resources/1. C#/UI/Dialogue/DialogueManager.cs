@@ -139,6 +139,16 @@ public class DialogueManager : MonoBehaviour
         isTyping = false;
     }
 
+    public void ForceStopDialogue(){
+        if(typingRoutine != null){
+            StopCoroutine(typingRoutine);
+            typingRoutine = null;
+        }
+        
+        isTyping = false;
+        HideDialogueUI();
+    }
+
     public void ResetSkip() => skipAllDialogues = false;
     public bool IsTypingActive() => isTyping && !skipAllDialogues;
 
