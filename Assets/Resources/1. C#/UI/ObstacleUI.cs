@@ -15,26 +15,21 @@ public class ObstacleUI : MonoBehaviour
     
     private int currentTable = 0;
     private int currentPressesInTable = 0;
-    private Hanako hanako;
     
-    void Start()
-    {
+    void Start(){
         currentTable = 0;
         currentPressesInTable = 0;
         UpdateUI();
     }
     
     void Update(){
-        if(hanako == null) hanako = PlayerMovement.Instance.hanako;
-        
         HandleDistance();
         HandleTableCount();
         HandleTableProgress();
     }
     
     void HandleDistance(){
-        if(hanako == null || playerPos == null) return;
-        
+        Hanako hanako = Hanako.Instance;
         Transform hanakoPos = hanako.gameObject.transform;
         float xDiff = Mathf.Abs(hanakoPos.position.x - playerPos.position.x);
         hanakoDistance.Text = $"Hanako is {xDiff:F1}m away from you";

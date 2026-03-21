@@ -1,6 +1,6 @@
 using UnityEngine;
-using TMPro;
 using UnityEngine.InputSystem;
+using Nova;
 
 public class VisualCue : MonoBehaviour
 {
@@ -12,22 +12,20 @@ public class VisualCue : MonoBehaviour
     [SerializeField] private Camera thisCam;
 
     [Header("UI REFERENCES")]
-    [SerializeField] private Canvas uiCanvas;
-    [SerializeField] private TextMeshProUGUI interactionText;
+    [SerializeField] private UIBlock2D cueBlock;
+    [SerializeField] private TextBlock interactionText;
+    [SerializeField] private UIBlock2D iconBlock;
     
     [Header("UI SETTINGS")]
     [SerializeField] private Vector3 offset;
     [SerializeField] private float fadeSpeed = 5f;
-    [SerializeField] private float minWidth = 100f;
-    [SerializeField] private float maxWidth = 400f;
-    [SerializeField] private float padding = 20f;
     
-    private CanvasGroup canvasGroup;
     private Keyboard keyboard;
     private InteractableObject currentInteractable;
-    private RectTransform canvasRect;
-    private RectTransform textRect;
     private string currentText = "";
+    private Color blockColor;
+    private Color textColor;
+    private Color iconColor;
 
     void Awake(){
         if(Instance == null) Instance = this;
@@ -40,42 +38,43 @@ public class VisualCue : MonoBehaviour
     void Start(){
         keyboard = Keyboard.current;
         
-        uiCanvas.renderMode = RenderMode.WorldSpace;
-        uiCanvas.worldCamera = thisCam;
+        if(cueBlock != null){
+            blockColor = cueBlock.Color;
+            blockColor.a = 0f;
+            cueBlock.Color = blockColor;
+        }
         
-        canvasRect = uiCanvas.GetComponent<RectTransform>();
-        textRect = interactionText.GetComponent<RectTransform>();
-        canvasRect.sizeDelta = new Vector2(400, 100);
-        canvasRect.localScale = Vector3.one * 0.01f;
+        if(interactionText != null){
+            textColor = interactionText.Color;
+            textColor.a = 0f;
+            interactionText.Color = textColor;
+            interactionText.Text = "";
+        }
         
-        canvasGroup = uiCanvas.GetComponent<CanvasGroup>();
-        if(canvasGroup == null) canvasGroup = uiCanvas.gameObject.AddComponent<CanvasGroup>();
-            
-        canvasGroup.alpha = 0f;
-        interactionText.text = "";
+        if(iconBlock != null){
+            iconColor = iconBlock.Color;
+            iconColor.a = 0f;
+            iconBlock.Color = iconColor;
+        }
     }
 
-    void Update(){
-        if(playerTransform == null || thisCam == null) return;
-
+    void LateUpdate(){
         if(currentInteractable != null){
-            float dynamicOffsetX = Mathf.Abs(offset.x);
-            if(playerSpriteRenderer != null){
-                dynamicOffsetX = (playerSpriteRenderer.flipX) ? -dynamicOffsetX : dynamicOffsetX;
-                interactionText.alignment = (playerSpriteRenderer.flipX) ? TextAlignmentOptions.Left : TextAlignmentOptions.Right;
-            }
-            
-            transform.position = playerTransform.position + new Vector3(dynamicOffsetX, offset.y, offset.z);
-            
             string newText = currentInteractable.Prompt;
             
             if(newText != currentText){
                 currentText = newText;
-                UpdateTextBoxSize(newText);
+                if(interactionText != null) interactionText.Text = newText;
             }
             
-            interactionText.text = newText;
-            canvasGroup.alpha = Mathf.MoveTowards(canvasGroup.alpha, 1f, fadeSpeed * Time.deltaTime);
+            float targetAlpha = 1f;
+            blockColor.a = Mathf.MoveTowards(blockColor.a, targetAlpha, fadeSpeed * Time.deltaTime);
+            textColor.a = Mathf.MoveTowards(textColor.a, targetAlpha, fadeSpeed * Time.deltaTime);
+            iconColor.a = Mathf.MoveTowards(iconColor.a, targetAlpha, fadeSpeed * Time.deltaTime);
+            
+            if(cueBlock != null) cueBlock.Color = blockColor;
+            if(interactionText != null) interactionText.Color = textColor;
+            if(iconBlock != null) iconBlock.Color = iconColor;
             
             if(keyboard != null && keyboard.eKey.wasPressedThisFrame && !DialogueManager.Instance.IsTyping){
                 bool shouldStopMovement = false;
@@ -94,33 +93,20 @@ public class VisualCue : MonoBehaviour
                 currentInteractable.Interact();
             }
         }else{
-            canvasGroup.alpha = Mathf.MoveTowards(canvasGroup.alpha, 0f, fadeSpeed * Time.deltaTime);
-            if(canvasGroup.alpha <= 0.01f){
-                interactionText.text = "";
+            float targetAlpha = 0f;
+            blockColor.a = Mathf.MoveTowards(blockColor.a, targetAlpha, fadeSpeed * Time.deltaTime);
+            textColor.a = Mathf.MoveTowards(textColor.a, targetAlpha, fadeSpeed * Time.deltaTime);
+            iconColor.a = Mathf.MoveTowards(iconColor.a, targetAlpha, fadeSpeed * Time.deltaTime);
+            
+            if(cueBlock != null) cueBlock.Color = blockColor;
+            if(interactionText != null) interactionText.Color = textColor;
+            if(iconBlock != null) iconBlock.Color = iconColor;
+            
+            if(blockColor.a <= 0.01f && textColor.a <= 0.01f && iconColor.a <= 0.01f){
+                if(interactionText != null) interactionText.Text = "";
                 currentText = "";
             }
         }
-    }
-    
-    void UpdateTextBoxSize(string text){
-        if(string.IsNullOrEmpty(text)){
-            textRect.sizeDelta = new Vector2(minWidth, textRect.sizeDelta.y);
-            return;
-        }
-        
-        interactionText.text = text;
-        interactionText.ForceMeshUpdate();
-        
-        Bounds bounds = interactionText.bounds;
-        
-        float textWidth = bounds.size.x;
-        float textHeight = bounds.size.y;
-        
-        float newWidth = textWidth + padding;
-        float newHeight = textHeight + padding;
-        
-        newWidth = Mathf.Clamp(newWidth, minWidth, maxWidth);
-        textRect.sizeDelta = new Vector2(newWidth, newHeight);
     }
 
     public void ShowPrompt(InteractableObject interactable) => currentInteractable = interactable;

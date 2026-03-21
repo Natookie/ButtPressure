@@ -11,7 +11,6 @@ public class EvtManager : MonoBehaviour
     [Header("ACTIONS")]
     [SerializeField] private bool teleportHanako;
     [SerializeField] private Transform teleportTarget;
-    [SerializeField] private Hanako hanako;
     
     [Header("OTHER ACTIONS")]
     [SerializeField] private UnityEngine.Events.UnityEvent onTriggerEvents;
@@ -24,8 +23,6 @@ public class EvtManager : MonoBehaviour
         triggerCollider.isTrigger = true;
     }
 
-    public void SetHanako(Hanako hnk) => hanako = hnk;
-
     void OnTriggerEnter2D(Collider2D other){
         if(hasTriggered && oneTime) return;
         
@@ -36,7 +33,8 @@ public class EvtManager : MonoBehaviour
     }
 
     void ExecuteEvent(){
-        if(teleportHanako && hanako != null && teleportTarget != null) 
+        Hanako hanako = Hanako.Instance;
+        if(teleportHanako && hanako != null && teleportTarget != null)
             hanako.TeleportTo(teleportTarget.position);
         
         onTriggerEvents?.Invoke();

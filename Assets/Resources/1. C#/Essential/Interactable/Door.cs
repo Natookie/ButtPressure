@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 [RequireComponent(typeof(InteractableObject))]
 public class Door : MonoBehaviour, IInteractable
@@ -7,6 +8,10 @@ public class Door : MonoBehaviour, IInteractable
     [SerializeField] private Door linkedDoor;
     [SerializeField] private bool isLocked = false;
     [SerializeField] private AudioClip openSound;
+    
+    [Header("EVENT SETTINGS")]
+    [SerializeField] private bool triggerEvent = false;
+    [SerializeField] private UnityEvent onDoorUsed;
     
     private VisualCue visualCue;
     private AudioSource audioSource;
@@ -22,7 +27,11 @@ public class Door : MonoBehaviour, IInteractable
             return;
         }
         
-        if(linkedDoor != null) TeleportToLinkedDoor();
+        if(linkedDoor != null){
+            TeleportToLinkedDoor();
+            
+            if(triggerEvent) onDoorUsed?.Invoke();
+        }
     }
 
     void TeleportToLinkedDoor(){
