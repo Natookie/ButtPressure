@@ -147,7 +147,7 @@ public class GameManager : MonoBehaviour
         );
         yield return new WaitWhile(() => DialogueManager.Instance.IsTypingActive());
 
-        classDoor.Interact();
+        if(classDoor.gameObject.activeSelf) classDoor.Interact();
 
         DialogueManager.Instance.SetDialogue(
             DLib.NARRATOR,
@@ -167,7 +167,7 @@ public class GameManager : MonoBehaviour
 
         DialogueManager.Instance.SetDialogue(
             DLib.NARRATOR,
-            "Tips: Hold <color=#408A71>SPACE</color> to\nfast forward dialogue, making the game easier"
+            "Tips: Hold <color=#408A71>SPACE</color> to fast forward dialogue\nMaking the game easier"
         );
         yield return new WaitWhile(() => DialogueManager.Instance.IsTypingActive());
 

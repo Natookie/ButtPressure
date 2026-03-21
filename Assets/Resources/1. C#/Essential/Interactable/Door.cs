@@ -63,7 +63,6 @@ public class Door : MonoBehaviour, IInteractable
         player.transform.position = newPosition;
         
         InteractableObject linkedInteractable = linkedDoor.GetComponent<InteractableObject>();
-        Debug.Log(linkedInteractable);
         visualCue.SetCurrentInteractable(linkedInteractable);
         
         if(openSound != null && audioSource != null) audioSource.PlayOneShot(openSound);

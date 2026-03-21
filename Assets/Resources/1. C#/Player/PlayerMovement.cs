@@ -16,6 +16,10 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float forceMoveSpeed = 3f;
     [SerializeField] private float stoppingDistance = 0.1f;
     
+    [Header("LAYER SETTINGS")]
+    [SerializeField] private int normalLayer = 6;
+    [SerializeField] private int forcedMoveLayer = 7;
+    
     [HideInInspector] public float horizontal;
     [HideInInspector] public bool hasReachedTarget;
 
@@ -24,6 +28,7 @@ public class PlayerMovement : MonoBehaviour
     private BoxCollider2D boundaryCollider;
     private float playerHalfWidth;
     private float playerHalfHeight;
+    private int originalLayer;
 
     void Awake(){
         if(Instance == null) Instance = this;
@@ -38,6 +43,8 @@ public class PlayerMovement : MonoBehaviour
             playerHalfWidth = sr.bounds.extents.x;
             playerHalfHeight = sr.bounds.extents.y;
         }
+        
+        originalLayer = gameObject.layer;
         
         ChangeBoundary();
     }
@@ -64,6 +71,8 @@ public class PlayerMovement : MonoBehaviour
                 rb.linearVelocity = Vector2.zero;
                 isForcedMoving = false;
                 hasReachedTarget = true;
+                
+                SetLayer(originalLayer);
             }
         }else{
             if(!GameManager.Instance.isInitialized || GameManager.Instance.isEnded) return;
@@ -123,7 +132,11 @@ public class PlayerMovement : MonoBehaviour
         isForcedMoving = true;
         hasReachedTarget = false;
         forceMoveTarget = target;
+        
+        SetLayer(forcedMoveLayer);
     }
+    
+    private void SetLayer(int layer) => gameObject.layer = layer;
 
     public void SetPosition(Vector3 position){
         if(boundaryCollider != null) position = ClampPositionToBoundary(position);
@@ -135,4 +148,9 @@ public class PlayerMovement : MonoBehaviour
         rb.linearVelocity = Vector2.zero;
         this.transform.position = new Vector3(position.x, transform.position.y, transform.position.z);
     }
+
+    public void SetZPos(float z) => this.transform.position = new Vector3(transform.position.x, transform.position.y, z);
+    
+    public void SetNormalLayer() => SetLayer(normalLayer);
+    public void SetForcedMoveLayer() => SetLayer(forcedMoveLayer);
 }

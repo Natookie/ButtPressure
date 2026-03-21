@@ -5,6 +5,7 @@ public class BullyQuest : MonoBehaviour
 {
     [Header("QUEST TWEAK")]
     [SerializeField] private InteractableObject vendingMachine;
+    [SerializeField] private BullyBlockade bullyBlockade;
     [SerializeField] private bool hasDrink;
 
     [HideInInspector] private bool hasIntroduced;
@@ -136,6 +137,7 @@ public class BullyQuest : MonoBehaviour
         door.enabled = false;
 
         DialogueManager.Instance.HideDialogueUI();
+        bullyBlockade.SetHasTotem();
     }
 
     public IEnumerator RemindQuest(){
