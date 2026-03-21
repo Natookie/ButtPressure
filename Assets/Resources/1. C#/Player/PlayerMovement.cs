@@ -15,6 +15,9 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float moveSpeed = 5f;
     [SerializeField] private float forceMoveSpeed = 3f;
     [SerializeField] private float stoppingDistance = 0.1f;
+
+    [Header("AUDIO")]
+    [SerializeField] private string walkSfxName = "Footstep";
     
     [HideInInspector] public float horizontal;
     [HideInInspector] public bool hasReachedTarget;
@@ -82,6 +85,8 @@ public class PlayerMovement : MonoBehaviour
         }
 
         if(boundaryCollider != null) transform.position = ClampPositionToBoundary(transform.position);
+
+        UpdateAudio();
     }
 
     public void FaceRight() => sr.flipX = true;
@@ -134,5 +139,11 @@ public class PlayerMovement : MonoBehaviour
         sr.enabled = !isInLocker;
         rb.linearVelocity = Vector2.zero;
         this.transform.position = new Vector3(position.x, transform.position.y, transform.position.z);
+    }
+
+    private void UpdateAudio()
+    {
+        if (rb.linearVelocity != Vector2.zero) AudioManager.Instance.PlaySFXLooping(walkSfxName);
+        else AudioManager.Instance.StopSFXLooping();
     }
 }
