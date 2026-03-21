@@ -20,10 +20,6 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private int normalLayer = 6;
     [SerializeField] private int forcedMoveLayer = 7;
     
-
-    [Header("AUDIO")]
-    [SerializeField] private string walkSfxName = "Footstep";
-    
     [HideInInspector] public float horizontal;
     [HideInInspector] public bool hasReachedTarget;
 
@@ -95,8 +91,6 @@ public class PlayerMovement : MonoBehaviour
         }
 
         if(boundaryCollider != null) transform.position = ClampPositionToBoundary(transform.position);
-
-        UpdateAudio();
     }
 
     public void FaceRight() => sr.flipX = true;
@@ -159,10 +153,4 @@ public class PlayerMovement : MonoBehaviour
     
     public void SetNormalLayer() => SetLayer(normalLayer);
     public void SetForcedMoveLayer() => SetLayer(forcedMoveLayer);
-
-    private void UpdateAudio()
-    {
-        if (rb.linearVelocity != Vector2.zero) AudioManager.Instance.PlaySFXLooping(walkSfxName);
-        else AudioManager.Instance.StopSFXLooping();
-    }
 }

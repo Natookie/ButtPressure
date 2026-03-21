@@ -59,8 +59,6 @@ public class AudioManager : MonoBehaviour
         Instance = this;
     }
 
-    private void OnDestroy() {Instance = null;}
-
     private void Start()
     {
         // Assertion Check
@@ -182,7 +180,7 @@ public class AudioManager : MonoBehaviour
     public void PlaySFXLooping(string audioName, bool isOverride = false)
     {
         // Check SFX source
-        if (!sfxLoopingSource) return;
+        if (!sfxSource) return;
         // Check for override
         if (audioName == currentSFXLoopingName && !isOverride) return;
         // Find the audio data
@@ -203,7 +201,7 @@ public class AudioManager : MonoBehaviour
     public void PlaySFXLooping(AudioClip audioClip, bool isOverride = false)
     {
         // Check SFX source
-        if (!sfxLoopingSource) return;
+        if (!sfxSource) return;
         // Check for override
         if (audioClip.name == currentSFXLoopingName && !isOverride) return;
         // Play audio
