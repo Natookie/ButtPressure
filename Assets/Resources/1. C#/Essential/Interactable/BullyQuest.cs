@@ -166,7 +166,7 @@ public class BullyQuest : MonoBehaviour
         
         DialogueManager.Instance.SetDialogue(
             DLib.JAKI,
-            "Go buy it from the vending machine. Don't come back empty handed."
+            "Go buy it from the vending machine.\nDon't come back empty handed."
         );
         yield return new WaitWhile(() => DialogueManager.Instance.IsTypingActive());
         

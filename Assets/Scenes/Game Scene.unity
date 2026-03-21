@@ -282,7 +282,7 @@ MonoBehaviour:
         Raw: 0
         Type: 0
       Y:
-        Raw: 70
+        Raw: 154
         Type: 0
       Z:
         Raw: 0
@@ -2112,7 +2112,7 @@ Transform:
   m_GameObject: {fileID: 166147323}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -629, y: 73.28125, z: 0}
+  m_LocalPosition: {x: -629, y: 82, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2149,7 +2149,7 @@ MonoBehaviour:
         Raw: 0
         Type: 0
       Y:
-        Raw: 73.28125
+        Raw: 82
         Type: 0
       Z:
         Raw: 0
@@ -2436,6 +2436,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 183754631}
+  - component: {fileID: 183754633}
   - component: {fileID: 183754632}
   m_Layer: 7
   m_Name: Homework guy
@@ -2468,9 +2469,30 @@ MonoBehaviour:
   m_GameObject: {fileID: 183754630}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b67fbb926cbc54b4f8a4a49c94a9649d, type: 3}
+  m_Script: {fileID: 11500000, guid: 412c2515beaf6ba4bbd9eb36310da276, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Homework
+  m_EditorClassIdentifier: Assembly-CSharp::RichKid
+  mmg: {fileID: 5193751618282472077}
+--- !u!114 &183754633
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 183754630}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 859d9a315ff70074f91eb679d3401e6b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InteractableObject
+  interactionPrompt: Help Yamato
+  oneTimeInteraction: 0
+  interactionRange: 2
+  isMultiInteractable: 0
+  firstHasDialogue: 1
+  firstOneTime: 1
+  secondHasDialogue: 1
+  secondOneTime: 1
 --- !u!1 &209014835
 GameObject:
   m_ObjectHideFlags: 0
@@ -3563,7 +3585,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BullyQuest
   vendingMachine: {fileID: 1787245181}
-  hasDrink: 1
+  hasDrink: 0
 --- !u!61 &253813537
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -5733,7 +5755,7 @@ MonoBehaviour:
         Raw: 1
         Type: 1
       Y:
-        Raw: 111.5625
+        Raw: 129
         Type: 0
       Z:
         Raw: 0
@@ -10166,9 +10188,9 @@ MonoBehaviour:
   answerText: {fileID: 64467272}
   answerBlock: {fileID: 734301139}
   correctColor: {r: 0.30980393, g: 0.43529412, b: 0.32156864, a: 1}
-  wrongColor: {r: 0.43529412, g: 0.30980393, b: 0.36261788, a: 1}
-  defaultColor: {r: 0.20392157, g: 0.20392157, b: 0.20392157, a: 1}
-  disabledColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  wrongColor: {r: 0.43529412, g: 0.30980393, b: 0.35030374, a: 1}
+  defaultColor: {r: 0.14117648, g: 0.14117648, b: 0.14117648, a: 1}
+  disabledColor: {r: 0.28721172, g: 0.28721172, b: 0.28721172, a: 1}
   colorLerpDuration: 0.3
 --- !u!114 &734301136
 MonoBehaviour:
@@ -10948,7 +10970,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -402.55, y: 0}
+  m_AnchoredPosition: {x: 62.450012, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &767605550
@@ -10971,7 +10993,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: SSSSS
+  m_text: I will give you<color=#E76F2E>120 Yen</color> if you at least answer \n<color=#E76F2E>6
+    questions correctly</color>
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 440dc664fd6676448931a2568c572bb8, type: 2}
   m_sharedMaterial: {fileID: -111667412587581779, guid: 440dc664fd6676448931a2568c572bb8, type: 2}
@@ -11062,10 +11085,10 @@ MonoBehaviour:
   layout:
     Size:
       X:
-        Raw: 131.25
+        Raw: 1061.25
         Type: 0
       Y:
-        Raw: 22.5
+        Raw: 69
         Type: 0
       Z:
         Raw: 0
@@ -13319,7 +13342,7 @@ MonoBehaviour:
         Raw: 0
         Type: 0
       Y:
-        Raw: 35
+        Raw: 89
         Type: 0
       Z:
         Raw: 0
@@ -13580,9 +13603,9 @@ MonoBehaviour:
   answerText: {fileID: 1251954936}
   answerBlock: {fileID: 993439265}
   correctColor: {r: 0.30980393, g: 0.43529412, b: 0.32156864, a: 1}
-  wrongColor: {r: 0.43529412, g: 0.30980393, b: 0.36261788, a: 1}
-  defaultColor: {r: 0.20392157, g: 0.20392157, b: 0.20392157, a: 1}
-  disabledColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  wrongColor: {r: 0.43529412, g: 0.30980393, b: 0.35030374, a: 1}
+  defaultColor: {r: 0.14117648, g: 0.14117648, b: 0.14117648, a: 1}
+  disabledColor: {r: 0.28721172, g: 0.28721172, b: 0.28721172, a: 1}
   colorLerpDuration: 0.3
 --- !u!114 &993439262
 MonoBehaviour:
@@ -14008,9 +14031,9 @@ MonoBehaviour:
   answerText: {fileID: 217356790}
   answerBlock: {fileID: 1027041062}
   correctColor: {r: 0.30980393, g: 0.43529412, b: 0.32156864, a: 1}
-  wrongColor: {r: 0.43529412, g: 0.30980393, b: 0.36261788, a: 1}
-  defaultColor: {r: 0.20392157, g: 0.20392157, b: 0.20392157, a: 1}
-  disabledColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  wrongColor: {r: 0.43529412, g: 0.30980393, b: 0.35030374, a: 1}
+  defaultColor: {r: 0.14117648, g: 0.14117648, b: 0.14117648, a: 1}
+  disabledColor: {r: 0.28721172, g: 0.28721172, b: 0.28721172, a: 1}
   colorLerpDuration: 0.3
 --- !u!114 &1027041059
 MonoBehaviour:
@@ -17208,7 +17231,7 @@ Transform:
   m_GameObject: {fileID: 1167140843}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -371.81757, z: 0}
+  m_LocalPosition: {x: 0, y: -363.09882, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -17236,7 +17259,7 @@ MonoBehaviour:
         Raw: 0.85
         Type: 1
       Y:
-        Raw: 196.5625
+        Raw: 214
         Type: 0
       Z:
         Raw: 0
@@ -19197,7 +19220,7 @@ MonoBehaviour:
         Raw: 0
         Type: 0
       Y:
-        Raw: 150
+        Raw: 307.5
         Type: 0
       Z:
         Raw: 0.00006270566
@@ -21768,9 +21791,9 @@ MonoBehaviour:
   answerText: {fileID: 768403445}
   answerBlock: {fileID: 1546039566}
   correctColor: {r: 0.30980393, g: 0.43529412, b: 0.32156864, a: 1}
-  wrongColor: {r: 0.43529412, g: 0.30980393, b: 0.36261788, a: 1}
-  defaultColor: {r: 0.20392157, g: 0.20392157, b: 0.20392157, a: 1}
-  disabledColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  wrongColor: {r: 0.43529412, g: 0.30980393, b: 0.35030374, a: 1}
+  defaultColor: {r: 0.14117648, g: 0.14117648, b: 0.14117648, a: 1}
+  disabledColor: {r: 0.28721172, g: 0.28721172, b: 0.28721172, a: 1}
   colorLerpDuration: 0.3
 --- !u!114 &1546039563
 MonoBehaviour:
@@ -23706,7 +23729,7 @@ MonoBehaviour:
         Raw: 0
         Type: 0
       Y:
-        Raw: 105
+        Raw: 207.375
         Type: 0
       Z:
         Raw: 0
@@ -23962,9 +23985,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InteractableObject
   interactionPrompt: Buy Something
-  oneTimeInteraction: 1
+  oneTimeInteraction: 0
   interactionRange: 2
-  isMultiInteractable: 1
+  isMultiInteractable: 0
   firstHasDialogue: 1
   firstOneTime: 1
   secondHasDialogue: 1
@@ -24085,8 +24108,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55ec3b5ebae5b7840b760153701d5f9e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::VendingMachine
-  homework: {fileID: 183754632}
   quest: {fileID: 253813536}
+  richKid: {fileID: 183754632}
   interactable: {fileID: 1787245181}
   canInteract: 0
 --- !u!1 &1806289574
@@ -27365,16 +27388,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 690be56e15512f34db2b817718e4cc8e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DialogueManager
-  configs:
-  - characterName: Player
-    characterColor: {r: 0, g: 0, b: 0, a: 0}
-  - characterName: Joe
-    characterColor: {r: 0, g: 0, b: 0, a: 0}
-  - characterName: Mama
-    characterColor: {r: 0, g: 0, b: 0, a: 0}
   typingSpeed: 30
   punctuationDelay: 0.3
   tildePauseDuration: 1
+  fastForwardSpeed: 400
+  fastForwardPunctuationDelay: 0
+  fastForwardTildePauseDuration: 0
   skipButton: {fileID: 166147325}
   skipHoverColor:
     serializedVersion: 2
@@ -27850,7 +27869,7 @@ Transform:
   m_GameObject: {fileID: 2146710006}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -665, y: 129.90015, z: 0}
+  m_LocalPosition: {x: -665, y: 130.09882, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -28183,7 +28202,7 @@ MonoBehaviour:
         Raw: 0
         Type: 0
       Y:
-        Raw: 160
+        Raw: 392.5
         Type: 0
       Z:
         Raw: 0.00006270566
@@ -30291,9 +30310,9 @@ MonoBehaviour:
   answerText: {fileID: 551416842407737643}
   answerBlock: {fileID: 551416842415712495}
   correctColor: {r: 0.30980393, g: 0.43529412, b: 0.32156864, a: 1}
-  wrongColor: {r: 0.43529412, g: 0.30980393, b: 0.36261788, a: 1}
-  defaultColor: {r: 0.20392157, g: 0.20392157, b: 0.20392157, a: 1}
-  disabledColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  wrongColor: {r: 0.43529412, g: 0.30980393, b: 0.35030374, a: 1}
+  defaultColor: {r: 0.14117648, g: 0.14117648, b: 0.14117648, a: 1}
+  disabledColor: {r: 0.28721172, g: 0.28721172, b: 0.28721172, a: 1}
   colorLerpDuration: 0.3
 --- !u!224 &2451003653645867256
 RectTransform:
@@ -31206,7 +31225,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &3892730327316132477
 GameObject:
   m_ObjectHideFlags: 0
@@ -31279,9 +31298,9 @@ MonoBehaviour:
   answerText: {fileID: 3187785676826709914}
   answerBlock: {fileID: 3187785676820045406}
   correctColor: {r: 0.30980393, g: 0.43529412, b: 0.32156864, a: 1}
-  wrongColor: {r: 0.43529412, g: 0.30980393, b: 0.36261788, a: 1}
-  defaultColor: {r: 0.20392157, g: 0.20392157, b: 0.20392157, a: 1}
-  disabledColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  wrongColor: {r: 0.43529412, g: 0.30980393, b: 0.35030374, a: 1}
+  defaultColor: {r: 0.14117648, g: 0.14117648, b: 0.14117648, a: 1}
+  disabledColor: {r: 0.28721172, g: 0.28721172, b: 0.28721172, a: 1}
   colorLerpDuration: 0.3
 --- !u!114 &4972072530529651649
 MonoBehaviour:
@@ -31474,7 +31493,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MathMinigameController
   content: {fileID: 6856662634720635806}
+  contentBlock: {fileID: 4972072530529651649}
   questionText: {fileID: 279352433470281829}
+  questionCount: {fileID: 1311688976}
   answerChoiceList:
   - {fileID: 2426912896980696307}
   - {fileID: 4876584319468733206}
@@ -31486,10 +31507,16 @@ MonoBehaviour:
   - {fileID: 993439261}
   minQuestionAmount: 6
   maxQuestionAmount: 6
-  minQuestionVariance: 0
-  maxQuestionVariance: 20
+  minQuestionVariance: 15
+  maxQuestionVariance: 35
   wrongAnswerDelay: 1.5
+  slideDuration: 0.5
+  bounceAmount: 20
+  bounceDuration: 0.2
   startMinigameOnRun: 1
+  skipMinigame: 0
+  vendingMachine: {fileID: 1787245184}
+  richKid: {fileID: 183754633}
 --- !u!114 &5340105538697504857
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -32921,9 +32948,9 @@ MonoBehaviour:
   answerText: {fileID: 2409992269810441127}
   answerBlock: {fileID: 2409992269798525539}
   correctColor: {r: 0.30980393, g: 0.43529412, b: 0.32156864, a: 1}
-  wrongColor: {r: 0.43529412, g: 0.30980393, b: 0.36261788, a: 1}
-  defaultColor: {r: 0.20392157, g: 0.20392157, b: 0.20392157, a: 1}
-  disabledColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  wrongColor: {r: 0.43529412, g: 0.30980393, b: 0.35030374, a: 1}
+  defaultColor: {r: 0.14117648, g: 0.14117648, b: 0.14117648, a: 1}
+  disabledColor: {r: 0.28721172, g: 0.28721172, b: 0.28721172, a: 1}
   colorLerpDuration: 0.3
 --- !u!114 &8075528732926248924
 MonoBehaviour:
@@ -32940,9 +32967,9 @@ MonoBehaviour:
   answerText: {fileID: 5682935780143902037}
   answerBlock: {fileID: 5682935780154014865}
   correctColor: {r: 0.30980393, g: 0.43529412, b: 0.32156864, a: 1}
-  wrongColor: {r: 0.43529412, g: 0.30980393, b: 0.36261788, a: 1}
-  defaultColor: {r: 0.20392157, g: 0.20392157, b: 0.20392157, a: 1}
-  disabledColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  wrongColor: {r: 0.43529412, g: 0.30980393, b: 0.35030374, a: 1}
+  defaultColor: {r: 0.14117648, g: 0.14117648, b: 0.14117648, a: 1}
+  disabledColor: {r: 0.28721172, g: 0.28721172, b: 0.28721172, a: 1}
   colorLerpDuration: 0.3
 --- !u!114 &8095926046696522806
 MonoBehaviour:

@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using Nova;
 using UnityEngine;
@@ -6,7 +7,9 @@ public class MathMinigameController : MonoBehaviour
 {
     [Header("Component and Object")]
     [SerializeField] private GameObject content;
+    [SerializeField] private UIBlock contentBlock;
     [SerializeField] private TextBlock questionText;
+    [SerializeField] private TextBlock questionCount;
     [SerializeField] private List<MathAnswerChoice> answerChoiceList;
     [Header("Minigame Settings")]
     [SerializeField] private int minQuestionAmount = 3;
@@ -15,9 +18,22 @@ public class MathMinigameController : MonoBehaviour
     [SerializeField] private int minQuestionVariance = 0;
     [Tooltip("The maximum number a question can create")]
     [SerializeField] private int maxQuestionVariance = 9;
+    [Header("Wrong Answer Settings")]
+    [SerializeField] private float wrongAnswerDelay = 1.5f;
+    [Header("Animation Settings")]
+    [SerializeField] private float slideDuration = 0.5f;
+    [SerializeField] private float bounceAmount = 20f;
+    [SerializeField] private float bounceDuration = 0.2f;
     [Header("Debug")]
     [Tooltip("Start the minigame when played, default is false")]
     [SerializeField] private bool startMinigameOnRun = false;
+    [SerializeField] private bool skipMinigame = false;
+
+    [Header("REFERENCE")]
+    [SerializeField] private VendingMachine vendingMachine;
+    [SerializeField] private InteractableObject richKid;
+
+    private string fuckeryFuckText;
 
     // Gameflow
     private int questionAmount = 0;
@@ -26,25 +42,41 @@ public class MathMinigameController : MonoBehaviour
     private int wrongAnswerAmount = 0;
     // Math
     private int correctAnswerNumber = 0;
+    // State management
+    private bool isWaitingForWrongAnswer = false;
+    private Coroutine wrongAnswerDelayCoroutine;
+    
+    // Animation
+    private Vector3 originalPosition;
+    private Vector3 bottomPosition;
+    private Coroutine animationCoroutine;
 
     // ====================================================================================================
     //                     Start Functions
     // ====================================================================================================
     #region Start
-    public void Start()
-    {
+    public void Start(){
         // Assertion Check
         Debug.Assert(content, "content is missing");
+        Debug.Assert(contentBlock, "contentBlock is missing - assign the UIBlock component");
         Debug.Assert(questionText, "questionText is missing");
         Debug.Assert(answerChoiceList.Count > 0, "answerChoiceList is empty");
-        // Connect events
-        foreach(MathAnswerChoice answerChoice in answerChoiceList)
-        {
+        
+        originalPosition = contentBlock.Position.Value;
+        bottomPosition = new Vector3(originalPosition.x, originalPosition.y - 1000f, originalPosition.z);
+        
+        foreach(MathAnswerChoice answerChoice in answerChoiceList){
             answerChoice.OnAnswerChoicePicked += MathAnswerChoice_OnAnswerChoicePickedEventArgs;
         }
-        // Initialize
+        
+        contentBlock.Position.Value = bottomPosition;
         content.SetActive(false);
-        if (startMinigameOnRun) StartMinigame();
+        if(startMinigameOnRun) StartMinigame();
+    }
+
+    void OnDestroy(){
+        if(wrongAnswerDelayCoroutine != null) StopCoroutine(wrongAnswerDelayCoroutine);
+        if(animationCoroutine != null) StopCoroutine(animationCoroutine);
     }
     #endregion
 
@@ -52,27 +84,36 @@ public class MathMinigameController : MonoBehaviour
     //                     Event Functions
     // ====================================================================================================
     #region Event
-    private void MathAnswerChoice_OnAnswerChoicePickedEventArgs(
+    void MathAnswerChoice_OnAnswerChoicePickedEventArgs(
         object sender, MathAnswerChoice.OnAnswerChoicePickedEventArgs e
-    ) {AnswerQuestion(e.answerNumber);}
+    ) {
+        if(!isWaitingForWrongAnswer){
+            AnswerQuestion(e.answerNumber, (MathAnswerChoice)sender);
+        }
+    }
     #endregion
 
     // ====================================================================================================
     //                     Minigame Functions
     // ====================================================================================================
     #region Minigame
-    public void StartMinigame()
-    {
+    public void StartMinigame(){
+        if(skipMinigame){
+            EndMinigame();
+            return;
+        }
+
         questionAmount = UnityEngine.Random.Range(minQuestionAmount, maxQuestionAmount);
         answeredAmount = 0;
         correctAnswerAmount = 0;
         wrongAnswerAmount = 0;
-        content.SetActive(true);
+        isWaitingForWrongAnswer = false;
+        
         GenerateQuestion();
+        StartCoroutine(AnimateSlideUp());
     }
     
-    public void EndMinigame()
-    {
+    public void EndMinigame(){
         Debug.Log(
             "Minigame Finished\n" +
             $"Total Questions: {questionAmount}\n" +
@@ -80,7 +121,85 @@ public class MathMinigameController : MonoBehaviour
             $"Wrong: {wrongAnswerAmount}\n" +
             $"Result: {GetCorrectAnswerPercentage()}%"
         );
+        
+        // Slide down animation before hiding
+        StartCoroutine(AnimateSlideDown());
+        vendingMachine.SetHasMoney();
+        vendingMachine.GetComponent<InteractableObject>().enabled = true;
+        richKid.SelfDestruct();
+
+        // Reset any pending wrong answer states
+        if(wrongAnswerDelayCoroutine != null){
+            StopCoroutine(wrongAnswerDelayCoroutine);
+            wrongAnswerDelayCoroutine = null;
+        }
+        isWaitingForWrongAnswer = false;
+        
+        SetAnswerChoicesInteractable(true);
+    }
+    
+    IEnumerator AnimateSlideUp(){
+        if(animationCoroutine != null) StopCoroutine(animationCoroutine);
+        
+        content.SetActive(true);
+        
+        float elapsed = 0f;
+        Vector3 startPos = bottomPosition;
+        Vector3 targetPos = originalPosition;
+        
+        while(elapsed < slideDuration){
+            elapsed += Time.deltaTime;
+            float t = elapsed / slideDuration;
+            float smoothT = Mathf.SmoothStep(0f, 1f, t);
+            contentBlock.Position.Value = Vector3.Lerp(startPos, targetPos, smoothT);
+            yield return null;
+        }
+        
+        contentBlock.Position.Value = originalPosition;
+        
+        elapsed = 0f;
+        Vector3 bounceTarget = originalPosition + new Vector3(0, bounceAmount, 0);
+        Vector3 returnTarget = originalPosition;
+        
+        while(elapsed < bounceDuration * 0.5f){
+            elapsed += Time.deltaTime;
+            float t = elapsed / (bounceDuration * 0.5f);
+            float smoothT = Mathf.SmoothStep(0f, 1f, t);
+            contentBlock.Position.Value = Vector3.Lerp(originalPosition, bounceTarget, smoothT);
+            yield return null;
+        }
+        
+        elapsed = 0f;
+        while(elapsed < bounceDuration * 0.5f){
+            elapsed += Time.deltaTime;
+            float t = elapsed / (bounceDuration * 0.5f);
+            float smoothT = Mathf.SmoothStep(0f, 1f, t);
+            contentBlock.Position.Value = Vector3.Lerp(bounceTarget, returnTarget, smoothT);
+            yield return null;
+        }
+        
+        contentBlock.Position.Value = originalPosition;
+        animationCoroutine = null;
+    }
+    
+    IEnumerator AnimateSlideDown(){
+        if(animationCoroutine != null) StopCoroutine(animationCoroutine);
+        
+        float elapsed = 0f;
+        Vector3 startPos = originalPosition;
+        Vector3 targetPos = bottomPosition;
+        
+        while(elapsed < slideDuration){
+            elapsed += Time.deltaTime;
+            float t = elapsed / slideDuration;
+            float smoothT = Mathf.SmoothStep(0f, 1f, t);
+            contentBlock.Position.Value = Vector3.Lerp(startPos, targetPos, smoothT);
+            yield return null;
+        }
+        
+        contentBlock.Position.Value = bottomPosition;
         content.SetActive(false);
+        animationCoroutine = null;
     }
     #endregion
 
@@ -88,37 +207,39 @@ public class MathMinigameController : MonoBehaviour
     //                     Math Functions
     // ====================================================================================================
     #region Math
-    public void GenerateQuestion()
-    {
+    public void GenerateQuestion(){
+        // Reset wrong answer state for new question
+        isWaitingForWrongAnswer = false;
+        
+        // Re-enable all answer choices
+        SetAnswerChoicesInteractable(true);
+        
         // Create number
         int leftNumber = UnityEngine.Random.Range(minQuestionVariance, maxQuestionVariance);
         int rightNumber = UnityEngine.Random.Range(minQuestionVariance, maxQuestionVariance);
         // Apply operator
-        int operatorChoiceIndex = UnityEngine.Random.Range(0, 3);
+        int operatorChoiceIndex = UnityEngine.Random.Range(0, 4);
         string operatorText = "";
-        switch (operatorChoiceIndex)
-        {
-            case 0:
-                {
+        switch (operatorChoiceIndex){
+            case 0:{
                     correctAnswerNumber = leftNumber + rightNumber;
                     operatorText = "+";
                     break;
                 }
-            case 1:
-                {
+            case 1:{
                     correctAnswerNumber = leftNumber - rightNumber;
                     operatorText = "-";
                     break;
                 }
-            case 2:
-                {
+            case 2:{
                     correctAnswerNumber = leftNumber * rightNumber;
                     operatorText = "x";
                     break;
                 }
-            case 3:
-                {
-                    correctAnswerNumber = leftNumber;
+            case 3:{
+                    // Division: ensure we get whole numbers
+                    if(rightNumber == 0) rightNumber = 1;
+                    correctAnswerNumber = leftNumber / rightNumber;
                     leftNumber = correctAnswerNumber * rightNumber;
                     operatorText = "÷";
                     break;
@@ -126,54 +247,91 @@ public class MathMinigameController : MonoBehaviour
         }
         // Set question text
         questionText.Text = $"{leftNumber} {operatorText} {rightNumber}?";
+        questionCount.Text = $"Question {answeredAmount + 1}/{questionAmount}";
         // Create answer choices
         List<int> answerChoiceNumberList = new List<int>();
         int answerOffset = 0;
         answerChoiceNumberList.Add(correctAnswerNumber);
-        while (answerChoiceNumberList.Count < answerChoiceList.Count)
-        {
+        while (answerChoiceNumberList.Count < answerChoiceList.Count){
             answerOffset += UnityEngine.Random.Range(minQuestionVariance, maxQuestionVariance);
             int newWrongAnswerNumber = correctAnswerNumber + answerOffset;
-            if (newWrongAnswerNumber != correctAnswerNumber)
-            {
+            if(newWrongAnswerNumber != correctAnswerNumber){
                 answerChoiceNumberList.Add(newWrongAnswerNumber);
             }
         }
         ShuffleList(answerChoiceNumberList);
         // Set all answer choices
         int index = 0;
-        foreach(MathAnswerChoice answerChoice in answerChoiceList)
-        {
+        foreach(MathAnswerChoice answerChoice in answerChoiceList){
             answerChoice.SetAnswerChoice(answerChoiceNumberList[index]);
             index++;
         }
     }
 
-    private void AnswerQuestion(int answerNumber)
-    {
-        // Check the answer
-        if (answerNumber == correctAnswerNumber) correctAnswerAmount++;
-        else wrongAnswerAmount++;
-        answeredAmount++;
-        // Check is question available
-        if (answeredAmount >= questionAmount) EndMinigame();
-        else GenerateQuestion();
+    void AnswerQuestion(int answerNumber, MathAnswerChoice selectedChoice){
+        bool isCorrect = answerNumber == correctAnswerNumber;
+        bool isDuplicate = questionText.Text == fuckeryFuckText;
+        if(isDuplicate) return;
+
+        if(isCorrect){
+            fuckeryFuckText = questionText.Text;
+            correctAnswerAmount++;
+            answeredAmount++;
+            
+            selectedChoice.AnimateAnswerFeedback(true);
+            
+            if(answeredAmount >= questionAmount) StartCoroutine(DelayedEndMinigame());
+            else StartCoroutine(DelayedNextQuestion());
+        }else{
+            wrongAnswerAmount++;
+            
+            selectedChoice.AnimateAnswerFeedback(false);
+            SetAnswerChoicesInteractable(false);
+            
+            isWaitingForWrongAnswer = true;
+            if(wrongAnswerDelayCoroutine != null) StopCoroutine(wrongAnswerDelayCoroutine);
+            wrongAnswerDelayCoroutine = StartCoroutine(WrongAnswerDelayCoroutine(selectedChoice));
+        }
     }
 
-    public float GetCorrectAnswerPercentage()
-    {
+    IEnumerator WrongAnswerDelayCoroutine(MathAnswerChoice wrongChoice){
+        yield return new WaitForSeconds(wrongAnswerDelay);
+        
+        isWaitingForWrongAnswer = false;
+        wrongAnswerDelayCoroutine = null;
+        
+        SetAnswerChoicesInteractable(true);
+        wrongChoice.ResetAnswerColor();
+    }
+
+    IEnumerator DelayedNextQuestion(){
+        yield return new WaitForSeconds(0.5f);
+        GenerateQuestion();
+    }
+
+    IEnumerator DelayedEndMinigame(){
+        yield return new WaitForSeconds(0.5f);
+        EndMinigame();
+    }
+
+    void SetAnswerChoicesInteractable(bool interactable){
+        foreach(MathAnswerChoice answerChoice in answerChoiceList){
+            answerChoice.SetInteractable(interactable);
+        }
+    }
+
+    public float GetCorrectAnswerPercentage(){
         float result = (float)correctAnswerAmount / (float)questionAmount;
         return result * 100.0f;
     }
     #endregion
+    
     // ====================================================================================================
     //                     Helper Functions
     // ====================================================================================================
     #region Helper
-    private void ShuffleList(List<int> list)
-    {
-        for (int i = 0; i < list.Count; i++)
-        {
+    void ShuffleList(List<int> list){
+        for (int i = 0; i < list.Count; i++){
             int rand = UnityEngine.Random.Range(i, list.Count);
             int temp = list[i];
             list[i] = list[rand];

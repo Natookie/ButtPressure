@@ -59,7 +59,9 @@ public class VisualCue : MonoBehaviour
     }
 
     void LateUpdate(){
-        if(currentInteractable != null){
+        bool shouldShowPrompt = currentInteractable != null && currentInteractable.enabled;
+        
+        if(shouldShowPrompt){
             string newText = currentInteractable.Prompt;
             
             if(newText != currentText){
@@ -93,7 +95,8 @@ public class VisualCue : MonoBehaviour
                 
                 currentInteractable.Interact();
             }
-        }else{
+        }
+        else{
             float targetAlpha = 0f;
             blockColor.a = Mathf.MoveTowards(blockColor.a, targetAlpha, fadeSpeed * Time.deltaTime);
             textColor.a = Mathf.MoveTowards(textColor.a, targetAlpha, fadeSpeed * Time.deltaTime);

@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections;
 
 [RequireComponent(typeof(InteractableObject))]
-public class VendingMachine : MonoBehaviour, IMultiInteractable
+public class VendingMachine : MonoBehaviour, IInteractable
 {
     [Header("REFERENCES")]
     [SerializeField] private BullyQuest quest;
@@ -16,23 +16,13 @@ public class VendingMachine : MonoBehaviour, IMultiInteractable
     [HideInInspector] public bool canInteract;
 
     public void SetInteractableActive(bool value) => interactable.enabled = value;
+    public void SetHasMoney() => hasMoney = true;
 
-    public void FirstInteraction(){
-        if(firstExecuted) return;
-
-        InteractableObject io = GetComponent<InteractableObject>();
-        StartCoroutine(Zero());
-        io.SetPrompt("Buy a drink");
+    public void Interact(){
+        if(!hasMoney) StartCoroutine(Zero());
+        else StartCoroutine(First());
     }
     
-    public void SubsequentInteraction(){
-        if(minigameCompleted) return;
-        if(!firstExecuted){
-            StartCoroutine(First());
-            return;
-        }
-    }
-
     IEnumerator Zero(){
         yield return new WaitForSeconds(0.1f);
 
@@ -74,8 +64,12 @@ public class VendingMachine : MonoBehaviour, IMultiInteractable
         
         DialogueManager.Instance.HideDialogueUI();
         richKid.GetComponent<InteractableObject>().enabled = true;
+        GetComponent<InteractableObject>().SelfDestruct();
         PlayerCam.Instance.ReturnToPlayer();
         firstExecuted = true;
+
+        InteractableObject io = GetComponent<InteractableObject>();
+        io.SetPrompt("Buy a drink");
     }
 
     IEnumerator First(){
@@ -92,6 +86,7 @@ public class VendingMachine : MonoBehaviour, IMultiInteractable
         yield return new WaitWhile(() => DialogueManager.Instance.IsTypingActive());
         
         DialogueManager.Instance.HideDialogueUI();
+        GetComponent<InteractableObject>().SelfDestruct();
         quest.SetHasDrink(true);
         minigameCompleted = true;
     }
