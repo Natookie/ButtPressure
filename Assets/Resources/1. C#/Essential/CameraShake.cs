@@ -11,7 +11,6 @@ public class CameraShake : MonoBehaviour
 
     private Transform cameraTransform;
     private Vector3 originalPosition;
-    private bool isShaking;
 
     void Awake(){
         if(Instance == null) Instance = this;
@@ -26,10 +25,6 @@ public class CameraShake : MonoBehaviour
         originalPosition = cameraTransform.localPosition;
     }
 
-    void Update(){
-        if(isShaking) originalPosition = cameraTransform.localPosition;
-    }
-
     public void ShakeCamera(bool intense){
         if(intense) StartCoroutine(ShakeCoroutine(shakeDuration * 2f, shakeMagnitude * 2f));
         else StartCoroutine(ShakeCoroutine(shakeDuration, shakeMagnitude));
@@ -40,21 +35,19 @@ public class CameraShake : MonoBehaviour
     }
 
     IEnumerator ShakeCoroutine(float duration, float magnitude){
-        isShaking = true;
+        Vector3 startPosition = cameraTransform.localPosition;
         float elapsed = 0f;
 
         while(elapsed < duration){
             float x = Random.Range(-1f, 1f) * magnitude;
             float y = Random.Range(-1f, 1f) * magnitude;
 
-            cameraTransform.localPosition = new Vector3(x, y, originalPosition.z);
+            cameraTransform.localPosition = startPosition + new Vector3(x, y, 0);
 
             elapsed += Time.deltaTime;
             yield return null;
         }
 
-        cameraTransform.localPosition = originalPosition;
-        isShaking = false;
-        //Shake my booty
+        cameraTransform.localPosition = startPosition;
     }
 }

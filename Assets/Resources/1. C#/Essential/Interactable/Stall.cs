@@ -74,7 +74,6 @@ public class Stall : MonoBehaviour, IInteractable
         
         Hanako hanakoScript = hanako.GetComponent<Hanako>();
         hanakoScript.canMove = true;
-        if(evtManager != null) evtManager.SetHanako(hanakoScript);
         
         ObjectiveUI.Instance.SetObjective("Survive, go to the second floor");
     }
