@@ -74,7 +74,8 @@ public class InteractableObject : MonoBehaviour
 
     public int GetInteractionCount() => interactionCount;
     public void SetPrompt(string value) => interactionPrompt = value;
-
+    public void SelfDestruct() => this.enabled = false;
+    
     void OnDrawGizmosSelected(){
         Gizmos.color = Color.green;
         Gizmos.DrawWireSphere(transform.position, interactionRange);

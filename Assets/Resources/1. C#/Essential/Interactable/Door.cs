@@ -26,7 +26,7 @@ public class Door : MonoBehaviour, IInteractable
             Debug.Log("Door is locked");
             return;
         }
-        
+
         if(linkedDoor != null){
             TeleportToLinkedDoor();
             

@@ -77,6 +77,7 @@ public class VisualCue : MonoBehaviour
             if(iconBlock != null) iconBlock.Color = iconColor;
             
             if(keyboard != null && keyboard.eKey.wasPressedThisFrame && !DialogueManager.Instance.IsTyping){
+                if(!currentInteractable.enabled) return;
                 bool shouldStopMovement = false;
                 
                 if(currentInteractable.IsMultiInteractable){

@@ -1933,7 +1933,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BullyQuest
   vendingMachine: {fileID: 1787245181}
-  hasDrink: 0
+  hasDrink: 1
 --- !u!61 &253813537
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -2379,7 +2379,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &293489189
 Transform:
   m_ObjectHideFlags: 0
@@ -7338,10 +7338,10 @@ MonoBehaviour:
       - m_Target: {fileID: 253813536}
         m_TargetAssemblyTypeName: BullyQuest, Assembly-CSharp
         m_MethodName: EnterRoom
-        m_Mode: 1
+        m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgument: {fileID: 639250063}
+          m_ObjectArgumentAssemblyTypeName: InteractableObject, Assembly-CSharp
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: EnterRoom
@@ -8073,7 +8073,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19a6cef4a2335044fa308d0abf2cbbc2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Door
-  linkedDoor: {fileID: 54163930}
+  linkedDoor: {fileID: 934047788}
   isLocked: 0
   openSound: {fileID: 0}
   triggerEvent: 0
@@ -11071,7 +11071,7 @@ MonoBehaviour:
   pooMeter: {fileID: 378923753}
   locationUI: {fileID: 637392485}
   objectiveUI: {fileID: 1743124370}
-  cutscene: 0
+  cutscene: 1
   isInitialized: 0
   isEnded: 0
   isInMiniGame: 0
@@ -11091,7 +11091,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1049316592
 Transform:
   m_ObjectHideFlags: 0
@@ -17941,7 +17941,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1787245179}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 859d9a315ff70074f91eb679d3401e6b, type: 3}
   m_Name: 
@@ -18071,7 +18071,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::VendingMachine
   homework: {fileID: 183754632}
-  quest: {fileID: 0}
+  quest: {fileID: 253813536}
   interactable: {fileID: 1787245181}
   canInteract: 0
 --- !u!1 &1806289574
