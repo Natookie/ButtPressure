@@ -8,6 +8,7 @@ public class PlayerMovement : MonoBehaviour
     [Header("REFERENCES")]
     [SerializeField] private Rigidbody2D rb; 
     [SerializeField] private SpriteRenderer sr;
+    [SerializeField] private Animator animator;
 
     [HideInInspector] public bool canMove;
 
@@ -20,6 +21,9 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private int normalLayer = 6;
     [SerializeField] private int forcedMoveLayer = 7;
     
+    [Header("ANIMATION")]
+    [SerializeField] private string walkingParameterName = "isWalking";
+
     [Header("AUDIO")]
     [SerializeField] private AudioClip walkSfxClip;
 
@@ -54,6 +58,8 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
+        // Update animation
+        animator.SetBool(walkingParameterName, rb.linearVelocity != Vector2.zero);
         // Update audio
         if (rb.linearVelocity != Vector2.zero) AudioManager.Instance.PlaySFXLooping(walkSfxClip);
         else AudioManager.Instance.StopSFXLooping();

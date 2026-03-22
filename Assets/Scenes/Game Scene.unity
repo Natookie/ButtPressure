@@ -94425,6 +94425,7 @@ GameObject:
   - component: {fileID: 1570902960}
   - component: {fileID: 1570902959}
   - component: {fileID: 1570902957}
+  - component: {fileID: 1570902961}
   - component: {fileID: 1570902958}
   m_Layer: 6
   m_Name: Player
@@ -94442,7 +94443,7 @@ Transform:
   m_GameObject: {fileID: 1570902955}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.05, y: -2.48, z: -0.05}
+  m_LocalPosition: {x: 0.05, y: -1.98, z: -0.05}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -94486,13 +94487,13 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
+    oldSize: {x: 3, y: 3}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 1.35, y: 2.6}
   m_EdgeRadius: 0.03
 --- !u!114 &1570902958
 MonoBehaviour:
@@ -94508,12 +94509,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
   rb: {fileID: 1570902959}
   sr: {fileID: 1570902960}
+  animator: {fileID: 1570902961}
   canMove: 0
   moveSpeed: 5
   forceMoveSpeed: 15
   stoppingDistance: 0.1
   normalLayer: 6
   forcedMoveLayer: 7
+  walkingParameterName: isWalking
   walkSfxClip: {fileID: 8300000, guid: 67b177c3a68f8cf47ba3d1e1085bcd73, type: 3}
   horizontal: 0
   hasReachedTarget: 0
@@ -94591,7 +94594,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 15
-  m_Sprite: {fileID: 21300000, guid: 4afe216d2c45f654a836dabe3c9a3341, type: 3}
+  m_Sprite: {fileID: 528423104, guid: 1d69888ab8503354c90635772c63fbe4, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -94602,6 +94605,28 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!95 &1570902961
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1570902955}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: ec94a6d2ad29c7441b0ffdbd6b79ff5c, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1001 &1571096954
 PrefabInstance:
   m_ObjectHideFlags: 0
