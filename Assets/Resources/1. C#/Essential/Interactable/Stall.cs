@@ -7,11 +7,15 @@ public class Stall : MonoBehaviour, IInteractable
     [Header("TWEAKS")]
     [SerializeField] private bool hasHanako;
 
-    [SerializeField] private GameObject hanakoObj;
     [SerializeField] private Transform hanakoSpawnPoint;
-    [SerializeField] private EvtManager evtManager;
+    private EvtManager evtManager;
 
-    private GameObject hanako;
+    void Start(){
+        if(hasHanako){
+            evtManager = FindObjectOfType<EvtManager>();
+            if(evtManager == null) Debug.LogWarning("Stall: EvtManager not found in scene!");
+        }
+    }
 
     public void Interact(){
         if(hasHanako) StartCoroutine(SpecialDialogue());
@@ -35,7 +39,12 @@ public class Stall : MonoBehaviour, IInteractable
 
     IEnumerator SpecialDialogue(){
         yield return new WaitForSeconds(0.1f);
-        SpawnHanako();
+        
+        Hanako hanako = Hanako.Instance;
+        if(hanako != null && hanakoSpawnPoint != null){
+            hanako.transform.position = hanakoSpawnPoint.position;
+        }
+        
         PlayerCam.Instance.FocusOnTarget(hanakoSpawnPoint, Vector3.zero);
         yield return new WaitForSeconds(1f);
 
@@ -72,19 +81,9 @@ public class Stall : MonoBehaviour, IInteractable
 
         DialogueManager.Instance.HideDialogueUI();
         
-        Hanako hanakoScript = hanako.GetComponent<Hanako>();
-        hanakoScript.canMove = true;
-        
+        if(hanako != null) hanako.canMove = true;
+        evtManager.teleportHanako = true;
+        evtManager.allowTrigger = true;
         ObjectiveUI.Instance.SetObjective("Survive, go to the second floor");
-    }
-
-    void SpawnHanako(){
-        if(hanakoObj == null) return;
-        
-        Transform grandparent = transform.parent?.parent;
-        if(grandparent == null) return;
-        
-        hanako = Instantiate(hanakoObj, hanakoSpawnPoint.position, Quaternion.identity);
-        hanako.transform.SetParent(grandparent);
     }
 }

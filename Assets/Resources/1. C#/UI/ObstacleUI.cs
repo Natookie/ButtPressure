@@ -32,7 +32,7 @@ public class ObstacleUI : MonoBehaviour
         Hanako hanako = Hanako.Instance;
         Transform hanakoPos = hanako.gameObject.transform;
         float xDiff = Mathf.Abs(hanakoPos.position.x - playerPos.position.x);
-        hanakoDistance.Text = $"Hanako is {xDiff:F1}m away from you";
+        hanakoDistance.Text = $"{xDiff:F1}m";
     }
     
     void HandleTableCount(){

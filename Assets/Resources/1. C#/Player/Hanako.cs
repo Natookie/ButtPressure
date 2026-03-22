@@ -17,6 +17,10 @@ public class Hanako : MonoBehaviour
     [SerializeField] private float idleTime = 2f;
     [SerializeField] private float tauntIdleTime = 10f;
 
+    [Header("ANIMATION")]
+    [SerializeField] private Sprite[] animSprites;
+    [SerializeField] private float frameRate = 10f;
+
     private SpriteRenderer playerSr;
     private SpriteRenderer ghostSr;
 
@@ -37,6 +41,10 @@ public class Hanako : MonoBehaviour
     private Vector3 tauntTargetPosition;
     private float tauntTimer;
 
+    // Animation
+    private Coroutine animationCoroutine;
+    private bool isMoving = false;
+
     void Awake(){
         if(Instance == null) Instance = this;
         else Destroy(gameObject);
@@ -48,6 +56,10 @@ public class Hanako : MonoBehaviour
 
         ghostSr = this.gameObject.GetComponent<SpriteRenderer>();
         playerSr = player.GetComponent<SpriteRenderer>();
+
+        // Set initial sprite
+        if(animSprites != null && animSprites.Length > 0 && ghostSr != null)
+            ghostSr.sprite = animSprites[0];
     }
 
     void Update(){
@@ -66,6 +78,58 @@ public class Hanako : MonoBehaviour
         float currentSpeed = CalculateSpeed();
         MoveTowardsTarget(currentSpeed);
         DrawDebugRay(currentSpeed);
+
+        // Handle animation based on movement
+        UpdateAnimation(currentSpeed > 0);
+    }
+
+    void UpdateAnimation(bool moving){
+        if(moving && !isMoving){
+            // Start animation when moving
+            isMoving = true;
+            StartAnimation();
+        }
+        else if(!moving && isMoving){
+            // Stop animation when idle
+            isMoving = false;
+            StopAnimation();
+        }
+    }
+    
+    void StartAnimation(){
+        if(animationCoroutine != null){
+            StopCoroutine(animationCoroutine);
+            animationCoroutine = null;
+        }
+
+        if(animSprites != null && animSprites.Length > 0){
+            animationCoroutine = StartCoroutine(AnimateSprites());
+        }
+    }
+
+    void StopAnimation(){
+        if(animationCoroutine != null){
+            StopCoroutine(animationCoroutine);
+            animationCoroutine = null;
+        }
+        
+        // Reset to first frame when stopped
+        if(animSprites != null && animSprites.Length > 0 && ghostSr != null)
+            ghostSr.sprite = animSprites[0];
+    }
+
+    IEnumerator AnimateSprites(){
+        int currentFrame = 0;
+        
+        while(isMoving && animSprites != null && animSprites.Length > 0){
+            if(ghostSr != null && animSprites[currentFrame] != null)
+                ghostSr.sprite = animSprites[currentFrame];
+            
+            currentFrame = (currentFrame + 1) % animSprites.Length;
+            yield return new WaitForSeconds(1f / frameRate);
+        }
+        
+        animationCoroutine = null;
     }
     
     void HandleTauntState(){
@@ -270,8 +334,10 @@ public class Hanako : MonoBehaviour
     }
 
     public void TeleportTo(Vector3 position){
+        Debug.Log("called");
         transform.position = position;
         hasTeleported = true;
+        canMove = true;
 
         if(ghostSr != null) ghostSr.flipX = position.x > transform.position.x;
         

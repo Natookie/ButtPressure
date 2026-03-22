@@ -7,9 +7,10 @@ public class EvtManager : MonoBehaviour
     [SerializeField] private bool oneTime = true;
     [SerializeField] private LayerMask targetLayer;
     [SerializeField] private string targetTag = "Player";
+    [HideInInspector] public bool allowTrigger = false;
     
     [Header("ACTIONS")]
-    [SerializeField] private bool teleportHanako;
+    public bool teleportHanako;
     [SerializeField] private Transform teleportTarget;
     
     [Header("OTHER ACTIONS")]
@@ -24,6 +25,7 @@ public class EvtManager : MonoBehaviour
     }
 
     void OnTriggerEnter2D(Collider2D other){
+        if(!allowTrigger) return;
         if(hasTriggered && oneTime) return;
         
         if(((1 << other.gameObject.layer) & targetLayer) != 0){

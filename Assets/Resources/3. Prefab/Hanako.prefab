@@ -188,5 +188,10 @@ MonoBehaviour:
   catchDistance: 0.1
   idleTime: 5
   tauntIdleTime: 10
-  canMove: 1
+  animSprites:
+  - {fileID: -129609795, guid: 16c10a35dbb45bd4893ca008a6d142d7, type: 3}
+  - {fileID: -7899899, guid: 16c10a35dbb45bd4893ca008a6d142d7, type: 3}
+  - {fileID: -1569089868, guid: 16c10a35dbb45bd4893ca008a6d142d7, type: 3}
+  frameRate: 10
+  canMove: 0
   hasTeleported: 0
