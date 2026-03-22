@@ -1,16 +1,16 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
-public class PauseUI : MonoBehaviour
+public class EndgameUI : MonoBehaviour
 {
     [Header("Component and Object")]
-    [SerializeField] private GameObject content;
+    [SerializeField] private GameObject gameoverUIContent;
+    [SerializeField] private GameObject gamewonUIContent;
     [Header("Scene")]
     [SerializeField] private string restartTargerSceneName = "GameScene";
     [SerializeField] private string backToMenuTargetSceneName = "MainMenuScene";
-
-    private Keyboard keyboard;
+    [Header("Audio")]
+    [SerializeField] private AudioClip pooSfxClip;
     
     // ====================================================================================================
     //                     Virtual Functions
@@ -19,36 +19,44 @@ public class PauseUI : MonoBehaviour
     private void Start()
     {
         // Assertion check
-        Debug.Assert(content, "content is missing");
+        Debug.Assert(gameoverUIContent, "gameoverUIContent is missing");
+        Debug.Assert(gamewonUIContent, "gamewonUIContent is missing");
         // Initialize
-        keyboard = Keyboard.current;
-        content.SetActive(false);
-    }
-
-    private void Update()
-    {
-        if (keyboard.escapeKey.wasPressedThisFrame)
-        {
-            if (isGamePaused()) ClosePauseScreen();
-            else OpenPauseScreen();
-        }
+        gameoverUIContent.SetActive(false);
+        gamewonUIContent.SetActive(false);
     }
     #endregion
 
     // ====================================================================================================
-    //                     Pause Functions
+    //                     Gameover Functions
     // ====================================================================================================
-    #region Pause
-    public void OpenPauseScreen()
+    #region Gameover
+    public void OpenGameoverScreen()
     {
-        Time.timeScale = 0.0f;
-        content.SetActive(true);
+        // Check if already opened
+        if (gameoverUIContent.activeSelf) return;
+        // Open
+        gameoverUIContent.SetActive(true);
+        AudioManager.Instance.PlaySFX(pooSfxClip);
     }
 
-    public void ClosePauseScreen()
+    public void CloseGameoverScreen()
     {
-        Time.timeScale = 1.0f;
-        content.SetActive(false);
+        gameoverUIContent.SetActive(false);
+    }
+
+    public void OpenGamewonScreen()
+    {
+        // Check if already opened
+        if (gamewonUIContent.activeSelf) return;
+        // Open
+        gamewonUIContent.SetActive(true);
+        AudioManager.Instance.PlaySFX(pooSfxClip);
+    }
+
+    public void CloseGamewonScreen()
+    {
+        gamewonUIContent.SetActive(false);
     }
 
     public void OnRestart()
@@ -64,7 +72,5 @@ public class PauseUI : MonoBehaviour
         AudioManager.Instance.StopMusic();
         SceneManager.LoadScene(backToMenuTargetSceneName);
     }
-
-    public bool isGamePaused() {return Time.timeScale == 0.0f;}
     #endregion
 }

@@ -9,7 +9,7 @@ public class MainMenuUI : MonoBehaviour
     [SerializeField] private GameObject creditsContent;
     [Header("Main Menu")]
     [SerializeField] private string playTargetSceneName = "Game Scene";
-    [SerializeField] private string mainMenuMusicName = "MainMenu";
+    [SerializeField] private AudioClip mainMenuMusicAudioClip;
 
     // ====================================================================================================
     //                     Virtual Functions
@@ -25,7 +25,7 @@ public class MainMenuUI : MonoBehaviour
         mainContent.SetActive(true);
         settingsContent.SetActive(false);
         creditsContent.SetActive(false);
-        // AudioManager.Instance.PlayMusic(mainMenuMusicName);
+        AudioManager.Instance.PlayMusic(mainMenuMusicAudioClip);
     }
     #endregion
 
@@ -35,7 +35,7 @@ public class MainMenuUI : MonoBehaviour
     #region Button
     public void OnPlay()
     {
-        // AudioManager.Instance.StopMusic();
+        AudioManager.Instance.StopMusic();
         SceneManager.LoadScene(playTargetSceneName);
     }
 
