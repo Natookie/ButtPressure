@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: f95572ee39e6a1148a9533244dcb98c9
+guid: 87ffd554baca8044da45590bedd8f9b5
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -93,30 +93,17 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: WebGL
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: 1 set bully_0
+      name: bullies 48x48_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 64
-        height: 64
+        width: 48
+        height: 48
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -125,20 +112,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 24a251012ccb16e4893c5b097e992132
-      internalID: 482186311
+      spriteID: 20c26b649a5a3f84ca30ac06ce90d4b7
+      internalID: 1833100947
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: 1 set bully_1
+      name: bullies 48x48_1
       rect:
         serializedVersion: 2
-        x: 64
+        x: 48
         y: 0
-        width: 64
-        height: 64
+        width: 48
+        height: 48
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -147,20 +134,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d644c18baf0dad445b3adb6091c532b5
-      internalID: 2088250851
+      spriteID: 33bad33f30215724483d27ad62295b4d
+      internalID: -1981416282
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: 1 set bully_2
+      name: bullies 48x48_2
       rect:
         serializedVersion: 2
-        x: 128
+        x: 96
         y: 0
-        width: 64
-        height: 64
+        width: 48
+        height: 48
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -169,20 +156,42 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: eac79239a656b764199e92021226d6f7
-      internalID: -1568384808
+      spriteID: 4fdde0f07bdfa69438ab7306a07c1d9d
+      internalID: 692270382
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: 1 set bully_3
+      name: bullies 48x48_3
+      rect:
+        serializedVersion: 2
+        x: 144
+        y: 0
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 42170e28e1a76ae4d87d5ebd8d1d5ec7
+      internalID: -64239397
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bullies 48x48_4
       rect:
         serializedVersion: 2
         x: 192
         y: 0
-        width: 64
-        height: 64
+        width: 48
+        height: 48
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -191,8 +200,30 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 12526f9a8f67be741944625a852960ec
-      internalID: 1956002712
+      spriteID: eb597ace0c80a5c46b495cece890a96c
+      internalID: 609641782
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bullies 48x48_5
+      rect:
+        serializedVersion: 2
+        x: 240
+        y: 0
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1ae61db3badb7c3448a91608bc8ff6b0
+      internalID: 732157577
       vertices: []
       indices: 
       edges: []
@@ -201,7 +232,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 3e67b92e0c1c73948b15cecb1f06adee
+    spriteID: 9ea37539038d283419821390105be8da
     internalID: 0
     vertices: []
     indices: 
@@ -211,12 +242,14 @@ TextureImporter:
     spriteCustomMetadata:
       entries:
       - key: SpriteEditor.SliceSettings
-        value: '{"sliceOnImport":false,"gridCellCount":{"x":4.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":2,"keepEmptyRects":false,"isAlternate":false}'
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":6.0,"y":1.0},"gridSpriteSize":{"x":48.0,"y":48.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":2,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
-      1 set bully_0: 482186311
-      1 set bully_1: 2088250851
-      1 set bully_2: -1568384808
-      1 set bully_3: 1956002712
+      bullies 48x48_0: 1833100947
+      bullies 48x48_1: -1981416282
+      bullies 48x48_2: 692270382
+      bullies 48x48_3: -64239397
+      bullies 48x48_4: 609641782
+      bullies 48x48_5: 732157577
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
