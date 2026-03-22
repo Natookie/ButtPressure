@@ -6,8 +6,6 @@ public class JanitorQuest : MonoBehaviour, IInteractable
     [Header("QUEST TWEAK")]
     [SerializeField] private bool askForKey;
     [SerializeField] private bool hasComply;
-    [SerializeField] private BoxCollider2D barrier;
-    [SerializeField] private BoxCollider2D triggerDialogue;
     [Space(10)]
     [SerializeField] private InteractableObject interactableComponent;
     [SerializeField] private NormalToilet toilet;
@@ -29,38 +27,28 @@ public class JanitorQuest : MonoBehaviour, IInteractable
 
     public void SetAskForKey() => askForKey = true;
 
-    private void FixedUpdate()
-    {
-        // Update moving
-        if (isMoving)
-        {
-            // Move
-            Vector3 newPosition = Vector3.zero;
+    private void FixedUpdate(){
+        if(isMoving){
+            Vector3 newPosition = transform.position;
             newPosition.x = Mathf.MoveTowards(
                 transform.position.x, moveTargetPosition.x, Time.fixedDeltaTime * moveSpeed
             );
-            newPosition.y = Mathf.MoveTowards(
-                transform.position.y, moveTargetPosition.y, Time.fixedDeltaTime * moveSpeed
-            );
-            newPosition.z = Mathf.MoveTowards(
-                transform.position.z, moveTargetPosition.z, Time.fixedDeltaTime * moveSpeed
-            );
             transform.position = newPosition;
-            // Check distance
-            Vector3 distanceVector = moveTargetPosition - transform.position;
-            if(distanceVector == Vector3.zero)
-            {
+            
+            bool isComplete = true;
+            if(Mathf.Abs(moveTargetPosition.x - transform.position.x) > 0.01f)
+                isComplete = false;
+                
+            if(isComplete){
+                cafeteriaDoor.GetComponent<InteractableObject>().enabled = true;
                 isMoving = false;
-                if (isDisappearAfterMoving) gameObject.SetActive(false);
-            }
+                if(isDisappearAfterMoving) gameObject.SetActive(false);
+            }else cafeteriaDoor.GetComponent<InteractableObject>().enabled = false;
+
+            interactableComponent.enabled = false;
         }
     }
 
-    void OnTriggerEnter2D(Collider2D coll){
-        if(coll.CompareTag("Player") && !hasIntroduced){
-            VisualCue.Instance.SetCurrentInteractable(interactableComponent);
-        }
-    }
     public void Interact(){
         if(!askForKey){
             if(hasIntroduced) return;
@@ -203,6 +191,4 @@ public class JanitorQuest : MonoBehaviour, IInteractable
         isMoving = true;
         isDisappearAfterMoving = disappearAfterMoving;
     }
-
-    public void SetBarrier(bool value) => barrier.enabled = value;
 }

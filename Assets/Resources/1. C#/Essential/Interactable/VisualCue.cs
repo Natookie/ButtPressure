@@ -115,5 +115,8 @@ public class VisualCue : MonoBehaviour
 
     public void ShowPrompt(InteractableObject interactable) => currentInteractable = interactable;
     public void HidePrompt() => currentInteractable = null;
-    public void SetCurrentInteractable(InteractableObject interactable) => currentInteractable = interactable;
+    public void SetCurrentInteractable(InteractableObject interactable){
+         currentInteractable = interactable;
+         Debug.Log(currentInteractable.gameObject.name);
+    }
 }

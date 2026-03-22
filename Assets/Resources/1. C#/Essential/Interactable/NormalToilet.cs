@@ -7,6 +7,7 @@ public class NormalToilet : MonoBehaviour, IInteractable
     [Header("REFERENCES")]
     public bool hasBeenComplied;
     [SerializeField] private JanitorQuest janitor;
+    [SerializeField] private InteractableObject stairway;
 
     private InteractableObject io;
 
@@ -46,18 +47,25 @@ public class NormalToilet : MonoBehaviour, IInteractable
         
         DialogueManager.Instance.SetDialogue(
             DLib.PLAYER,
-            "*Click *Click. It's still locked.\nWhere even is the janitor? He just dissapeared into thin air."
+            "*Click *Click. It's still locked.\nWhere even is the janitor anyway?"
         );
         yield return new WaitWhile(() => DialogueManager.Instance.IsTypingActive());
 
         DialogueManager.Instance.SetDialogue(
             DLib.PLAYER,
-            "Aishh Shibal.~ Fuzakena janitor chan.\nI need to find another toilet. Maybe downstair have one."
+            "He just dissapeared into thin air. HMMM."
+        );
+        yield return new WaitWhile(() => DialogueManager.Instance.IsTypingActive());
+
+        DialogueManager.Instance.SetDialogue(
+            DLib.PLAYER,
+            "Aishh Shibal.~ Fuzakena janitor chan.\nI need to find another toilet"
         );
         yield return new WaitWhile(() => DialogueManager.Instance.IsTypingActive());
         ObjectiveUI.Instance.SetObjective("Go to the 1st floor's toilet");
 
         DialogueManager.Instance.HideDialogueUI();
         io.SelfDestruct();
+        stairway.enabled = true;
     }
 }

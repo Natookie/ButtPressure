@@ -28,7 +28,10 @@ public class DoorPush : MonoBehaviour
     [SerializeField] private int minTargetHits = 10;
     [SerializeField] private int maxTargetHits = 15;
     [SerializeField] private float pressFeedbackDuration = 0.1f;
-    [SerializeField] private int missPenalty = 1; // How many hits to deduct on miss
+    [SerializeField] private int missPenalty = 1;
+
+    [Header("DEBUG")]
+    [SerializeField] private bool skipMinigame;
 
     private InteractableObject io;
     
@@ -69,10 +72,7 @@ public class DoorPush : MonoBehaviour
     private bool wasCirclePressedThisFrame = false;
     
     void UpdateInfoText(){
-        if(infoText != null)
-        {
-            infoText.Text = $"Hit the circle [{currentHit}/{targetHit}]";
-        }
+        if(infoText != null) infoText.Text = $"Hit the circle [{currentHit}/{targetHit}]";
     }
     
     void MissClick(){
@@ -109,6 +109,11 @@ public class DoorPush : MonoBehaviour
     }
     
     void StartMinigame(){
+        if(skipMinigame){
+            EndMinigame();
+            return;
+        }
+
         currentHit = 0;
         targetHit = Random.Range(minTargetHits, maxTargetHits + 1);
         isMinigameActive = true;
