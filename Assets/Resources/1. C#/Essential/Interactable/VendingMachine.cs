@@ -8,6 +8,10 @@ public class VendingMachine : MonoBehaviour, IInteractable
     [SerializeField] private BullyQuest quest;
     [SerializeField] private RichKid richKid;
     [SerializeField] private InteractableObject interactable;
+
+    [Header("REFERENCES")]
+    [SerializeField] private AudioClip vendingMachineSfx;
+    [SerializeField] private float vendingMachineSfxTime = 6.8f;
  
     private bool hasMoney;
 
@@ -76,6 +80,9 @@ public class VendingMachine : MonoBehaviour, IInteractable
         DialogueManager.Instance.ShowDialogueUI(() => uiReady = true);
         yield return new WaitUntil(() => uiReady);
         
+        AudioManager.Instance.PlaySFX(vendingMachineSfx);
+        yield return new WaitForSeconds(vendingMachineSfxTime);
+
         DialogueManager.Instance.SetDialogue(
             DLib.NARRATOR,
             "This onyo bought a red cola."

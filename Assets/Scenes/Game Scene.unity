@@ -30659,7 +30659,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Door
   linkedDoor: {fileID: 1215087104}
   isLocked: 0
-  openSound: {fileID: 0}
+  openSound: {fileID: 8300000, guid: 32f8f6972d7cb9d46a64557d18e5ce2b, type: 3}
   triggerEvent: 1
   onDoorUsed:
     m_PersistentCalls:
@@ -34101,7 +34101,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Door
   linkedDoor: {fileID: 934047788}
   isLocked: 0
-  openSound: {fileID: 0}
+  openSound: {fileID: 8300000, guid: 9380e96b5981ef04c8a270036f33f9fb, type: 3}
   triggerEvent: 1
   onDoorUsed:
     m_PersistentCalls:
@@ -44217,7 +44217,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Door
   linkedDoor: {fileID: 711615225}
   isLocked: 0
-  openSound: {fileID: 0}
+  openSound: {fileID: 8300000, guid: 9380e96b5981ef04c8a270036f33f9fb, type: 3}
   triggerEvent: 1
   onDoorUsed:
     m_PersistentCalls:
@@ -50797,7 +50797,7 @@ MonoBehaviour:
   pooMeter: {fileID: 378923753}
   locationUI: {fileID: 637392485}
   objectiveUI: {fileID: 1743124370}
-  cutscene: 0
+  cutscene: 1
   isInitialized: 0
   isEnded: 0
   isInMiniGame: 0
@@ -59128,7 +59128,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Door
   linkedDoor: {fileID: 639250062}
   isLocked: 0
-  openSound: {fileID: 0}
+  openSound: {fileID: 8300000, guid: 32f8f6972d7cb9d46a64557d18e5ce2b, type: 3}
   triggerEvent: 0
   onDoorUsed:
     m_PersistentCalls:
@@ -59970,7 +59970,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Door
   linkedDoor: {fileID: 1572377305}
   isLocked: 0
-  openSound: {fileID: 0}
+  openSound: {fileID: 8300000, guid: 9380e96b5981ef04c8a270036f33f9fb, type: 3}
   triggerEvent: 1
   onDoorUsed:
     m_PersistentCalls:
@@ -77593,6 +77593,7 @@ MonoBehaviour:
   stoppingDistance: 0.1
   normalLayer: 6
   forcedMoveLayer: 7
+  walkSfxClip: {fileID: 8300000, guid: 67b177c3a68f8cf47ba3d1e1085bcd73, type: 3}
   horizontal: 0
   hasReachedTarget: 0
 --- !u!50 &1570902959
@@ -77865,7 +77866,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Door
   linkedDoor: {fileID: 1232489206}
   isLocked: 0
-  openSound: {fileID: 0}
+  openSound: {fileID: 8300000, guid: 9380e96b5981ef04c8a270036f33f9fb, type: 3}
   triggerEvent: 1
   onDoorUsed:
     m_PersistentCalls:
@@ -86746,6 +86747,8 @@ MonoBehaviour:
   quest: {fileID: 253813536}
   richKid: {fileID: 183754632}
   interactable: {fileID: 1787245181}
+  vendingMachineSfx: {fileID: 8300000, guid: e6377896fe3a6f841bc2b092af891d2d, type: 3}
+  vendingMachineSfxTime: 6.8
   canInteract: 0
 --- !u!1001 &1790731467
 PrefabInstance:
@@ -87549,6 +87552,7 @@ Transform:
   - {fileID: 1046769553}
   - {fileID: 1193007531}
   - {fileID: 20534438}
+  - {fileID: 1850502986}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1822524133
@@ -89077,6 +89081,68 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1847620972}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1001 &1850502985
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 1822037381}
+    m_Modifications:
+    - target: {fileID: 4762878334664418501, guid: 978e591eb36228948b2411a29ad0baa0, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -3.25016
+      objectReference: {fileID: 0}
+    - target: {fileID: 4762878334664418501, guid: 978e591eb36228948b2411a29ad0baa0, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -7.55439
+      objectReference: {fileID: 0}
+    - target: {fileID: 4762878334664418501, guid: 978e591eb36228948b2411a29ad0baa0, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 15.51114
+      objectReference: {fileID: 0}
+    - target: {fileID: 4762878334664418501, guid: 978e591eb36228948b2411a29ad0baa0, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4762878334664418501, guid: 978e591eb36228948b2411a29ad0baa0, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4762878334664418501, guid: 978e591eb36228948b2411a29ad0baa0, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4762878334664418501, guid: 978e591eb36228948b2411a29ad0baa0, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4762878334664418501, guid: 978e591eb36228948b2411a29ad0baa0, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4762878334664418501, guid: 978e591eb36228948b2411a29ad0baa0, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4762878334664418501, guid: 978e591eb36228948b2411a29ad0baa0, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4780188636260728606, guid: 978e591eb36228948b2411a29ad0baa0, type: 3}
+      propertyPath: m_Name
+      value: Audio Manager
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 978e591eb36228948b2411a29ad0baa0, type: 3}
+--- !u!4 &1850502986 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4762878334664418501, guid: 978e591eb36228948b2411a29ad0baa0, type: 3}
+  m_PrefabInstance: {fileID: 1850502985}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1852049905
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -105665,6 +105731,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9249576c0aa3f7f46919bbf3a1911a43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MathMinigameController
+  OnMinigameFinished:
+    m_PersistentCalls:
+      m_Calls: []
   content: {fileID: 6856662634720635806}
   contentBlock: {fileID: 4972072530529651649}
   questionText: {fileID: 279352433470281829}
@@ -105686,6 +105755,7 @@ MonoBehaviour:
   slideDuration: 0.5
   bounceAmount: 20
   bounceDuration: 0.2
+  correctAnswerSfxClip: {fileID: 8300000, guid: 60d02ace7841ff44885407b0ee906aaf, type: 3}
   startMinigameOnRun: 1
   skipMinigame: 0
   vendingMachine: {fileID: 1787245184}

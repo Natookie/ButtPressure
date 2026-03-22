@@ -20,6 +20,9 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private int normalLayer = 6;
     [SerializeField] private int forcedMoveLayer = 7;
     
+    [Header("AUDIO")]
+    [SerializeField] private AudioClip walkSfxClip;
+
     [HideInInspector] public float horizontal;
     [HideInInspector] public bool hasReachedTarget;
 
@@ -47,6 +50,13 @@ public class PlayerMovement : MonoBehaviour
         originalLayer = gameObject.layer;
         
         ChangeBoundary();
+    }
+
+    void Update()
+    {
+        // Update audio
+        if (rb.linearVelocity != Vector2.zero) AudioManager.Instance.PlaySFXLooping(walkSfxClip);
+        else AudioManager.Instance.StopSFXLooping();
     }
 
     void LateUpdate(){

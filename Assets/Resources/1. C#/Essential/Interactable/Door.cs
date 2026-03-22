@@ -80,7 +80,8 @@ public class Door : MonoBehaviour, IInteractable
         InteractableObject linkedInteractable = linkedDoor.GetComponent<InteractableObject>();
         visualCue.SetCurrentInteractable(linkedInteractable);
         
-        if(openSound != null && audioSource != null) audioSource.PlayOneShot(openSound);
+        // if(openSound != null && audioSource != null) audioSource.PlayOneShot(openSound);
+        if (openSound) AudioManager.Instance.PlaySFX(openSound);
     }
     
     public void CompleteMinigame(){

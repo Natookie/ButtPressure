@@ -2,9 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using Nova;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class MathMinigameController : MonoBehaviour
 {
+    public UnityEvent OnMinigameFinished;
+
     [Header("Component and Object")]
     [SerializeField] private GameObject content;
     [SerializeField] private UIBlock contentBlock;
@@ -24,6 +27,8 @@ public class MathMinigameController : MonoBehaviour
     [SerializeField] private float slideDuration = 0.5f;
     [SerializeField] private float bounceAmount = 20f;
     [SerializeField] private float bounceDuration = 0.2f;
+    [Header("Audio")]
+    [SerializeField] private AudioClip correctAnswerSfxClip;
     [Header("Debug")]
     [Tooltip("Start the minigame when played, default is false")]
     [SerializeField] private bool startMinigameOnRun = false;
@@ -279,10 +284,13 @@ public class MathMinigameController : MonoBehaviour
             answeredAmount++;
             
             selectedChoice.AnimateAnswerFeedback(true);
-            
+
             if(answeredAmount >= questionAmount) StartCoroutine(DelayedEndMinigame());
             else StartCoroutine(DelayedNextQuestion());
-        }else{
+            
+            AudioManager.Instance.PlaySFX(correctAnswerSfxClip);
+        }
+        else{
             wrongAnswerAmount++;
             
             selectedChoice.AnimateAnswerFeedback(false);
