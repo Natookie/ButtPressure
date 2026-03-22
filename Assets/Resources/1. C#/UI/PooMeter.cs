@@ -32,8 +32,11 @@ public class PooMeter : MonoBehaviour
     void Update(){
         if(!gm.isInitialized) return;
         
-        CheckPoo();
-        HandlePooFill();
+        if (!GameManager.Instance.isEnded)
+        {
+            CheckPoo();
+            HandlePooFill();
+        }
     }
 
     void CheckPoo(){
@@ -53,9 +56,9 @@ public class PooMeter : MonoBehaviour
         pooFill += Time.deltaTime * pooMultiplier;
         pooFill = Mathf.Clamp(pooFill, 0f, pooFillTarget);
 
-        pooFillBlock.Size.X.Percent = (pooFill / 100f);
+        pooFillBlock.Size.X.Percent = (pooFill / pooFillTarget);
         
-        float t = pooFill / 100f;
+        float t = pooFill / pooFillTarget;
         pooFillBlock.Color = Color.Lerp(endColor, startColor, t);
 
         pendulumTimer += Time.deltaTime * pendulumSpeed;

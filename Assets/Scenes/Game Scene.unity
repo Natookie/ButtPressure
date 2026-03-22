@@ -23818,7 +23818,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PooMeter
   pooContainer: {fileID: 378923753}
   pooFill: 0
-  pooFillTarget: 100
+  pooFillTarget: 200
   startColor: {r: 0.12941177, g: 0.2, b: 0.02745098, a: 1}
   endColor: {r: 0.41299784, g: 0.1986881, b: 0.024675941, a: 1}
   pendulumSpeed: 2
@@ -47645,7 +47645,7 @@ MonoBehaviour:
         Type: 0
     Position:
       X:
-        Raw: 233.32501
+        Raw: 45
         Type: 0
       Y:
         Raw: 0
@@ -56339,7 +56339,7 @@ MonoBehaviour:
         Raw: 0
         Type: 0
       Y:
-        Raw: 56.5
+        Raw: 17
         Type: 0
       Z:
         Raw: 0
@@ -58989,7 +58989,7 @@ MonoBehaviour:
         Raw: 0
         Type: 0
       Y:
-        Raw: 80
+        Raw: 160
         Type: 0
       Z:
         Raw: 0
@@ -66230,7 +66230,7 @@ MonoBehaviour:
         Type: 0
     Position:
       X:
-        Raw: 262.5
+        Raw: 50
         Type: 0
       Y:
         Raw: 0
@@ -73764,7 +73764,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1170324579
 Transform:
   m_ObjectHideFlags: 0
@@ -84529,7 +84529,7 @@ MonoBehaviour:
         Raw: 0
         Type: 0
       Y:
-        Raw: 0
+        Raw: 80
         Type: 0
       Z:
         Raw: 0
@@ -129181,7 +129181,7 @@ MonoBehaviour:
         Type: 0
     Position:
       X:
-        Raw: 197.6
+        Raw: 20
         Type: 0
       Y:
         Raw: 0
