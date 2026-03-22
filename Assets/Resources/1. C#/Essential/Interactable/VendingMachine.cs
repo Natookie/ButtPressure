@@ -10,8 +10,6 @@ public class VendingMachine : MonoBehaviour, IInteractable
     [SerializeField] private InteractableObject interactable;
  
     private bool hasMoney;
-    private bool firstExecuted;
-    private bool minigameCompleted;
 
     [HideInInspector] public bool canInteract;
 
@@ -66,7 +64,6 @@ public class VendingMachine : MonoBehaviour, IInteractable
         richKid.GetComponent<InteractableObject>().enabled = true;
         GetComponent<InteractableObject>().SelfDestruct();
         PlayerCam.Instance.ReturnToPlayer();
-        firstExecuted = true;
 
         InteractableObject io = GetComponent<InteractableObject>();
         io.SetPrompt("Buy a drink");
@@ -88,6 +85,5 @@ public class VendingMachine : MonoBehaviour, IInteractable
         DialogueManager.Instance.HideDialogueUI();
         GetComponent<InteractableObject>().SelfDestruct();
         quest.SetHasDrink(true);
-        minigameCompleted = true;
     }
 }

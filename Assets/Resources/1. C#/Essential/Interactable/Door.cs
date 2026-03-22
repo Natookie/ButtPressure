@@ -45,8 +45,10 @@ public class Door : MonoBehaviour, IInteractable
             return;
         }
 
-        if(triggerEvent) onDoorUsed?.Invoke();
-        if(linkedDoor != null) TeleportToLinkedDoor();
+        if(linkedDoor != null){
+            TeleportToLinkedDoor();
+            if(triggerEvent) onDoorUsed?.Invoke();
+        }
     }
 
     public void TeleportToLinkedDoor(){

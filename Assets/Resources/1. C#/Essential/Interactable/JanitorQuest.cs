@@ -1,34 +1,41 @@
 using UnityEngine;
 using System.Collections;
 
-public class JanitorQuest : MonoBehaviour
+public class JanitorQuest : MonoBehaviour, IInteractable
 {
     [Header("QUEST TWEAK")]
+    [SerializeField] private bool askForKey;
+    [SerializeField] private bool hasComply;
+    [SerializeField] private BoxCollider2D barrier;
+    [SerializeField] private BoxCollider2D triggerDialogue;
+    [Space(10)]
+    [SerializeField] private InteractableObject interactableComponent;
+    [SerializeField] private NormalToilet toilet;
+    [SerializeField] private GameObject stairway;
+    
+    [Header("QUEST TWEAK")]
     [SerializeField] private SpriteRenderer spriteRenderer;
-    [SerializeField] private Door targetStairDoor;
-    [SerializeField] private bool hasKey;
+    [SerializeField] private Transform targetCafetaria;
 
     [HideInInspector] private bool hasIntroduced;
 
-    private void Start()
-    {
-        spriteRenderer.enabled = false;
-    }
+    public void SetAskForKey() => askForKey = true;
 
-    public void SetHasKey(bool value) => hasKey = value;
-
-    public void EnterRoom(){
-        if(!hasKey){
-            if(!hasIntroduced) StartCoroutine(TriggerQuest());
-            else StartCoroutine(RemindQuest());
+    void OnTriggerEnter2D(Collider2D coll){
+        if(coll.CompareTag("Player") && !hasIntroduced){
+            VisualCue.Instance.SetCurrentInteractable(interactableComponent);
         }
-        else StartCoroutine(CompleteQuest());
+    }
+    public void Interact(){
+        if(!askForKey){
+            if(hasIntroduced) return;
+            StartCoroutine(Murmur());
+        }
+        else StartCoroutine(Comply());
     }
 
-    public IEnumerator TriggerQuest(){
+    public IEnumerator Murmur(){
         yield return new WaitForSeconds(0.1f);
-
-        spriteRenderer.enabled = true;
 
         bool uiReady = false;
         DialogueManager.Instance.ShowDialogueUI(() => uiReady = true);
@@ -37,77 +44,83 @@ public class JanitorQuest : MonoBehaviour
         PlayerCam.Instance.FocusOnTarget(this.transform);
         DialogueManager.Instance.SetDialogue(
             DLib.JANITOR,
-            "Apdpsdocnwdidja..."
+            "Sushi salmon honda takoyaki..."
         );
         yield return new WaitWhile(() => DialogueManager.Instance.IsTypingActive());
 
         PlayerCam.Instance.ReturnToPlayer();
         DialogueManager.Instance.SetDialogue(
             DLib.PLAYER,
-            "What?"
+            "This old geezer is a freak."
         );
         yield return new WaitWhile(() => DialogueManager.Instance.IsTypingActive());
 
         PlayerCam.Instance.FocusOnTarget(this.transform);
         DialogueManager.Instance.SetDialogue(
             DLib.JANITOR,
-            "Kyaaeedndidnocngettooo, piahsidohbasidh"
+            "Kyaaeedndidnocngettooo.\n~piahsidohbasidh, duh game jam nya ga selesai."
         );
         yield return new WaitWhile(() => DialogueManager.Instance.IsTypingActive());
 
         PlayerCam.Instance.ReturnToPlayer();
         DialogueManager.Instance.SetDialogue(
             DLib.PLAYER,
-            "Speak up old man, I can't understa"
-        );
-        yield return new WaitWhile(() => DialogueManager.Instance.IsTypingActive());
-        
-        PlayerCam.Instance.FocusOnTarget(this.transform);
-        CameraShake.Instance.ShakeCamera(true);
-        DialogueManager.Instance.SetDialogue(
-            DLib.JANITOR,
-            "FIND ME THE DAMN KEYS YOU LITTLE BRAT!!!"
-        );
-        yield return new WaitWhile(() => DialogueManager.Instance.IsTypingActive());
-
-        DialogueManager.Instance.SetDialogue(
-            DLib.PLAYER,
-            "....."
+            "Whatever, i need to go to the restroom QUICK."
         );
         yield return new WaitWhile(() => DialogueManager.Instance.IsTypingActive());
 
         DialogueManager.Instance.HideDialogueUI();
+        interactableComponent.SelfDestruct();
         hasIntroduced = true;
     }
 
-    public IEnumerator CompleteQuest(){
+    public IEnumerator Comply(){
         yield return new WaitForSeconds(0.1f);
 
         bool uiReady = false;
         DialogueManager.Instance.ShowDialogueUI(() => uiReady = true);
         yield return new WaitUntil(() => uiReady);
         
-        PlayerCam.Instance.ReturnToPlayer();
         DialogueManager.Instance.SetDialogue(
             DLib.PLAYER,
-            "Here"
+            "Hey old geezer! Why is the restoom locked? I need \nto take a <color=#8C5A3C>poopie</color>"
         );
         yield return new WaitWhile(() => DialogueManager.Instance.IsTypingActive());
         
         PlayerCam.Instance.FocusOnTarget(this.transform);
         DialogueManager.Instance.SetDialogue(
             DLib.JANITOR,
-            "..."
+            "Uhhh. I think i forgot to unlock it."
+        );
+        yield return new WaitWhile(() => DialogueManager.Instance.IsTypingActive());
+
+        DialogueManager.Instance.SetDialogue(
+            DLib.PLAYER,
+            "Give me the key then. It's very urgent."
+        );
+        yield return new WaitWhile(() => DialogueManager.Instance.IsTypingActive());
+        
+        PlayerCam.Instance.FocusOnTarget(this.transform);
+        DialogueManager.Instance.SetDialogue(
+            DLib.JANITOR,
+            "I will open it myself, follow me to the toilet.\n*Wink wink"
+        );
+        yield return new WaitWhile(() => DialogueManager.Instance.IsTypingActive());
+
+        DialogueManager.Instance.SetDialogue(
+            DLib.PLAYER,
+        "WHAT IN THE F-|"
         );
         yield return new WaitWhile(() => DialogueManager.Instance.IsTypingActive());
 
         PlayerCam.Instance.ReturnToPlayer();
-        ObjectiveUI.Instance.SetObjective("Go to the 2nd floor");
+        ObjectiveUI.Instance.SetObjective("Follow the janitor to the restroom");
 
         DialogueManager.Instance.HideDialogueUI();
+        toilet.GetComponent<InteractableObject>().enabled = true;
+        toilet.hasBeenComplied = true;
 
-        spriteRenderer.enabled = false;
-        targetStairDoor.isLocked = false;
+        //Janitor Gerak() ke arah Right door cafetaria
     }
 
     public IEnumerator RemindQuest(){
@@ -147,4 +160,6 @@ public class JanitorQuest : MonoBehaviour
         
         DialogueManager.Instance.HideDialogueUI();
     }
+
+    public void SetBarrier(bool value) => barrier.enabled = value;
 }
