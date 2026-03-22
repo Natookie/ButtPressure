@@ -6,7 +6,7 @@ public class CrowdBlockade : MonoBehaviour, IInteractable
     [Header("QUEST TWEAK")]
     [SerializeField] private BoxCollider2D barrier;
     [SerializeField] private InteractableObject interactableComponent;
-    [SerializeField] private Door cafeteriaDoor;
+    [SerializeField] private InteractableObject cafeteriaDoorInteractable;
 
     [HideInInspector] public bool hasIntroduced;
 
@@ -15,7 +15,7 @@ public class CrowdBlockade : MonoBehaviour, IInteractable
         if(interactableComponent == null) interactableComponent = gameObject.AddComponent<InteractableObject>();
             
         interactableComponent.enabled = false;
-        cafeteriaDoor.enabled = false;
+        cafeteriaDoorInteractable.enabled = false;
     }
 
     void OnTriggerEnter2D(Collider2D coll){
@@ -73,7 +73,7 @@ public class CrowdBlockade : MonoBehaviour, IInteractable
         DialogueManager.Instance.HideDialogueUI();
         ObjectiveUI.Instance.SetObjective("Find a way to pass the crowd");
         hasIntroduced = true;
-        cafeteriaDoor.enabled = true;
+        cafeteriaDoorInteractable.enabled = true;
     }
 
     IEnumerator RemindProblem(){

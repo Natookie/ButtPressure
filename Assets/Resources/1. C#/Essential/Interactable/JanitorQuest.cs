@@ -12,14 +12,49 @@ public class JanitorQuest : MonoBehaviour, IInteractable
     [SerializeField] private InteractableObject interactableComponent;
     [SerializeField] private NormalToilet toilet;
     [SerializeField] private GameObject stairway;
+    [SerializeField] private Door cafeteriaDoor;
     
     [Header("QUEST TWEAK")]
     [SerializeField] private SpriteRenderer spriteRenderer;
     [SerializeField] private Transform targetCafetaria;
 
+    [Header("MOVE SETTINGS")]
+    [SerializeField] private float moveSpeed = 1.5f;
+
     [HideInInspector] private bool hasIntroduced;
+    // Move
+    private bool isMoving = false;
+    private Vector3 moveTargetPosition;
+    private bool isDisappearAfterMoving = false;
 
     public void SetAskForKey() => askForKey = true;
+
+    private void FixedUpdate()
+    {
+        // Update moving
+        if (isMoving)
+        {
+            // Move
+            Vector3 newPosition = Vector3.zero;
+            newPosition.x = Mathf.MoveTowards(
+                transform.position.x, moveTargetPosition.x, Time.fixedDeltaTime * moveSpeed
+            );
+            newPosition.y = Mathf.MoveTowards(
+                transform.position.y, moveTargetPosition.y, Time.fixedDeltaTime * moveSpeed
+            );
+            newPosition.z = Mathf.MoveTowards(
+                transform.position.z, moveTargetPosition.z, Time.fixedDeltaTime * moveSpeed
+            );
+            transform.position = newPosition;
+            // Check distance
+            Vector3 distanceVector = moveTargetPosition - transform.position;
+            if(distanceVector == Vector3.zero)
+            {
+                isMoving = false;
+                if (isDisappearAfterMoving) gameObject.SetActive(false);
+            }
+        }
+    }
 
     void OnTriggerEnter2D(Collider2D coll){
         if(coll.CompareTag("Player") && !hasIntroduced){
@@ -121,6 +156,7 @@ public class JanitorQuest : MonoBehaviour, IInteractable
         toilet.hasBeenComplied = true;
 
         //Janitor Gerak() ke arah Right door cafetaria
+        MoveToTarget(cafeteriaDoor.transform.position, true);
     }
 
     public IEnumerator RemindQuest(){
@@ -159,6 +195,13 @@ public class JanitorQuest : MonoBehaviour, IInteractable
         yield return new WaitWhile(() => DialogueManager.Instance.IsTypingActive());
         
         DialogueManager.Instance.HideDialogueUI();
+    }
+
+    public void MoveToTarget(Vector3 targetPosition, bool disappearAfterMoving = false)
+    {
+        moveTargetPosition = targetPosition;
+        isMoving = true;
+        isDisappearAfterMoving = disappearAfterMoving;
     }
 
     public void SetBarrier(bool value) => barrier.enabled = value;

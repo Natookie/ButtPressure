@@ -32932,7 +32932,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CrowdBlockade
   barrier: {fileID: 741921291}
   interactableComponent: {fileID: 691473707}
-  cafeteriaDoor: {fileID: 0}
+  cafeteriaDoorInteractable: {fileID: 1572377307}
   hasIntroduced: 0
 --- !u!61 &691473709
 BoxCollider2D:
@@ -79198,8 +79198,10 @@ MonoBehaviour:
   interactableComponent: {fileID: 1603721369}
   toilet: {fileID: 320936844}
   stairway: {fileID: 422175537}
+  cafeteriaDoor: {fileID: 1572377305}
   spriteRenderer: {fileID: 1603721370}
   targetCafetaria: {fileID: 1572377304}
+  moveSpeed: 1.5
 --- !u!61 &1603721372
 BoxCollider2D:
   m_ObjectHideFlags: 0
