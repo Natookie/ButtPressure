@@ -15,6 +15,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject pooMeter;
     [SerializeField] private GameObject locationUI;
     [SerializeField] private GameObject objectiveUI;
+    [SerializeField] private EndgameUI endgameUI;
     [Space(10)]
     [SerializeField] private bool cutscene;
 
@@ -193,9 +194,14 @@ public class GameManager : MonoBehaviour
     public void EndGame(int type){
         switch(type){
             case 1: //Ran out of time
+                endgameUI.OpenGameoverScreen();
                 break;
             case 2: //Caught by Hanako
                 pooMeter.GetComponent<PooMeter>().UpdateMultiplier();
+                endgameUI.OpenGameoverScreen();
+                break;
+            case 3: //Reached the real toilet
+                endgameUI.OpenGamewonScreen();
                 break;
         }
         isEnded = true;
