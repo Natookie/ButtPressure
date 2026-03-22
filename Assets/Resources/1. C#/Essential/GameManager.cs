@@ -95,7 +95,7 @@ public class GameManager : MonoBehaviour
 
         DialogueManager.Instance.SetDialogue(
             DLib.CROWD,
-            "*What in the.. FUCKK is he saying? \n~*I bet he smells like ramen too."
+            "*What in the.. F**KK is he saying? \n~*I bet he smells like ramen too."
         );
         yield return new WaitWhile(() => DialogueManager.Instance.IsTypingActive());
 

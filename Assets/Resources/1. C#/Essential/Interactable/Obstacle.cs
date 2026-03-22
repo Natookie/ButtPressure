@@ -124,7 +124,7 @@ public class Obstacle : MonoBehaviour, IMultiInteractable
 
         DialogueManager.Instance.SetDialogue(
             DLib.PLAYER,
-            "But afaik i only have 1 animation for walking~\nAnd i am still wasting my time talking to you."
+            "But AFAIK i only have 1 animation for walking~\nAnd i am still wasting my time talking to you."
         );
         yield return new WaitWhile(() => DialogueManager.Instance.IsTypingActive());
         

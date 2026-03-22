@@ -52,7 +52,7 @@ public class Stall : MonoBehaviour, IInteractable
         PlayerCam.Instance.ReturnToPlayer();
         DialogueManager.Instance.SetDialogue(
             DLib.PLAYER,
-            "HOLY.. SHIT!!~ Is this truly my kisah?~"
+            "HOLY.. S**T!!~ Is this truly my kisah?~"
         );
         yield return new WaitWhile(() => DialogueManager.Instance.IsTypingActive());
 

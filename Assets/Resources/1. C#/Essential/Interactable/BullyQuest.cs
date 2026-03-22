@@ -54,27 +54,27 @@ public class BullyQuest : MonoBehaviour
         PlayerCam.Instance.FocusOnTarget(this.transform);
         DialogueManager.Instance.SetDialogue(
             DLib.JAKI,
-            "OHH, you are the new guy isn't it, a freak show.~\nYou want to take a shit? We won't let you anyway."
+            "OHH, you are the new guy isn't it, a freak show.~\nYou want to take a s**t? We won't let you anyway."
         );
         yield return new WaitWhile(() => DialogueManager.Instance.IsTypingActive());
 
         PlayerCam.Instance.ReturnToPlayer();
         DialogueManager.Instance.SetDialogue(
             DLib.PLAYER,
-            "Why?? I need to take a <color=#8C5A3C>poopie</color>. ~dipshit."
+            "Why?? I need to take a <color=#8C5A3C>poopie</color>. ~dips**t."
         );
         yield return new WaitWhile(() => DialogueManager.Instance.IsTypingActive());
         
         PlayerCam.Instance.FocusOnTarget(this.transform);
         DialogueManager.Instance.SetDialogue(
             DLib.JIN,
-            "Fuck you just say to us?~ Whatever, Saki is blocking the\nstaiway for nerd like you on recess time."
+            "F**k you just say to us?~ Whatever, Saki is blocking the\nstaiway for nerd like you on recess time."
         );
         yield return new WaitWhile(() => DialogueManager.Instance.IsTypingActive());
 
         DialogueManager.Instance.SetDialogue(
             DLib.JIN,
-            "There's no toilet on this floor, school layout is fucked.\nThere is one at <color=#E76F2E>2nd floor</color> tho."
+            "There's no toilet on this floor, school layout is f**ked.\nThere is one at <color=#E76F2E>2nd floor</color> tho."
         );
         yield return new WaitWhile(() => DialogueManager.Instance.IsTypingActive());
 
