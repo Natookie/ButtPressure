@@ -57368,8 +57368,8 @@ MonoBehaviour:
   OnClicked:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: GameoverUI, Assembly-CSharp
+      - m_Target: {fileID: 1500216159}
+        m_TargetAssemblyTypeName: EndgameUI, Assembly-CSharp
         m_MethodName: OnRestart
         m_Mode: 1
         m_Arguments:
@@ -64284,6 +64284,7 @@ MonoBehaviour:
   isInitialized: 0
   isEnded: 0
   isInMiniGame: 0
+  mainMusicAudioClip: {fileID: 8300000, guid: b23d3e34afd5c054493b5d7a7016438a, type: 3}
 --- !u!1 &1048117658
 GameObject:
   m_ObjectHideFlags: 0
@@ -75638,8 +75639,8 @@ MonoBehaviour:
   OnClicked:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: GameoverUI, Assembly-CSharp
+      - m_Target: {fileID: 1500216159}
+        m_TargetAssemblyTypeName: EndgameUI, Assembly-CSharp
         m_MethodName: OnBackToMenu
         m_Mode: 1
         m_Arguments:
@@ -82400,8 +82401,8 @@ MonoBehaviour:
   OnClicked:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: GameoverUI, Assembly-CSharp
+      - m_Target: {fileID: 1500216159}
+        m_TargetAssemblyTypeName: EndgameUI, Assembly-CSharp
         m_MethodName: OnBackToMenu
         m_Mode: 1
         m_Arguments:

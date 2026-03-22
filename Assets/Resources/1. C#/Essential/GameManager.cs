@@ -24,6 +24,9 @@ public class GameManager : MonoBehaviour
     public bool isEnded;
     public bool isInMiniGame;
 
+    [Header("AUDIO")]
+    [SerializeField] private AudioClip mainMusicAudioClip;
+
     private Keyboard keyboard;
 
     void Awake(){
@@ -42,6 +45,8 @@ public class GameManager : MonoBehaviour
             StartCoroutine(StartGame());
         }
         else isInitialized = true;
+
+        AudioManager.Instance.PlayMusic(mainMusicAudioClip);
     }
 
     void Update(){

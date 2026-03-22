@@ -311,7 +311,19 @@ MonoBehaviour:
   audioMixer: {fileID: 24100000, guid: 6149083bf0cc33f45b046e0c0d7a6269, type: 2}
   musicVolumeParameterName: MusicVolume
   sfxVolumeParameterName: SFXVolume
-  musicAudioDataList: []
+  musicAudioDataList:
+  - name: MainMenu
+    audioClip: {fileID: 8300000, guid: f7be284802debc14fbcff01fb41a44ed, type: 3}
+    volume: 1
+    pitch: 0
+  - name: Gameplay1
+    audioClip: {fileID: 8300000, guid: 1cabcb1931f010d4c8061d132de42107, type: 3}
+    volume: 1
+    pitch: 0
+  - name: Gameplay2
+    audioClip: {fileID: 8300000, guid: b23d3e34afd5c054493b5d7a7016438a, type: 3}
+    volume: 0.974
+    pitch: 0
   sfxAudioDataList:
   - name: Poo
     audioClip: {fileID: 8300000, guid: 371808de4947a32408bc6c8ca67232ff, type: 3}
