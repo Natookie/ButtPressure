@@ -14,6 +14,10 @@ public class Door : MonoBehaviour, IInteractable
     [SerializeField] private UnityEvent onDoorUsed;
     [SerializeField] private UnityEvent onDoorLockedUsed;
     
+    [Header("MINIGAME WAIT")]
+    [SerializeField] private bool waitForMinigame = false;
+    private bool isWaitingForMinigame = false;
+    
     private VisualCue visualCue;
     private AudioSource audioSource;
 
@@ -29,14 +33,23 @@ public class Door : MonoBehaviour, IInteractable
             return;
         }
 
-        if(linkedDoor != null){
+        if(isWaitingForMinigame){
+            isWaitingForMinigame = false;
             TeleportToLinkedDoor();
-            
-            if(triggerEvent) onDoorUsed?.Invoke();
+            return;
         }
+
+        if(waitForMinigame && triggerEvent){
+            isWaitingForMinigame = true;
+            onDoorUsed?.Invoke();
+            return;
+        }
+
+        if(triggerEvent) onDoorUsed?.Invoke();
+        if(linkedDoor != null) TeleportToLinkedDoor();
     }
 
-    void TeleportToLinkedDoor(){
+    public void TeleportToLinkedDoor(){
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         if(player == null) return;
         
@@ -66,5 +79,12 @@ public class Door : MonoBehaviour, IInteractable
         visualCue.SetCurrentInteractable(linkedInteractable);
         
         if(openSound != null && audioSource != null) audioSource.PlayOneShot(openSound);
+    }
+    
+    public void CompleteMinigame(){
+        if(isWaitingForMinigame){
+            TeleportToLinkedDoor();
+            isWaitingForMinigame = false;
+        }
     }
 }
