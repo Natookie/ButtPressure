@@ -29473,7 +29473,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PooMeter
   pooContainer: {fileID: 378923753}
   pooFill: 0
-  pooFillTarget: 100
+  pooFillTarget: 200
   startColor: {r: 0.12941177, g: 0.2, b: 0.02745098, a: 1}
   endColor: {r: 0.41299784, g: 0.1986881, b: 0.024675941, a: 1}
   pendulumSpeed: 2
