@@ -1,23 +1,27 @@
 using UnityEngine;
 using System.Collections;
+using System;
 
 public class JanitorQuest : MonoBehaviour, IInteractable
 {
-    [Header("QUEST TWEAK")]
-    [SerializeField] private bool askForKey;
-    [SerializeField] private bool hasComply;
-    [Space(10)]
+    [Header("REFERENCES")]
     [SerializeField] private InteractableObject interactableComponent;
     [SerializeField] private NormalToilet toilet;
     [SerializeField] private GameObject stairway;
     [SerializeField] private Door cafeteriaDoor;
-    
-    [Header("QUEST TWEAK")]
     [SerializeField] private SpriteRenderer spriteRenderer;
-    [SerializeField] private Transform targetCafetaria;
+    [SerializeField] private Animator animator;
+
+    [Header("QUEST TWEAK")]
+    [SerializeField] private bool askForKey;
+    [SerializeField] private bool hasComply;
 
     [Header("MOVE SETTINGS")]
     [SerializeField] private float moveSpeed = 1.5f;
+
+    [Header("ANIMATION")]
+    [SerializeField] private string idleAnimationName = "JanitorIdle";
+    [SerializeField] private string walkAnimationName = "JanitorWalk";
 
     [HideInInspector] private bool hasIntroduced;
     // Move
@@ -34,16 +38,19 @@ public class JanitorQuest : MonoBehaviour, IInteractable
                 transform.position.x, moveTargetPosition.x, Time.fixedDeltaTime * moveSpeed
             );
             transform.position = newPosition;
+            spriteRenderer.flipX = Math.Sign(moveTargetPosition.x - transform.position.x) == -1;
             
             bool isComplete = true;
-            if(Mathf.Abs(moveTargetPosition.x - transform.position.x) > 0.01f)
-                isComplete = false;
-                
-            if(isComplete){
+            if(Mathf.Abs(moveTargetPosition.x - transform.position.x) > 0.01f) isComplete = false;
+            
+            if(isComplete)
+            {
                 cafeteriaDoor.GetComponent<InteractableObject>().enabled = true;
                 isMoving = false;
+                animator.Play(idleAnimationName);
                 if(isDisappearAfterMoving) gameObject.SetActive(false);
-            }else cafeteriaDoor.GetComponent<InteractableObject>().enabled = false;
+            }
+            else cafeteriaDoor.GetComponent<InteractableObject>().enabled = false;
 
             interactableComponent.enabled = false;
         }
@@ -190,5 +197,6 @@ public class JanitorQuest : MonoBehaviour, IInteractable
         moveTargetPosition = targetPosition;
         isMoving = true;
         isDisappearAfterMoving = disappearAfterMoving;
+        animator.Play(walkAnimationName);
     }
 }

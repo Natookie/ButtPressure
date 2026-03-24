@@ -47645,7 +47645,7 @@ MonoBehaviour:
         Type: 0
     Position:
       X:
-        Raw: 233.32501
+        Raw: 45
         Type: 0
       Y:
         Raw: 0
@@ -56339,7 +56339,7 @@ MonoBehaviour:
         Raw: 0
         Type: 0
       Y:
-        Raw: 56.5
+        Raw: 17
         Type: 0
       Z:
         Raw: 0
@@ -58989,7 +58989,7 @@ MonoBehaviour:
         Raw: 0
         Type: 0
       Y:
-        Raw: 80
+        Raw: 160
         Type: 0
       Z:
         Raw: 0
@@ -66230,7 +66230,7 @@ MonoBehaviour:
         Type: 0
     Position:
       X:
-        Raw: 262.5
+        Raw: 50
         Type: 0
       Y:
         Raw: 0
@@ -81453,6 +81453,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1285131854}
   - component: {fileID: 1285131855}
+  - component: {fileID: 1285131856}
   m_Layer: 0
   m_Name: Sprite
   m_TagString: Untagged
@@ -81533,6 +81534,28 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!95 &1285131856
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1285131853}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 1e9c46451648ebb45b5b6fb899467706, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &1287427724
 GameObject:
   m_ObjectHideFlags: 0
@@ -84529,7 +84552,7 @@ MonoBehaviour:
         Raw: 0
         Type: 0
       Y:
-        Raw: 0
+        Raw: 80
         Type: 0
       Z:
         Raw: 0
@@ -103556,15 +103579,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee03317882eb21a46a990ea03738e7f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::JanitorQuest
-  askForKey: 0
-  hasComply: 0
   interactableComponent: {fileID: 1603721369}
   toilet: {fileID: 320936844}
   stairway: {fileID: 422175537}
   cafeteriaDoor: {fileID: 1572377305}
-  spriteRenderer: {fileID: 0}
-  targetCafetaria: {fileID: 1572377304}
+  spriteRenderer: {fileID: 1285131855}
+  animator: {fileID: 1285131856}
+  askForKey: 0
+  hasComply: 0
   moveSpeed: 1.5
+  idleAnimationName: JanitorIdle
+  walkAnimationName: JanitorWalk
 --- !u!61 &1603721372
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -103603,8 +103628,8 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
-    newSize: {x: 1, y: 1}
+    oldSize: {x: 3, y: 3}
+    newSize: {x: 3, y: 3}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
@@ -129181,7 +129206,7 @@ MonoBehaviour:
         Type: 0
     Position:
       X:
-        Raw: 197.6
+        Raw: 20
         Type: 0
       Y:
         Raw: 0
