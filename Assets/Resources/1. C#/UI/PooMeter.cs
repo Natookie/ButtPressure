@@ -42,7 +42,7 @@ public class PooMeter : MonoBehaviour
 
     public void UpdateMultiplier(){
         float remainingFill = pooFillTarget - pooFill;
-        float remainingPercent = remainingFill / 100f;
+        float remainingPercent = remainingFill / pooFillTarget;
         float targetTime = Mathf.Lerp(0.5f, 2f, remainingPercent);
         
         pooMultiplier = remainingFill / targetTime;
@@ -53,9 +53,9 @@ public class PooMeter : MonoBehaviour
         pooFill += Time.deltaTime * pooMultiplier;
         pooFill = Mathf.Clamp(pooFill, 0f, pooFillTarget);
 
-        pooFillBlock.Size.X.Percent = (pooFill / 100f);
+        pooFillBlock.Size.X.Percent = pooFill / pooFillTarget;
         
-        float t = pooFill / 100f;
+        float t = pooFill / pooFillTarget;
         pooFillBlock.Color = Color.Lerp(endColor, startColor, t);
 
         pendulumTimer += Time.deltaTime * pendulumSpeed;

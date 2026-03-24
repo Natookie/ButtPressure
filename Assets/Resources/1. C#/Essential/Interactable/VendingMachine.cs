@@ -79,6 +79,12 @@ public class VendingMachine : MonoBehaviour, IInteractable
         bool uiReady = false;
         DialogueManager.Instance.ShowDialogueUI(() => uiReady = true);
         yield return new WaitUntil(() => uiReady);
+
+        DialogueManager.Instance.SetDialogue(
+            DLib.PLAYER,
+            "..."
+        );
+        yield return new WaitWhile(() => DialogueManager.Instance.IsTypingActive());
         
         AudioManager.Instance.PlaySFX(vendingMachineSfx);
         yield return new WaitForSeconds(vendingMachineSfxTime);
