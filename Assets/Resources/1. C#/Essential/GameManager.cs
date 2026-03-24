@@ -60,6 +60,9 @@ public class GameManager : MonoBehaviour
         DialogueManager.Instance.ShowDialogueUI(() => uiReady = true);
         yield return new WaitUntil(() => uiReady);
         
+        InteractableObject classDoorInteractable = classDoor.GetComponent<InteractableObject>();
+        if (classDoorInteractable) classDoorInteractable.enabled = false;
+
         DialogueManager.Instance.SetDialogue(
             DLib.NARRATOR,
             "[Classroom - First Day]"
@@ -153,6 +156,8 @@ public class GameManager : MonoBehaviour
         );
         yield return new WaitWhile(() => DialogueManager.Instance.IsTypingActive());
 
+        classDoorInteractable = classDoor.GetComponent<InteractableObject>();
+        if (classDoorInteractable) classDoorInteractable.enabled = true;
         if(classDoor.gameObject.activeSelf) classDoor.Interact();
 
         DialogueManager.Instance.SetDialogue(
