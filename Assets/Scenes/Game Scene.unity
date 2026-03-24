@@ -39747,7 +39747,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Door
   linkedDoor: {fileID: 1215087104}
   isLocked: 0
-  openSound: {fileID: 8300000, guid: 32f8f6972d7cb9d46a64557d18e5ce2b, type: 3}
+  openSound: {fileID: 8300000, guid: 9380e96b5981ef04c8a270036f33f9fb, type: 3}
   triggerEvent: 1
   onDoorUsed:
     m_PersistentCalls:
