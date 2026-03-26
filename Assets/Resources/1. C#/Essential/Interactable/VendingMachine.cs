@@ -4,8 +4,7 @@ using System.Collections;
 [RequireComponent(typeof(InteractableObject))]
 public class VendingMachine : MonoBehaviour, IInteractable
 {
-    [Header("REFERENCES")]
-    [SerializeField] private BullyQuest quest;
+    [Header("DEPENDANCY")]
     [SerializeField] private RichKid richKid;
     [SerializeField] private InteractableObject interactable;
 
@@ -13,12 +12,10 @@ public class VendingMachine : MonoBehaviour, IInteractable
     [SerializeField] private AudioClip vendingMachineSfx;
     [SerializeField] private float vendingMachineSfxTime = 6.8f;
  
-    private bool hasMoney;
-
     [HideInInspector] public bool canInteract;
+    private bool hasMoney => PlayerInteraction.Instance.hasMoney;
 
     public void SetInteractableActive(bool value) => interactable.enabled = value;
-    public void SetHasMoney() => hasMoney = true;
 
     public void Interact(){
         if(!hasMoney) StartCoroutine(Zero());
@@ -85,12 +82,6 @@ public class VendingMachine : MonoBehaviour, IInteractable
             "..."
         );
         yield return new WaitWhile(() => DialogueManager.Instance.IsTypingActive());
-        
-        DialogueManager.Instance.SetDialogue(
-            DLib.PLAYER,
-            "..."
-        );
-        yield return new WaitWhile(() => DialogueManager.Instance.IsTypingActive());
 
         AudioManager.Instance.PlaySFX(vendingMachineSfx);
         yield return new WaitForSeconds(vendingMachineSfxTime);
@@ -103,6 +94,6 @@ public class VendingMachine : MonoBehaviour, IInteractable
         
         DialogueManager.Instance.HideDialogueUI();
         GetComponent<InteractableObject>().SelfDestruct();
-        quest.SetHasDrink(true);
+        PlayerInteraction.Instance.hasDrink = true;
     }
 }

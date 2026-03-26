@@ -50,17 +50,9 @@ public class AnimationLib : MonoBehaviour
         }
     }
 
-    public void SlideInPooMeter(){
-        StartCoroutine(SlideY(pooMeter, pooOriginalY, slideDuration));
-    }
-
-    public void SlideInLocationUI(){
-        StartCoroutine(SlideY(locationUI, locationOriginalY, slideDuration));
-    }
-
-    public void PopInObjectiveUI(){
-        StartCoroutine(PopIn(objectiveUI, objectiveOriginalScale, popDuration));
-    }
+    public void SlideInPooMeter() => StartCoroutine(SlideY(pooMeter, pooOriginalY, slideDuration));
+    public void SlideInLocationUI() => StartCoroutine(SlideY(locationUI, locationOriginalY, slideDuration));
+    public void PopInObjectiveUI() => StartCoroutine(PopIn(objectiveUI, objectiveOriginalScale, popDuration));
 
     IEnumerator SlideY(UIBlock2D uiElement, float targetY, float duration){
         float elapsed = 0f;
@@ -100,17 +92,9 @@ public class AnimationLib : MonoBehaviour
         uiElement.transform.localScale = Vector3.one;
     }
 
-    public void SlideOutPooMeter(){
-        StartCoroutine(SlideY(pooMeter, pooOriginalY + topOffset, slideDuration));
-    }
-
-    public void SlideOutLocationUI(){
-        StartCoroutine(SlideY(locationUI, locationOriginalY + topOffset, slideDuration));
-    }
-
-    public void PopOutObjectiveUI(){
-        StartCoroutine(PopOut(objectiveUI, objectiveOriginalScale, popDuration));
-    }
+    public void SlideOutPooMeter() => StartCoroutine(SlideY(pooMeter, pooOriginalY + topOffset, slideDuration));
+    public void SlideOutLocationUI() => StartCoroutine(SlideY(locationUI, locationOriginalY + topOffset, slideDuration));
+    public void PopOutObjectiveUI() => StartCoroutine(PopOut(objectiveUI, objectiveOriginalScale, popDuration));
 
     IEnumerator PopOut(UIBlock2D uiElement, Vector3 targetScale, float duration){
         float elapsed = 0f;

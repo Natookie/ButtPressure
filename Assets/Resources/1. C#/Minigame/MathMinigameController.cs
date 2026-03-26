@@ -32,7 +32,6 @@ public class MathMinigameController : MonoBehaviour
     [Header("Debug")]
     [Tooltip("Start the minigame when played, default is false")]
     [SerializeField] private bool startMinigameOnRun = false;
-    [SerializeField] private bool skipMinigame = false;
 
     [Header("REFERENCE")]
     [SerializeField] private VendingMachine vendingMachine;
@@ -103,7 +102,7 @@ public class MathMinigameController : MonoBehaviour
     // ====================================================================================================
     #region Minigame
     public void StartMinigame(){
-        if(skipMinigame){
+        if(PlayerInteraction.Instance.skipMinigame){
             EndMinigame();
             return;
         }
@@ -129,7 +128,7 @@ public class MathMinigameController : MonoBehaviour
         
         // Slide down animation before hiding
         StartCoroutine(AnimateSlideDown());
-        vendingMachine.SetHasMoney();
+        PlayerInteraction.Instance.hasMoney = true;
         vendingMachine.GetComponent<InteractableObject>().enabled = true;
         richKid.SelfDestruct();
 

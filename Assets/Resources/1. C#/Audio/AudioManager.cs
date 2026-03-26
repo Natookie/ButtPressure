@@ -39,8 +39,14 @@ public class AudioManager : MonoBehaviour
     [Tooltip("List of audio data for SFX, audio assets need to be listed here before being used")]
     [SerializeField] private AudioData[] sfxAudioDataList;
 
+    [Header("Audio List")]
+    [Tooltip("mute any sound")]
+    [SerializeField] private bool shutUp;
+
     private float musicVolume = 1.0f;
     private float sfxVolume = 1.0f;
+    private float originalMusicVolume = 1.0f;
+    private float originalSFXVolume = 1.0f;
     // private Tween musicFadeTween;
     private string currentSFXLoopingName;
 
@@ -68,8 +74,32 @@ public class AudioManager : MonoBehaviour
         Debug.Assert(audioMixer, "audioMixer is empty");
         // Initialize
         if (sfxLoopingSource) sfxLoopingSource.loop = true;
+        
+        // Store original volumes
+        audioMixer.GetFloat(musicVolumeParameterName, out originalMusicVolume);
+        audioMixer.GetFloat(sfxVolumeParameterName, out originalSFXVolume);
     }
     #endregion
+
+    private void Update(){
+        if(shutUp)
+        {
+            // Mute all audio sources
+            if(musicSource != null) musicSource.volume = 0f;
+            if(sfxSource != null) sfxSource.volume = 0f;
+            if(sfxLoopingSource != null) sfxLoopingSource.volume = 0f;
+        }
+        else
+        {
+            // Restore volumes to their proper values
+            if(musicSource != null && musicSource.volume != musicVolume) 
+                musicSource.volume = musicVolume;
+            if(sfxSource != null && sfxSource.volume != sfxVolume) 
+                sfxSource.volume = sfxVolume;
+            if(sfxLoopingSource != null && sfxLoopingSource.volume != sfxVolume) 
+                sfxLoopingSource.volume = sfxVolume;
+        }
+    }
 
     // ====================================================================================================
     //                     Music Methods
@@ -77,6 +107,9 @@ public class AudioManager : MonoBehaviour
     #region Music
     public void PlayMusic(string audioName, bool isLoop = true)
     {
+        // Check if shut up is enabled
+        if(shutUp) return;
+        
         // Check music source
         if (!musicSource) return;
         // Find the audio data
@@ -88,13 +121,18 @@ public class AudioManager : MonoBehaviour
         {
             musicSource.loop = isLoop;
             musicSource.clip = audioData.audioClip;
-            musicSource.volume = audioData.volume;
+            musicVolume = audioData.volume;
+            musicSource.volume = musicVolume;
             musicSource.pitch = audioData.pitch;
             musicSource.Play();
         }
     }
+    
     public void PlayMusic(AudioClip audioClip, bool isLoop = true)
     {
+        // Check if shut up is enabled
+        if(shutUp) return;
+        
         // Check music source
         if (!musicSource) return;
         // Play audio
@@ -105,6 +143,7 @@ public class AudioManager : MonoBehaviour
             musicSource.Play();
         }
     }
+    
     // public void PlayMusic(string audioName, float fadeDuration, bool isLoop = true)
     // {
     //     // Check music source
@@ -148,7 +187,8 @@ public class AudioManager : MonoBehaviour
     public void SetMusicVolume(float volume)
     {
         musicVolume = volume;
-        audioMixer.SetFloat(musicVolumeParameterName, LinearToDecibles(volume));
+        if(!shutUp)
+            audioMixer.SetFloat(musicVolumeParameterName, LinearToDecibles(volume));
     }
 
     public void SetMusicMute(bool isMute) {musicSource.mute = isMute;}
@@ -160,6 +200,9 @@ public class AudioManager : MonoBehaviour
     #region SFX
     public void PlaySFX(string audioName)
     {
+        // Check if shut up is enabled
+        if(shutUp) return;
+        
         // Check SFX source
         if (!sfxSource) return;
         // Find the audio data
@@ -169,8 +212,12 @@ public class AudioManager : MonoBehaviour
         // Play audio
         else sfxSource.PlayOneShot(audioData.audioClip, audioData.volume);
     }
+    
     public void PlaySFX(AudioClip audioClip)
     {
+        // Check if shut up is enabled
+        if(shutUp) return;
+        
         // Check SFX source
         if (!sfxSource) return;
         // Play audio
@@ -179,6 +226,9 @@ public class AudioManager : MonoBehaviour
 
     public void PlaySFXLooping(string audioName, bool isOverride = false)
     {
+        // Check if shut up is enabled
+        if(shutUp) return;
+        
         // Check SFX source
         if (!sfxSource) return;
         // Check for override
@@ -192,14 +242,19 @@ public class AudioManager : MonoBehaviour
         {
             sfxLoopingSource.loop = true;
             sfxLoopingSource.clip = audioData.audioClip;
-            sfxLoopingSource.volume = audioData.volume;
+            sfxVolume = audioData.volume;
+            sfxLoopingSource.volume = sfxVolume;
             sfxLoopingSource.pitch = audioData.pitch;
             sfxLoopingSource.Play();
             currentSFXLoopingName = audioName;
         }
     }
+    
     public void PlaySFXLooping(AudioClip audioClip, bool isOverride = false)
     {
+        // Check if shut up is enabled
+        if(shutUp) return;
+        
         // Check SFX source
         if (!sfxSource) return;
         // Check for override
@@ -229,7 +284,8 @@ public class AudioManager : MonoBehaviour
     public void SetSFXVolume(float volume)
     {
         sfxVolume = volume;
-        audioMixer.SetFloat(sfxVolumeParameterName, LinearToDecibles(volume));
+        if(!shutUp)
+            audioMixer.SetFloat(sfxVolumeParameterName, LinearToDecibles(volume));
     }
 
     public void SetSFXMute(bool isMute) {sfxSource.mute = isMute;}
@@ -244,6 +300,60 @@ public class AudioManager : MonoBehaviour
     {
         if (linear <= 0f) return -80f;
         return 20f * Mathf.Log10(linear);
+    }
+    
+    // Public method to toggle shut up
+    public void ToggleShutUp()
+    {
+        shutUp = !shutUp;
+        
+        if(shutUp)
+        {
+            // Mute everything
+            if(musicSource != null) musicSource.volume = 0f;
+            if(sfxSource != null) sfxSource.volume = 0f;
+            if(sfxLoopingSource != null) sfxLoopingSource.volume = 0f;
+        }
+        else
+        {
+            // Restore volumes
+            if(musicSource != null) musicSource.volume = musicVolume;
+            if(sfxSource != null) sfxSource.volume = sfxVolume;
+            if(sfxLoopingSource != null) sfxLoopingSource.volume = sfxVolume;
+            
+            // Restart looping sound if it was playing
+            if(!string.IsNullOrEmpty(currentSFXLoopingName))
+            {
+                PlaySFXLooping(currentSFXLoopingName, true);
+            }
+        }
+    }
+    
+    // Public method to set shut up state
+    public void SetShutUp(bool state)
+    {
+        shutUp = state;
+        
+        if(shutUp)
+        {
+            // Mute everything
+            if(musicSource != null) musicSource.volume = 0f;
+            if(sfxSource != null) sfxSource.volume = 0f;
+            if(sfxLoopingSource != null) sfxLoopingSource.volume = 0f;
+        }
+        else
+        {
+            // Restore volumes
+            if(musicSource != null) musicSource.volume = musicVolume;
+            if(sfxSource != null) sfxSource.volume = sfxVolume;
+            if(sfxLoopingSource != null) sfxLoopingSource.volume = sfxVolume;
+            
+            // Restart looping sound if it was playing
+            if(!string.IsNullOrEmpty(currentSFXLoopingName))
+            {
+                PlaySFXLooping(currentSFXLoopingName, true);
+            }
+        }
     }
     #endregion
 }

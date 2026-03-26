@@ -52,16 +52,13 @@ public class PlayerMovement : MonoBehaviour
         }
         
         originalLayer = gameObject.layer;
-        
         ChangeBoundary();
     }
 
-    void Update()
-    {
-        // Update animation
+    void Update(){
         animator.SetBool(walkingParameterName, rb.linearVelocity != Vector2.zero);
-        // Update audio
-        if (rb.linearVelocity != Vector2.zero) AudioManager.Instance.PlaySFXLooping(walkSfxClip);
+        
+        if(rb.linearVelocity != Vector2.zero) AudioManager.Instance.PlaySFXLooping(walkSfxClip);
         else AudioManager.Instance.StopSFXLooping();
     }
 

@@ -9,7 +9,6 @@ public class Teacher : MonoBehaviour
     
     [Header("ANIMATION SETTINGS")]
     [SerializeField] private float frameRate = 10f;
-    [SerializeField] private bool loopAnimation = true;
     
     private int currentFrame = 0;
     private Coroutine animationCoroutine;
