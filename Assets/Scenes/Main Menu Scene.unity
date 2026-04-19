@@ -3912,6 +3912,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d2be10db241f0543b0d14268befaac7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BasicEffectButton
+  hoverSFXName: Button Hover
+  pressedSFXName: Button Pressed
   normalScale: 1
   hoverScale: 1.1
   pressedScale: 0.9
@@ -5693,6 +5695,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d2be10db241f0543b0d14268befaac7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BasicEffectButton
+  hoverSFXName: Button Hover
+  pressedSFXName: Button Pressed
   normalScale: 1
   hoverScale: 1.1
   pressedScale: 0.9
@@ -5730,6 +5734,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d2be10db241f0543b0d14268befaac7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BasicEffectButton
+  hoverSFXName: Button Hover
+  pressedSFXName: Button Pressed
   normalScale: 1
   hoverScale: 1.1
   pressedScale: 0.9
@@ -11288,6 +11294,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d2be10db241f0543b0d14268befaac7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BasicEffectButton
+  hoverSFXName: Button Hover
+  pressedSFXName: Button Pressed
   normalScale: 1
   hoverScale: 1.1
   pressedScale: 0.9

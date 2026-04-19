@@ -53,6 +53,8 @@ public class BasicEffectButton : DefaultButton
 
     override public void ButtonHover(Gesture.OnHover evt)
     {
+        // Play SFX
+        if (hoverSFXName != ""){AudioManager.Instance.PlaySFX(hoverSFXName);}
         // Do scale effect
         if (!scaleTween.IsUnityNull()) scaleTween.Kill();
         scaleTween = DOTween.To(
@@ -73,6 +75,8 @@ public class BasicEffectButton : DefaultButton
 
     override public void ButtonPressed(Gesture.OnPress evt)
     {
+        // Play SFX
+        if (pressedSFXName != ""){AudioManager.Instance.PlaySFX(pressedSFXName);}
         // Do scale effect
         if (!scaleTween.IsUnityNull()) scaleTween.Kill();
         scaleTween = DOTween.To(
