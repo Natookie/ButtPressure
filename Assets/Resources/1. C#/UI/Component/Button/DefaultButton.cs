@@ -15,11 +15,15 @@ public class DefaultButton : MonoBehaviour
         uiBlock.AddGestureHandler<Gesture.OnHover>(ButtonHover);
         uiBlock.AddGestureHandler<Gesture.OnPress>(ButtonPressed);
     }
+
+    private void OnEnable(){ResetButton();}
     #endregion
     // ====================================================================================================
     //                     Interactable Functions
     // ====================================================================================================
     #region Button
+    virtual public void ResetButton(){}
+
     virtual public void ButtonNormal(Gesture.OnUnhover evt) {}
 
     virtual public void ButtonHover(Gesture.OnHover evt) {}
