@@ -73,7 +73,8 @@ public class DialogueManager : MonoBehaviour
 
     void SetDialogue(string characterName, Color characterColor, string content){
         if(visual == null) return;
-        
+        if(PlayerInteraction.Instance.ignoreDialogue) return;
+
         if(typingRoutine != null) StopCoroutine(typingRoutine);
 
         visual.dialogueName.Text = characterName;

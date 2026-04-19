@@ -357,6 +357,7 @@ MonoBehaviour:
     audioClip: {fileID: 8300000, guid: e6377896fe3a6f841bc2b092af891d2d, type: 3}
     volume: 1
     pitch: 0
+  shutUp: 1
 --- !u!1 &7866501725904230587
 GameObject:
   m_ObjectHideFlags: 0

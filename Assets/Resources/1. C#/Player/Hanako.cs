@@ -79,18 +79,15 @@ public class Hanako : MonoBehaviour
         MoveTowardsTarget(currentSpeed);
         DrawDebugRay(currentSpeed);
 
-        // Handle animation based on movement
         UpdateAnimation(currentSpeed > 0);
     }
 
     void UpdateAnimation(bool moving){
         if(moving && !isMoving){
-            // Start animation when moving
             isMoving = true;
             StartAnimation();
         }
         else if(!moving && isMoving){
-            // Stop animation when idle
             isMoving = false;
             StopAnimation();
         }
@@ -334,7 +331,6 @@ public class Hanako : MonoBehaviour
     }
 
     public void TeleportTo(Vector3 position){
-        Debug.Log("called");
         transform.position = position;
         hasTeleported = true;
         canMove = true;

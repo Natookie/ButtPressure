@@ -19,9 +19,10 @@ public class VisualCue : MonoBehaviour
     [Header("UI SETTINGS")]
     [SerializeField] private Vector3 offset;
     [SerializeField] private float fadeSpeed = 5f;
+    [Space(40)]
+    [SerializeField] private InteractableObject currentInteractable;
     
     private Keyboard keyboard;
-    private InteractableObject currentInteractable;
     private string currentText = "";
     private Color blockColor;
     private Color textColor;
@@ -58,7 +59,7 @@ public class VisualCue : MonoBehaviour
         }
     }
 
-    void LateUpdate(){
+    void Update(){
         bool shouldShowPrompt = currentInteractable != null && currentInteractable.enabled;
         
         if(shouldShowPrompt){
@@ -116,7 +117,11 @@ public class VisualCue : MonoBehaviour
     public void ShowPrompt(InteractableObject interactable) => currentInteractable = interactable;
     public void HidePrompt() => currentInteractable = null;
     public void SetCurrentInteractable(InteractableObject interactable){
-         currentInteractable = interactable;
-         Debug.Log(currentInteractable.gameObject.name);
+        if(!interactable.enabled){
+            Debug.Log("[Visual Cue]: failed");
+            return;
+        }
+        currentInteractable = interactable;
+        Debug.Log($"<color=yellow>Current Interactable: {currentInteractable.gameObject.name}</color>", currentInteractable.gameObject);
     }
 }

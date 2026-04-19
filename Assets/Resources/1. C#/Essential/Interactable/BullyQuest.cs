@@ -3,15 +3,14 @@ using System.Collections;
 
 public class BullyQuest : MonoBehaviour
 {
-    [Header("QUEST TWEAK")]
+    [Header("DEPENDANCY")]
     [SerializeField] private InteractableObject vendingMachine;
     [SerializeField] private BullyBlockade bullyBlockade;
-    [SerializeField] private bool hasDrink;
 
     [HideInInspector] private bool hasIntroduced;
+    private bool hasDrink => PlayerInteraction.Instance.hasDrink;
 
     private InteractableObject door;
-    public void SetHasDrink(bool value) => hasDrink = value;
 
     public void EnterRoom(InteractableObject d){
         if(door == null) door = d;
@@ -137,7 +136,8 @@ public class BullyQuest : MonoBehaviour
         door.enabled = false;
 
         DialogueManager.Instance.HideDialogueUI();
-        bullyBlockade.SetHasTotem();
+        PlayerInteraction.Instance.hasTotem = true;
+        bullyBlockade.GetComponent<InteractableObject>().enabled = true;
     }
 
     public IEnumerator RemindQuest(){

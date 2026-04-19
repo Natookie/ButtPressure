@@ -17,4 +17,5 @@ public class ObjectiveUI : MonoBehaviour
     }
 
     public void SetObjective(string obj) => objectiveText.Text = obj;
+    public string GetCurrentObjective() => objectiveText.Text;
 }

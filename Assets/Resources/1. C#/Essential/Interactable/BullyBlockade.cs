@@ -4,22 +4,18 @@ using System.Collections;
 public class BullyBlockade : MonoBehaviour, IInteractable
 {
     [Header("QUEST TWEAK")]
-    [SerializeField] private bool hasTotem;
     [SerializeField] private BoxCollider2D barrier;
     [SerializeField] private BoxCollider2D triggerDialogue;
     [SerializeField] private InteractableObject interactableComponent;
     [SerializeField] private GameObject stairway;
     
     [HideInInspector] public bool hasIntroduced;
+    private bool hasTotem => PlayerInteraction.Instance.hasTotem;
 
     void Start(){
         interactableComponent = GetComponent<InteractableObject>();
-        if(interactableComponent == null) interactableComponent = gameObject.AddComponent<InteractableObject>();
-            
         interactableComponent.enabled = false;
     }
-
-    public void SetHasTotem() => hasTotem = true;
 
     void OnTriggerEnter2D(Collider2D coll){
         if(hasTotem){
@@ -35,10 +31,6 @@ public class BullyBlockade : MonoBehaviour, IInteractable
             if(!DialogueManager.Instance.IsTyping) StartCoroutine(IntroduceProblem());
             return;
         }
-    }
-
-    void Update(){
-        interactableComponent.enabled = hasTotem;
     }
 
     public void Interact() => StartCoroutine(CompleteQuest());

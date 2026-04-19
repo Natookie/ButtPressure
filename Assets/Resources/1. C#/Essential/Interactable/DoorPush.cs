@@ -8,7 +8,6 @@ public class DoorPush : MonoBehaviour
     [Header("REFERENCES")]
     [SerializeField] private UIBlock2D miniGameBlock;
     [SerializeField] private UIBlock2D hitCircle;
-    [SerializeField] private Door doorToUnlock;
     [SerializeField] private TextBlock infoText;
     
     [Header("BOUNDARIES")]
@@ -21,7 +20,7 @@ public class DoorPush : MonoBehaviour
     [SerializeField] private Color hoverColor = new Color(1f, 0.8f, 0.2f, 1f);
     [SerializeField] private Color normalBorderColor = new Color(1f, 1f, 1f, 1f);
     [SerializeField] private Color pressColor = new Color(0.2f, 0.8f, 0.2f, 1f);
-    [SerializeField] private Color missColor = new Color(0.8f, 0.2f, 0.2f, 1f); // Red for miss
+    [SerializeField] private Color missColor = new Color(0.8f, 0.2f, 0.2f, 1f);
     
     [Header("TWEAKS")]
     [SerializeField] private bool needIntroduction;
@@ -30,15 +29,14 @@ public class DoorPush : MonoBehaviour
     [SerializeField] private float pressFeedbackDuration = 0.1f;
     [SerializeField] private int missPenalty = 1;
 
-    [Header("DEBUG")]
-    [SerializeField] private bool skipMinigame;
-
     private InteractableObject io;
+    private Door doorToUnlock;
     
     private bool hasIntroduced;
     private int currentHit;
     private int targetHit;
     private bool isMinigameActive = false;
+    private bool hasSavedProgress = false;
     private Keyboard keyboard;
     private Mouse mouse;
     private Coroutine pressFeedbackCoroutine;
@@ -49,15 +47,14 @@ public class DoorPush : MonoBehaviour
         mouse = Mouse.current;
         
         if(miniGameBlock != null) miniGameBlock.gameObject.SetActive(false);
-        
         if(infoText != null) infoText.Text = "";
-            
         if(hitCircle != null){
             hitCircle.AddGestureHandler<Gesture.OnHover>(OnCircleHover);
             hitCircle.AddGestureHandler<Gesture.OnUnhover>(OnCircleUnhover);
             hitCircle.AddGestureHandler<Gesture.OnPress>(OnCirclePress);
         }
 
+        doorToUnlock = GetComponent<Door>();
         io = GetComponent<InteractableObject>();
         if(needIntroduction) io.SetPrompt("Open Cafetaria Door");
     }
@@ -100,6 +97,16 @@ public class DoorPush : MonoBehaviour
     }
 
     public void Interact(){
+        if(isMinigameActive){
+            CloseAndSaveProgress();
+            return;
+        }
+        
+        if(hasSavedProgress && currentHit > 0 && currentHit < targetHit){
+            ResumeMinigame();
+            return;
+        }
+        
         if(needIntroduction && !hasIntroduced){
             StartCoroutine(IntroduceDialogue());
             return;
@@ -109,7 +116,7 @@ public class DoorPush : MonoBehaviour
     }
     
     void StartMinigame(){
-        if(skipMinigame){
+        if(PlayerInteraction.Instance.skipMinigame){
             EndMinigame();
             return;
         }
@@ -117,6 +124,7 @@ public class DoorPush : MonoBehaviour
         currentHit = 0;
         targetHit = Random.Range(minTargetHits, maxTargetHits + 1);
         isMinigameActive = true;
+        hasSavedProgress = false;
         
         miniGameBlock.gameObject.SetActive(true);
         SetRandomCirclePosition();
@@ -127,13 +135,43 @@ public class DoorPush : MonoBehaviour
     
     void EndMinigame(){
         isMinigameActive = false;
+        hasSavedProgress = false;
         miniGameBlock.gameObject.SetActive(false);
-        
+
         if(PlayerMovement.Instance != null) PlayerMovement.Instance.canMove = true;
         if(doorToUnlock != null) doorToUnlock.CompleteMinigame();
         io.SetPrompt("Open Cafetaria Door");
         
         if(infoText != null) infoText.Text = "";
+        
+        currentHit = 0;
+        targetHit = 0;
+    }
+    
+    public void CloseAndSaveProgress(){
+        hasSavedProgress = true;
+        isMinigameActive = false;
+        miniGameBlock.gameObject.SetActive(false);
+        
+        if(io != null) io.enabled = true;
+        if(PlayerMovement.Instance != null) PlayerMovement.Instance.canMove = true;
+        
+        Debug.Log($"Minigame saved! Progress: {currentHit}/{targetHit}");
+    }
+    
+    public void ResumeMinigame(){
+        if(isMinigameActive) return;
+        if(!hasSavedProgress) return;
+        if(currentHit >= targetHit) return;
+        
+        isMinigameActive = true;
+        miniGameBlock.gameObject.SetActive(true);
+        SetRandomCirclePosition();
+        UpdateInfoText();
+        
+        if(PlayerMovement.Instance != null) PlayerMovement.Instance.canMove = false;
+        
+        Debug.Log($"Minigame resumed! Progress: {currentHit}/{targetHit}");
     }
     
     void SetRandomCirclePosition(){
@@ -213,8 +251,12 @@ public class DoorPush : MonoBehaviour
     
     public void ResetMinigame(){
         currentHit = 0;
+        targetHit = 0;
         isMinigameActive = false;
+        hasSavedProgress = false;
         if(miniGameBlock != null) miniGameBlock.gameObject.SetActive(false);
+        
+        if(io != null) io.enabled = true;
         
         if(PlayerMovement.Instance != null)
             PlayerMovement.Instance.canMove = true;
@@ -225,4 +267,16 @@ public class DoorPush : MonoBehaviour
     
     public void SetHasIntroduced(bool introduced) => hasIntroduced = introduced;
     public void StartMinigameFromDoor() => Interact();
+    
+    public bool IsMinigameActive() => isMinigameActive;
+    public bool HasSavedProgress() => hasSavedProgress;
+    public int GetCurrentHits() => currentHit;
+    public int GetTargetHits() => targetHit;
+    
+    public void LoadProgress(int savedHits, int savedTarget){
+        currentHit = savedHits;
+        targetHit = savedTarget;
+        if(targetHit <= 0) targetHit = Random.Range(minTargetHits, maxTargetHits + 1);
+        hasSavedProgress = true;
+    }
 }
