@@ -69,7 +69,6 @@ public class Door : MonoBehaviour, IInteractable
                 currentParent.gameObject.SetActive(false);
             
             LocationUI.Instance.SetLocation(linkedParent.gameObject.name);
-            PlayerCam.Instance.SetConfiner(linkedParent.gameObject.GetComponent<BoxCollider2D>());
         }else{
             if(currentParent != null) LocationUI.Instance.SetLocation(currentParent.gameObject.name);
         }

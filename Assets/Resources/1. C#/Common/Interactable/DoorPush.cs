@@ -116,7 +116,8 @@ public class DoorPush : MonoBehaviour
     }
     
     void StartMinigame(){
-        if(PlayerInteraction.Instance.skipMinigame){
+        // PlayerInteraction.Instance.skipMinigame
+        if(false){
             EndMinigame();
             return;
         }
@@ -130,7 +131,7 @@ public class DoorPush : MonoBehaviour
         SetRandomCirclePosition();
         UpdateInfoText();
         
-        if(PlayerMovement.Instance != null) PlayerMovement.Instance.canMove = false;
+        // if(PlayerMovement.Instance != null) PlayerMovement.Instance.canMove = false;
     }
     
     void EndMinigame(){
@@ -138,7 +139,7 @@ public class DoorPush : MonoBehaviour
         hasSavedProgress = false;
         miniGameBlock.gameObject.SetActive(false);
 
-        if(PlayerMovement.Instance != null) PlayerMovement.Instance.canMove = true;
+        // if(PlayerMovement.Instance != null) PlayerMovement.Instance.canMove = true;
         if(doorToUnlock != null) doorToUnlock.CompleteMinigame();
         io.SetPrompt("Open Cafetaria Door");
         
@@ -154,7 +155,7 @@ public class DoorPush : MonoBehaviour
         miniGameBlock.gameObject.SetActive(false);
         
         if(io != null) io.enabled = true;
-        if(PlayerMovement.Instance != null) PlayerMovement.Instance.canMove = true;
+        // if(PlayerMovement.Instance != null) PlayerMovement.Instance.canMove = true;
         
         Debug.Log($"Minigame saved! Progress: {currentHit}/{targetHit}");
     }
@@ -169,7 +170,7 @@ public class DoorPush : MonoBehaviour
         SetRandomCirclePosition();
         UpdateInfoText();
         
-        if(PlayerMovement.Instance != null) PlayerMovement.Instance.canMove = false;
+        // if(PlayerMovement.Instance != null) PlayerMovement.Instance.canMove = false;
         
         Debug.Log($"Minigame resumed! Progress: {currentHit}/{targetHit}");
     }
@@ -232,7 +233,7 @@ public class DoorPush : MonoBehaviour
         DialogueManager.Instance.ShowDialogueUI(() => uiReady = true);
         yield return new WaitUntil(() => uiReady);
         
-        PlayerMovement.Instance.canMove = false;
+        // PlayerMovement.Instance.canMove = false;
         
         DialogueManager.Instance.SetDialogue(
             DLib.PLAYER,
@@ -242,7 +243,7 @@ public class DoorPush : MonoBehaviour
         
         DialogueManager.Instance.HideDialogueUI();
         
-        PlayerMovement.Instance.canMove = true;
+        // PlayerMovement.Instance.canMove = true;
         io.SetPrompt("Push Cafetaria Door");
 
         hasIntroduced = true;
@@ -258,8 +259,8 @@ public class DoorPush : MonoBehaviour
         
         if(io != null) io.enabled = true;
         
-        if(PlayerMovement.Instance != null)
-            PlayerMovement.Instance.canMove = true;
+        // if(PlayerMovement.Instance != null)
+        //     PlayerMovement.Instance.canMove = true;
         
         if(infoText != null)
             infoText.Text = "";

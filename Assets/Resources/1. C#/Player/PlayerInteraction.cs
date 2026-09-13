@@ -1,23 +1,95 @@
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
+[RequireComponent(typeof(Collider2D))]
 public class PlayerInteraction : MonoBehaviour
 {
-    public static PlayerInteraction Instance {get; private set;}
+    [Header("Interact Settings")]
+    [SerializeField] private string interactableTagName = "Interactable";
 
-    [Header("REQUIRED ITEMS")]
-    public bool hasTotem;
-    public bool hasDrink;
-    public bool hasMoney;
+    [Tooltip("The closest interactable for interacting")]
+    public InteractableComponent CurrentTarget { get; private set; }
 
-    [Header("DEBUG")]
-    public bool skipMinigame;
-    public bool ignoreDialogue;
-
-    void Awake(){
-        if(Instance == null) Instance = this;
-        else{
-            Destroy(gameObject);
-            return;
+    public bool CanInteract
+    {
+        set
+        {
+            canInteract = value;
+            if (canInteract && CurrentTarget) visualCue.ShowPrompt(CurrentTarget);
+            else visualCue.HidePrompt();
         }
     }
+
+    private VisualCue visualCue;
+    private bool canInteract = true;
+    private readonly List<InteractableComponent> interactable_list = new List<InteractableComponent>();
+
+    private void Start()
+    {
+        if (VisualCue.Instance) visualCue = VisualCue.Instance;
+    }
+
+    private void Update()
+    {
+        UpdateCurrentTarget();
+        if (Keyboard.current.eKey.isPressed) TryInteract();
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (!IsOnInteractableTag(other.gameObject)) return;
+        var interactable = other.GetComponentInParent<InteractableComponent>();
+        if (interactable != null && !interactable_list.Contains(interactable))
+        {
+            interactable_list.Add(interactable);
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        if (!IsOnInteractableTag(other.gameObject)) return;
+        var interactable = other.GetComponentInParent<InteractableComponent>();
+        if (interactable != null)
+        {
+            interactable_list.Remove(interactable);
+            if (CurrentTarget == interactable) CurrentTarget = null;
+        }
+    }
+
+    /// <summary>
+    /// Picks the closest, currently-interactable as the active target.
+    /// </summary>
+    private void UpdateCurrentTarget()
+    {
+        // Clean up any destroyed/disabled objects first.
+        interactable_list.RemoveAll(c => c == null || !((MonoBehaviour)c) || c.Equals(null));
+        // Find the closest interactable
+        InteractableComponent closest = null;
+        float closestDistance = float.MaxValue;
+        foreach (InteractableComponent interactable in interactable_list)
+        {
+            if (interactable == null || !interactable.CanInteract) continue;
+            var mono = interactable as MonoBehaviour;
+            if (mono == null) continue;
+            float distance = Vector3.SqrMagnitude(mono.transform.position - transform.position);
+            if (distance < closestDistance)
+            {
+                closestDistance = distance;
+                closest = interactable;
+            }
+        }
+        // Set new closest
+        CurrentTarget = closest;
+        if (CurrentTarget) visualCue.ShowPrompt(closest);
+        else visualCue.HidePrompt();
+    }
+
+    private void TryInteract()
+    {
+        if (CurrentTarget == null || !CurrentTarget.CanInteract) return;
+        CurrentTarget.Interact();
+    }
+
+    private bool IsOnInteractableTag(GameObject obj) {return obj.CompareTag(interactableTagName);}
 }

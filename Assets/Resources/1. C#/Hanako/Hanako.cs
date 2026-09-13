@@ -64,7 +64,6 @@ public class Hanako : MonoBehaviour
 
     void Update(){
         if(!canMove || playerTransform == null || isCaught) return;
-        boundary = PlayerCam.Instance.GetBoundary();
 
         playerInLocker = !playerSr.enabled;
 
@@ -254,7 +253,7 @@ public class Hanako : MonoBehaviour
             if(playerDetected){
                 if(playerInLocker){
                     if(!hasReachedLocker){
-                        PlayerMovement.Instance.HideInLocker(targetPosition, false);
+                        // PlayerMovement.Instance.HideInLocker(targetPosition, false);
                         hasReachedLocker = true;
                         StartCoroutine(CaughtSequenceInLocker());
                     }
@@ -295,7 +294,7 @@ public class Hanako : MonoBehaviour
         DialogueManager.Instance.ShowDialogueUI(() => uiReady = true);
         yield return new WaitUntil(() => uiReady);
         
-        PlayerCam.Instance.FocusOnTarget(this.transform, Vector3.zero);
+        CameraController.Instance.ChangeFollowTarget(this.transform);
 
         DialogueManager.Instance.SetDialogue(
             DLib.HANAKO, 
@@ -319,7 +318,7 @@ public class Hanako : MonoBehaviour
             yield return null;
         }
 
-        PlayerCam.Instance.ReturnToPlayer();
+        CameraController.Instance.ResetFollowTarget();
         DialogueManager.Instance.SetDialogue(
             DLib.PLAYER, 
             "Huh? she is not attacking me?\nI accidentaly knocked the clock. <color=#E76F2E>I will keep that in mind.</color>"
@@ -385,18 +384,18 @@ public class Hanako : MonoBehaviour
         DialogueManager.Instance.ShowDialogueUI(() => uiReady = true);
         yield return new WaitUntil(() => uiReady);
         
-        PlayerCam.Instance.FocusOnTarget(this.transform, Vector3.zero);
+        CameraController.Instance.ChangeFollowTarget(this.transform);
         DialogueManager.Instance.SetDialogue(DLib.HANAKO, "Excuse me mate.");
         yield return new WaitWhile(() => DialogueManager.Instance.IsTypingActive());
 
         DialogueManager.Instance.SetDialogue(DLib.HANAKO, "I need you to help me clean the toilet.");
         yield return new WaitWhile(() => DialogueManager.Instance.IsTypingActive());
 
-        PlayerCam.Instance.ReturnToPlayer();
+        CameraController.Instance.ResetFollowTarget();
         DialogueManager.Instance.SetDialogue(DLib.PLAYER, "NOOOOO!");
         yield return new WaitWhile(() => DialogueManager.Instance.IsTypingActive());
 
-        PlayerCam.Instance.FocusOnTarget(this.transform, Vector3.zero);
+        CameraController.Instance.ChangeFollowTarget(this.transform);
         DialogueManager.Instance.SetDialogue(DLib.HANAKO, "Bruv. you're not busy innit mate?");
         yield return new WaitWhile(() => DialogueManager.Instance.IsTypingActive());
 

@@ -14,7 +14,7 @@ public class InteractableObject : MonoBehaviour
     [SerializeField] private bool secondOneTime = true;
 
     private VisualCue visualCue;
-    private IInteractable[] interactableBehaviors;
+    private InteractableComponent[] interactableBehaviors;
     private IMultiInteractable[] multiInteractableBehaviors;
     
     private bool hasInteracted = false;
@@ -35,7 +35,7 @@ public class InteractableObject : MonoBehaviour
         if(player != null) playerTransform = player.transform;
         if(visualCue == null) visualCue = VisualCue.Instance;
         
-        interactableBehaviors = GetComponents<IInteractable>();
+        interactableBehaviors = GetComponents<InteractableComponent>();
         multiInteractableBehaviors = GetComponents<IMultiInteractable>();
     }
 

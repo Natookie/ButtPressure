@@ -45,7 +45,7 @@ public class Stall : MonoBehaviour, IInteractable
             hanako.transform.position = hanakoSpawnPoint.position;
         }
         
-        PlayerCam.Instance.FocusOnTarget(hanakoSpawnPoint, Vector3.zero);
+        CameraController.Instance.ChangeFollowTarget(hanakoSpawnPoint);
         yield return new WaitForSeconds(1f);
 
         bool uiReady = false;
@@ -58,21 +58,21 @@ public class Stall : MonoBehaviour, IInteractable
         );
         yield return new WaitWhile(() => DialogueManager.Instance.IsTypingActive());
 
-        PlayerCam.Instance.ReturnToPlayer();
+        CameraController.Instance.ResetFollowTarget();
         DialogueManager.Instance.SetDialogue(
             DLib.PLAYER,
             "HOLY.. S**T!!~ Is this truly my kisah?~"
         );
         yield return new WaitWhile(() => DialogueManager.Instance.IsTypingActive());
 
-        PlayerCam.Instance.FocusOnTarget(hanako.transform, Vector3.zero);
+        CameraController.Instance.ChangeFollowTarget(hanako.transform);
         DialogueManager.Instance.SetDialogue(
             DLib.HANAKO,
             "<color=#DA4848>Omae no shita o hikisaite yaru.</color>"
         );
         yield return new WaitWhile(() => DialogueManager.Instance.IsTypingActive());
 
-        PlayerCam.Instance.ReturnToPlayer();
+        CameraController.Instance.ResetFollowTarget();
         DialogueManager.Instance.SetDialogue(
             DLib.PLAYER,
             "Mizu and kimchi onegai si mas. I don't speak nihongo\n Please don't touch me."

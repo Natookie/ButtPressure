@@ -71,28 +71,28 @@ public class JanitorQuest : MonoBehaviour, IInteractable
         DialogueManager.Instance.ShowDialogueUI(() => uiReady = true);
         yield return new WaitUntil(() => uiReady);
 
-        PlayerCam.Instance.FocusOnTarget(this.transform);
+        CameraController.Instance.ChangeFollowTarget(this.transform);
         DialogueManager.Instance.SetDialogue(
             DLib.JANITOR,
             "Sushi salmon honda takoyaki..."
         );
         yield return new WaitWhile(() => DialogueManager.Instance.IsTypingActive());
 
-        PlayerCam.Instance.ReturnToPlayer();
+        CameraController.Instance.ResetFollowTarget();
         DialogueManager.Instance.SetDialogue(
             DLib.PLAYER,
             "This old geezer is a freak."
         );
         yield return new WaitWhile(() => DialogueManager.Instance.IsTypingActive());
 
-        PlayerCam.Instance.FocusOnTarget(this.transform);
+        CameraController.Instance.ChangeFollowTarget(this.transform);
         DialogueManager.Instance.SetDialogue(
             DLib.JANITOR,
             "Kyaaeedndidnocngettooo.\n~piahsidohbasidh, duh game jam nya ga selesai."
         );
         yield return new WaitWhile(() => DialogueManager.Instance.IsTypingActive());
 
-        PlayerCam.Instance.ReturnToPlayer();
+        CameraController.Instance.ResetFollowTarget();
         DialogueManager.Instance.SetDialogue(
             DLib.PLAYER,
             "Whatever, i need to go to the restroom QUICK."
@@ -117,7 +117,7 @@ public class JanitorQuest : MonoBehaviour, IInteractable
         );
         yield return new WaitWhile(() => DialogueManager.Instance.IsTypingActive());
         
-        PlayerCam.Instance.FocusOnTarget(this.transform);
+        CameraController.Instance.ChangeFollowTarget(this.transform);
         DialogueManager.Instance.SetDialogue(
             DLib.JANITOR,
             "Uhhh. I think i forgot to unlock it."
@@ -130,7 +130,7 @@ public class JanitorQuest : MonoBehaviour, IInteractable
         );
         yield return new WaitWhile(() => DialogueManager.Instance.IsTypingActive());
         
-        PlayerCam.Instance.FocusOnTarget(this.transform);
+        CameraController.Instance.ChangeFollowTarget(this.transform);
         DialogueManager.Instance.SetDialogue(
             DLib.JANITOR,
             "I will open it myself, follow me to the toilet.\n*Wink wink"
@@ -143,7 +143,7 @@ public class JanitorQuest : MonoBehaviour, IInteractable
         );
         yield return new WaitWhile(() => DialogueManager.Instance.IsTypingActive());
 
-        PlayerCam.Instance.ReturnToPlayer();
+        CameraController.Instance.ResetFollowTarget();
         ObjectiveUI.Instance.SetObjective("Follow the janitor to the restroom");
 
         DialogueManager.Instance.HideDialogueUI();
@@ -161,28 +161,28 @@ public class JanitorQuest : MonoBehaviour, IInteractable
         DialogueManager.Instance.ShowDialogueUI(() => uiReady = true);
         yield return new WaitUntil(() => uiReady);
         
-        PlayerCam.Instance.ReturnToPlayer();
+        CameraController.Instance.ResetFollowTarget();
         DialogueManager.Instance.SetDialogue(
             DLib.PLAYER,
             "....."
         );
         yield return new WaitWhile(() => DialogueManager.Instance.IsTypingActive());
         
-        PlayerCam.Instance.FocusOnTarget(this.transform);
+        CameraController.Instance.ChangeFollowTarget(this.transform);
         DialogueManager.Instance.SetDialogue(
             DLib.JANITOR,
             "...Keys??"
         );
         yield return new WaitWhile(() => DialogueManager.Instance.IsTypingActive());
 
-        PlayerCam.Instance.ReturnToPlayer();
+        CameraController.Instance.ResetFollowTarget();
         DialogueManager.Instance.SetDialogue(
             DLib.PLAYER,
             "Not yet.."
         );
         yield return new WaitWhile(() => DialogueManager.Instance.IsTypingActive());
 
-        PlayerCam.Instance.FocusOnTarget(this.transform);
+        CameraController.Instance.ChangeFollowTarget(this.transform);
         DialogueManager.Instance.SetDialogue(
             DLib.JANITOR,
             "Then you better find it, otherwise I'll smack you to\npieces using my broom."

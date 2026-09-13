@@ -50,7 +50,7 @@ public class GameManager : MonoBehaviour
         }
         
         if(cutscene){
-            pm.SetPosition(playerStart.position);
+            // pm.SetPosition(playerStart.position);
             DisableEssentialUI();
             StartCoroutine(StartGame());
         }else{
@@ -93,8 +93,8 @@ public class GameManager : MonoBehaviour
         );
         yield return new WaitWhile(() => DialogueManager.Instance.IsTypingActive());
         
-        pm.ForceMove(playerTarget);
-        yield return new WaitUntil(() => pm.hasReachedTarget);
+        // pm.ForceMove(playerTarget);
+        // yield return new WaitUntil(() => pm.hasReachedTarget);
 
         DialogueManager.Instance.SetDialogue(
             DLib.TEACHER,

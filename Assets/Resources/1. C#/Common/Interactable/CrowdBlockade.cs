@@ -34,42 +34,42 @@ public class CrowdBlockade : MonoBehaviour, IInteractable
         DialogueManager.Instance.ShowDialogueUI(() => uiReady = true);
         yield return new WaitUntil(() => uiReady);
         
-        PlayerCam.Instance.FocusOnTarget(this.transform);
+        CameraController.Instance.ChangeFollowTarget(transform);
         DialogueManager.Instance.SetDialogue(
             DLib.CROWD,
             "(Crowd sounds crowding)"
         );
         yield return new WaitWhile(() => DialogueManager.Instance.IsTypingActive());
         
-        PlayerCam.Instance.ReturnToPlayer();
+        CameraController.Instance.ResetFollowTarget();
         DialogueManager.Instance.SetDialogue(
             DLib.PLAYER,
             "Excuse me, can I please get through?"
         );
         yield return new WaitWhile(() => DialogueManager.Instance.IsTypingActive());
 
-        PlayerCam.Instance.FocusOnTarget(this.transform);
+        CameraController.Instance.ChangeFollowTarget(this.transform);
         DialogueManager.Instance.SetDialogue(
             DLib.CROWD,
             "(Crowd sounds crowding)"
         );
         yield return new WaitWhile(() => DialogueManager.Instance.IsTypingActive());
         
-        PlayerCam.Instance.ReturnToPlayer();
+        CameraController.Instance.ResetFollowTarget();
         DialogueManager.Instance.SetDialogue(
             DLib.PLAYER,
             "I can't get through, maybe I'll go around."
         );
         yield return new WaitWhile(() => DialogueManager.Instance.IsTypingActive());
 
-        PlayerCam.Instance.FocusOnTarget(this.transform);
+        CameraController.Instance.ChangeFollowTarget(this.transform);
         DialogueManager.Instance.SetDialogue(
             DLib.CROWD,
             "(Crowd sounds crowding)"
         );
         yield return new WaitWhile(() => DialogueManager.Instance.IsTypingActive());
 
-        PlayerCam.Instance.ReturnToPlayer();
+        CameraController.Instance.ResetFollowTarget();
         DialogueManager.Instance.HideDialogueUI();
         ObjectiveUI.Instance.SetObjective("Find a way to pass the crowd");
         hasIntroduced = true;
@@ -83,14 +83,14 @@ public class CrowdBlockade : MonoBehaviour, IInteractable
         DialogueManager.Instance.ShowDialogueUI(() => uiReady = true);
         yield return new WaitUntil(() => uiReady);
         
-        PlayerCam.Instance.FocusOnTarget(this.transform);
+        CameraController.Instance.ChangeFollowTarget(this.transform);
         DialogueManager.Instance.SetDialogue(
             DLib.CROWD,
             "(Crowd sounds crowding)"
         );
         yield return new WaitWhile(() => DialogueManager.Instance.IsTypingActive());
 
-        PlayerCam.Instance.ReturnToPlayer();
+        CameraController.Instance.ResetFollowTarget();
         DialogueManager.Instance.HideDialogueUI();
     }
 }

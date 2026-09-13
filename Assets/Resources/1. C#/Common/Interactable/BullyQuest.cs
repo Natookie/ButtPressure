@@ -8,7 +8,8 @@ public class BullyQuest : MonoBehaviour
     [SerializeField] private BullyBlockade bullyBlockade;
 
     [HideInInspector] private bool hasIntroduced;
-    private bool hasDrink => PlayerInteraction.Instance.hasDrink;
+    private bool hasDrink => true;
+    // PlayerInteraction.Instance.hasDrink;
 
     private InteractableObject door;
 
@@ -29,7 +30,7 @@ public class BullyQuest : MonoBehaviour
         DialogueManager.Instance.ShowDialogueUI(() => uiReady = true);
         yield return new WaitUntil(() => uiReady);
         
-        PlayerCam.Instance.FocusOnTarget(this.transform);
+        CameraController.Instance.ChangeFollowTarget(this.transform);
         DialogueManager.Instance.SetDialogue(
             DLib.JIN,
             "HUHH?"
@@ -43,28 +44,28 @@ public class BullyQuest : MonoBehaviour
         );
         yield return new WaitWhile(() => DialogueManager.Instance.IsTypingActive());
 
-        PlayerCam.Instance.ReturnToPlayer();
+        CameraController.Instance.ResetFollowTarget();
         DialogueManager.Instance.SetDialogue(
             DLib.PLAYER,
             "But Kana said this is the rest room."
         );
         yield return new WaitWhile(() => DialogueManager.Instance.IsTypingActive());
 
-        PlayerCam.Instance.FocusOnTarget(this.transform);
+        CameraController.Instance.ChangeFollowTarget(this.transform);
         DialogueManager.Instance.SetDialogue(
             DLib.JAKI,
             "OHH, you are the new guy isn't it, a freak show.~\nYou want to take a s**t? We won't let you anyway."
         );
         yield return new WaitWhile(() => DialogueManager.Instance.IsTypingActive());
 
-        PlayerCam.Instance.ReturnToPlayer();
+        CameraController.Instance.ResetFollowTarget();
         DialogueManager.Instance.SetDialogue(
             DLib.PLAYER,
             "Why?? I need to take a <color=#8C5A3C>poopie</color>. ~dips**t."
         );
         yield return new WaitWhile(() => DialogueManager.Instance.IsTypingActive());
         
-        PlayerCam.Instance.FocusOnTarget(this.transform);
+        CameraController.Instance.ChangeFollowTarget(this.transform);
         DialogueManager.Instance.SetDialogue(
             DLib.JIN,
             "F**k you just say to us?~ Whatever, Saki is blocking the\nstaiway for nerd like you on recess time."
@@ -83,20 +84,20 @@ public class BullyQuest : MonoBehaviour
         );
         yield return new WaitWhile(() => DialogueManager.Instance.IsTypingActive());
 
-        PlayerCam.Instance.ReturnToPlayer();
+        CameraController.Instance.ResetFollowTarget();
         DialogueManager.Instance.SetDialogue(
             DLib.PLAYER,
             "Give me one then."
         );
         yield return new WaitWhile(() => DialogueManager.Instance.IsTypingActive());
 
-        PlayerCam.Instance.FocusOnTarget(this.transform);
+        CameraController.Instance.ChangeFollowTarget(this.transform);
         DialogueManager.Instance.SetDialogue(
             DLib.JOHN,
             "Sure, <color=#E76F2E>give us a drink</color>, and we will give you this <color=#E76F2E>totem</color>\nto pass"
         );
         yield return new WaitWhile(() => DialogueManager.Instance.IsTypingActive());
-        PlayerCam.Instance.ReturnToPlayer();
+        CameraController.Instance.ResetFollowTarget();
         ObjectiveUI.Instance.SetObjective("Buy a drink");
 
         DialogueManager.Instance.HideDialogueUI();
@@ -118,7 +119,7 @@ public class BullyQuest : MonoBehaviour
         
         yield return new WaitWhile(() => DialogueManager.Instance.IsTypingActive());
         
-        PlayerCam.Instance.FocusOnTarget(this.transform);
+        CameraController.Instance.ChangeFollowTarget(this.transform);
         DialogueManager.Instance.SetDialogue(
             DLib.JIN,
             "Hoho, nice. Even tho you only bought 1 when there is \nclearly 3 of us. We will let it slide. \nDeveloper is lazy"
@@ -131,12 +132,12 @@ public class BullyQuest : MonoBehaviour
         );
         yield return new WaitWhile(() => DialogueManager.Instance.IsTypingActive());
 
-        PlayerCam.Instance.ReturnToPlayer();
+        CameraController.Instance.ResetFollowTarget();
         ObjectiveUI.Instance.SetObjective("Go to the 2nd floor");
         door.enabled = false;
 
         DialogueManager.Instance.HideDialogueUI();
-        PlayerInteraction.Instance.hasTotem = true;
+        // PlayerInteraction.Instance.hasTotem = true;
         bullyBlockade.GetComponent<InteractableObject>().enabled = true;
     }
 
@@ -159,7 +160,7 @@ public class BullyQuest : MonoBehaviour
         );
         yield return new WaitWhile(() => DialogueManager.Instance.IsTypingActive());
         
-        PlayerCam.Instance.FocusOnTarget(this.transform);
+        CameraController.Instance.ChangeFollowTarget(this.transform);
         DialogueManager.Instance.SetDialogue(
             DLib.JOHN,
             "Well hurry up then! We're thirsty!"
@@ -172,7 +173,7 @@ public class BullyQuest : MonoBehaviour
         );
         yield return new WaitWhile(() => DialogueManager.Instance.IsTypingActive());
         
-        PlayerCam.Instance.ReturnToPlayer();
+        CameraController.Instance.ResetFollowTarget();
         DialogueManager.Instance.SetDialogue(
             DLib.PLAYER,
             "Fine, fine..."

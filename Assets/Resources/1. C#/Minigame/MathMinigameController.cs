@@ -102,7 +102,8 @@ public class MathMinigameController : MonoBehaviour
     // ====================================================================================================
     #region Minigame
     public void StartMinigame(){
-        if(PlayerInteraction.Instance.skipMinigame){
+        // PlayerInteraction.Instance.skipMinigame
+        if(false){
             EndMinigame();
             return;
         }
@@ -128,7 +129,7 @@ public class MathMinigameController : MonoBehaviour
         
         // Slide down animation before hiding
         StartCoroutine(AnimateSlideDown());
-        PlayerInteraction.Instance.hasMoney = true;
+        // PlayerInteraction.Instance.hasMoney = true;
         vendingMachine.GetComponent<InteractableObject>().enabled = true;
         richKid.SelfDestruct();
 

@@ -13,7 +13,8 @@ public class VendingMachine : MonoBehaviour, IInteractable
     [SerializeField] private float vendingMachineSfxTime = 6.8f;
  
     [HideInInspector] public bool canInteract;
-    private bool hasMoney => PlayerInteraction.Instance.hasMoney;
+    private bool hasMoney => true;
+    // PlayerInteraction.Instance.hasMoney;
 
     public void SetInteractableActive(bool value) => interactable.enabled = value;
 
@@ -35,14 +36,14 @@ public class VendingMachine : MonoBehaviour, IInteractable
         );
         yield return new WaitWhile(() => DialogueManager.Instance.IsTypingActive());
 
-        PlayerCam.Instance.FaceTarget(richKid.gameObject.transform);
+        CameraController.Instance.ChangeFollowTarget(richKid.gameObject.transform);
         DialogueManager.Instance.SetDialogue(
             DLib.YAMATO,
             "HEY! NERD GUY! The one in front of the vending\nmachine."
         );
         yield return new WaitWhile(() => DialogueManager.Instance.IsTypingActive());
 
-        PlayerCam.Instance.FocusOnTarget(richKid.gameObject.transform);
+        CameraController.Instance.ChangeFollowTarget(richKid.gameObject.transform);
         DialogueManager.Instance.SetDialogue(
             DLib.YAMATO,
             "You look hella broke, and you seems like ultra nerd."
@@ -64,7 +65,7 @@ public class VendingMachine : MonoBehaviour, IInteractable
         DialogueManager.Instance.HideDialogueUI();
         richKid.GetComponent<InteractableObject>().enabled = true;
         GetComponent<InteractableObject>().SelfDestruct();
-        PlayerCam.Instance.ReturnToPlayer();
+        CameraController.Instance.ResetFollowTarget();
 
         InteractableObject io = GetComponent<InteractableObject>();
         io.SetPrompt("Buy a drink");
@@ -94,6 +95,6 @@ public class VendingMachine : MonoBehaviour, IInteractable
         
         DialogueManager.Instance.HideDialogueUI();
         GetComponent<InteractableObject>().SelfDestruct();
-        PlayerInteraction.Instance.hasDrink = true;
+        // PlayerInteraction.Instance.hasDrink = true;
     }
 }

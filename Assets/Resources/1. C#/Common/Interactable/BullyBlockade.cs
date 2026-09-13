@@ -10,7 +10,8 @@ public class BullyBlockade : MonoBehaviour, IInteractable
     [SerializeField] private GameObject stairway;
     
     [HideInInspector] public bool hasIntroduced;
-    private bool hasTotem => PlayerInteraction.Instance.hasTotem;
+    private bool hasTotem => true;
+    // PlayerInteraction.Instance.hasTotem;
 
     void Start(){
         interactableComponent = GetComponent<InteractableObject>();
@@ -42,21 +43,21 @@ public class BullyBlockade : MonoBehaviour, IInteractable
         DialogueManager.Instance.ShowDialogueUI(() => uiReady = true);
         yield return new WaitUntil(() => uiReady);
         
-        PlayerCam.Instance.FocusOnTarget(this.transform);
+        CameraController.Instance.ChangeFollowTarget(this.transform);
         DialogueManager.Instance.SetDialogue(
             DLib.SATO,
             "Whoa whoa whoa! Where do you think you're going?"
         );
         yield return new WaitWhile(() => DialogueManager.Instance.IsTypingActive());
         
-        PlayerCam.Instance.ReturnToPlayer();
+        CameraController.Instance.ResetFollowTarget();
         DialogueManager.Instance.SetDialogue(
             DLib.PLAYER,
             "Just looking around?"
         );
         yield return new WaitWhile(() => DialogueManager.Instance.IsTypingActive());
         
-        PlayerCam.Instance.FocusOnTarget(this.transform);
+        CameraController.Instance.ChangeFollowTarget(this.transform);
         CameraShake.Instance.ShakeCamera(false);
         DialogueManager.Instance.SetDialogue(
             DLib.SATO,
@@ -70,21 +71,21 @@ public class BullyBlockade : MonoBehaviour, IInteractable
         );
         yield return new WaitWhile(() => DialogueManager.Instance.IsTypingActive());
 
-        PlayerCam.Instance.ReturnToPlayer();
+        CameraController.Instance.ResetFollowTarget();
         DialogueManager.Instance.SetDialogue(
             DLib.PLAYER,
             "I never said cafetaria."
         );
         yield return new WaitWhile(() => DialogueManager.Instance.IsTypingActive());
 
-        PlayerCam.Instance.FocusOnTarget(this.transform);
+        CameraController.Instance.ChangeFollowTarget(this.transform);
         DialogueManager.Instance.SetDialogue(
             DLib.SATO,
             "Listen here, nerd. The cafeteria is for cool kids only."
         );
         yield return new WaitWhile(() => DialogueManager.Instance.IsTypingActive());
 
-        PlayerCam.Instance.ReturnToPlayer();
+        CameraController.Instance.ResetFollowTarget();
         DialogueManager.Instance.SetDialogue(
             DLib.PLAYER,
             "(Ugh.. i better be going, idk what his problem is)"
@@ -132,7 +133,7 @@ public class BullyBlockade : MonoBehaviour, IInteractable
         );
         yield return new WaitWhile(() => DialogueManager.Instance.IsTypingActive());
 
-        PlayerCam.Instance.ReturnToPlayer();
+        CameraController.Instance.ResetFollowTarget();
         DialogueManager.Instance.HideDialogueUI();
         if(barrier != null) barrier.enabled = false;
         ObjectiveUI.Instance.SetObjective("Go to the 2nd floor's toilet");
@@ -148,21 +149,21 @@ public class BullyBlockade : MonoBehaviour, IInteractable
         DialogueManager.Instance.ShowDialogueUI(() => uiReady = true);
         yield return new WaitUntil(() => uiReady);
         
-        PlayerCam.Instance.FocusOnTarget(this.transform);
+        CameraController.Instance.ChangeFollowTarget(this.transform);
         DialogueManager.Instance.SetDialogue(
             DLib.SATO,
             "Sick totem! Looks just like John Kaisen's"
         );
         yield return new WaitWhile(() => DialogueManager.Instance.IsTypingActive());
 
-        PlayerCam.Instance.ReturnToPlayer();
+        CameraController.Instance.ResetFollowTarget();
         DialogueManager.Instance.SetDialogue(
             DLib.PLAYER,
             "(This Sato guy seems chill)"
         );
         yield return new WaitWhile(() => DialogueManager.Instance.IsTypingActive());
         
-        PlayerCam.Instance.ReturnToPlayer();
+        CameraController.Instance.ResetFollowTarget();
         DialogueManager.Instance.HideDialogueUI();
         if(barrier != null) barrier.enabled = false;
         ObjectiveUI.Instance.SetObjective("Go to the 2nd floor's toilet");
