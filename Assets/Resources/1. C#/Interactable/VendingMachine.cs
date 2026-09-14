@@ -119,6 +119,7 @@ public class VendingMachine : MonoBehaviour, IInteractable
         
         DialogueManager.Instance.HideDialogueUI();
         SetInteractableActive(false);
+        ObjectiveUI.Instance.SetObjective("Deliver the red cola");
         EventFlag.Instance.hasDrink = true;
     }
     #endregion
