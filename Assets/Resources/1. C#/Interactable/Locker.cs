@@ -1,6 +1,7 @@
 using UnityEngine;
 
-[RequireComponent(typeof(InteractableObject))]
+// UNUSED!
+[RequireComponent(typeof(InteractableComponent))]
 public class Locker : MonoBehaviour, IInteractable
 {
     private bool cache = false;
@@ -10,7 +11,7 @@ public class Locker : MonoBehaviour, IInteractable
         if(GameManager.Instance.isEnded) return;
 
         cache ^= true;
-        GetComponent<InteractableObject>().SetPrompt((!cache) ? "Hide" : "Come out");
+        GetComponent<InteractableComponent>().SetPrompt((!cache) ? "Hide" : "Come out");
         // PlayerMovement.Instance.HideInLocker(this.transform.position, cache);
     }
 }

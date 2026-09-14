@@ -76,25 +76,4 @@ public class VisualCue : MonoBehaviour
     }
 
     public void HidePrompt() {isShowing = false;}
-
-
-
-
-
-
-
-    // TEMPORARY!
-    public void ShowPrompt(InteractableObject interactable)
-    {
-        interactionText.Text = interactable.Prompt;
-        isShowing = true;
-    }
-    // TEMPORARY!
-    public void SetCurrentInteractable(InteractableObject interactable){
-        if(!interactable.enabled){
-            Debug.Log("[Visual Cue]: failed");
-            return;
-        }
-        ShowPrompt(interactable);
-    }
 }

@@ -1,19 +1,20 @@
 using UnityEngine;
 using System.Collections;
 
-[RequireComponent(typeof(InteractableObject))]
+// UNUSED!
+[RequireComponent(typeof(InteractableComponent))]
 public class Stall : MonoBehaviour, IInteractable
 {
     [Header("TWEAKS")]
     [SerializeField] private bool hasHanako;
 
     [SerializeField] private Transform hanakoSpawnPoint;
-    private EvtManager evtManager;
+    // private EvtManager evtManager;
 
     void Start(){
         if(hasHanako){
             // evtManager = FindObjectOfType<EvtManager>();
-            if(evtManager == null) Debug.LogWarning("Stall: EvtManager not found in scene!");
+            // if(evtManager == null) Debug.LogWarning("Stall: EvtManager not found in scene!");
         }
     }
 
@@ -81,9 +82,9 @@ public class Stall : MonoBehaviour, IInteractable
 
         DialogueManager.Instance.HideDialogueUI();
         
-        if(hanako != null) hanako.canMove = true;
-        evtManager.teleportHanako = true;
-        evtManager.allowTrigger = true;
+        // if(hanako != null) hanako.canMove = true;
+        // evtManager.teleportHanako = true;
+        // evtManager.allowTrigger = true;
         ObjectiveUI.Instance.SetObjective("Survive, go to the second floor");
     }
 }

@@ -3,8 +3,9 @@ using System.Collections;
 using Nova;
 using UnityEngine.InputSystem;
 
-[RequireComponent(typeof(InteractableObject))]
-public class Obstacle : MonoBehaviour, IMultiInteractable
+// UNUSED!
+[RequireComponent(typeof(InteractableComponent))]
+public class Obstacle : MonoBehaviour
 {
     [Header("UI REFERENCES")]
     [SerializeField] private UIBlock2D innerCircleBlock;
@@ -130,7 +131,7 @@ public class Obstacle : MonoBehaviour, IMultiInteractable
         
         DialogueManager.Instance.HideDialogueUI();
         
-        InteractableObject interactable = GetComponent<InteractableObject>();
+        InteractableComponent interactable = GetComponent<InteractableComponent>();
         if(interactable != null) interactable.enabled = false;
     }
     
@@ -191,7 +192,7 @@ public class Obstacle : MonoBehaviour, IMultiInteractable
         
         DialogueManager.Instance.HideDialogueUI();
         firstExecuted = true;
-        GetComponent<InteractableObject>().SetPrompt("Pull cart");
+        GetComponent<InteractableComponent>().SetPrompt("Pull cart");
         
         currentFillAngle = initialFillAngle;
         currentRotationSpeed = initialRotationSpeed;

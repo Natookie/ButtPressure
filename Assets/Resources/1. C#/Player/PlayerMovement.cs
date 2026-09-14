@@ -35,7 +35,10 @@ public class PlayerMovement : MonoBehaviour
     #region Virtual
     void Start(){
         // Assertion check
+        Debug.Assert(rb, "rb is missing");
         Debug.Assert(sr, "sr is missing");
+        Debug.Assert(animator, "animator is missing");
+        Debug.Assert(walkSfxClip, "walkSfxClip is empty");
     }
 
     void Update(){

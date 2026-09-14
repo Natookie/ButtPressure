@@ -1,7 +1,8 @@
 using UnityEngine;
 using UnityEditor;
 
-[CustomEditor(typeof(InteractableObject))]
+// UNUSED!
+[CustomEditor(typeof(InteractableComponent))]
 public class InteractableObjectEditor : Editor
 {
     SerializedProperty interactionPrompt;
@@ -24,39 +25,39 @@ public class InteractableObjectEditor : Editor
         secondOneTime = serializedObject.FindProperty("secondOneTime");
     }
 
-    public override void OnInspectorGUI(){
-        serializedObject.Update();
+    // public override void OnInspectorGUI(){
+    //     serializedObject.Update();
 
-        EditorGUILayout.PropertyField(interactionPrompt);
-        EditorGUILayout.PropertyField(oneTimeInteraction);
-        EditorGUILayout.PropertyField(interactionRange);
+    //     EditorGUILayout.PropertyField(interactionPrompt);
+    //     EditorGUILayout.PropertyField(oneTimeInteraction);
+    //     EditorGUILayout.PropertyField(interactionRange);
         
-        EditorGUILayout.Space(10);
+    //     EditorGUILayout.Space(10);
         
-        EditorGUILayout.PropertyField(isMultiInteractable);
+    //     EditorGUILayout.PropertyField(isMultiInteractable);
         
-        if(isMultiInteractable.boolValue){
-            EditorGUI.indentLevel++;
+    //     if(isMultiInteractable.boolValue){
+    //         EditorGUI.indentLevel++;
             
-            EditorGUILayout.Space(5);
-            EditorGUILayout.LabelField("FIRST INTERACTION", EditorStyles.boldLabel);
-            EditorGUILayout.PropertyField(firstHasDialogue);
-            EditorGUILayout.PropertyField(firstOneTime);
+    //         EditorGUILayout.Space(5);
+    //         EditorGUILayout.LabelField("FIRST INTERACTION", EditorStyles.boldLabel);
+    //         EditorGUILayout.PropertyField(firstHasDialogue);
+    //         EditorGUILayout.PropertyField(firstOneTime);
             
-            EditorGUILayout.Space(5);
-            EditorGUILayout.LabelField("SECOND INTERACTION", EditorStyles.boldLabel);
-            EditorGUILayout.PropertyField(secondHasDialogue);
-            EditorGUILayout.PropertyField(secondOneTime);
+    //         EditorGUILayout.Space(5);
+    //         EditorGUILayout.LabelField("SECOND INTERACTION", EditorStyles.boldLabel);
+    //         EditorGUILayout.PropertyField(secondHasDialogue);
+    //         EditorGUILayout.PropertyField(secondOneTime);
             
-            EditorGUI.indentLevel--;
-        }
-        else{
-            EditorGUI.indentLevel++;
-            EditorGUILayout.LabelField("SINGLE INTERACTION", EditorStyles.boldLabel);
-            EditorGUILayout.PropertyField(firstHasDialogue);
-            EditorGUI.indentLevel--;
-        }
+    //         EditorGUI.indentLevel--;
+    //     }
+    //     else{
+    //         EditorGUI.indentLevel++;
+    //         EditorGUILayout.LabelField("SINGLE INTERACTION", EditorStyles.boldLabel);
+    //         EditorGUILayout.PropertyField(firstHasDialogue);
+    //         EditorGUI.indentLevel--;
+    //     }
 
-        serializedObject.ApplyModifiedProperties();
-    }
+    //     serializedObject.ApplyModifiedProperties();
+    // }
 }

@@ -1,7 +1,8 @@
 using UnityEngine;
 using System.Collections;
 
-[RequireComponent(typeof(InteractableObject))]
+// UNUSED!
+[RequireComponent(typeof(InteractableComponent))]
 public class GrandFatherClock : MonoBehaviour, IInteractable
 {
     private Hanako hanako;
@@ -12,6 +13,6 @@ public class GrandFatherClock : MonoBehaviour, IInteractable
             else return;
         }
 
-        hanako.Taunt(this.transform);
+        // hanako.Taunt(this.transform);
     }
 }
