@@ -23,7 +23,6 @@ public class GameDebug : MonoBehaviour
     void Start()
     {
         #if !UNITY_EDITOR
-        doCutscene = true;
         skipMinigame = false;
         ignoreDialogue = false;
         #endif
