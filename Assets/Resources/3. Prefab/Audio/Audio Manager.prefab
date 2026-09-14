@@ -365,6 +365,14 @@ MonoBehaviour:
     audioClip: {fileID: 8300000, guid: aa5e5b6d8f9a0e843a8324aa9f426f26, type: 3}
     volume: 1
     pitch: 1
+  - name: Push Success
+    audioClip: {fileID: 8300000, guid: 1ce7408662e160240863f1cecfa43908, type: 3}
+    volume: 1
+    pitch: 1
+  - name: Push Miss
+    audioClip: {fileID: 8300000, guid: 640ace86509479e438b32de7aab0c3ff, type: 3}
+    volume: 1
+    pitch: 1
 --- !u!1 &7866501725904230587
 GameObject:
   m_ObjectHideFlags: 0

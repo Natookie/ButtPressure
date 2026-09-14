@@ -18,6 +18,8 @@ public class CrowdBlockade : MonoBehaviour, IInteractable
         // Assertion check
         Debug.Assert(cafeteriaDoorPush, "cafeteriaDoorPush is missing");
         Debug.Assert(cameraFollow, "cameraFollow is missing");
+        // Connect events
+        EventFlag.Instance.HanakoMoved.AddListener(()=>{gameObject.SetActive(false);});
     }
     
     void OnTriggerEnter2D(Collider2D collider){

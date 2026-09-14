@@ -32,6 +32,10 @@ public class DoorPushMinigame : MonoBehaviour
     [SerializeField] private int maxTargetHits = 15;
     [SerializeField] private float pressFeedbackDuration = 0.1f;
     [SerializeField] private int missPenalty = 1;
+
+    [Header("AUDIO")]
+    [SerializeField] private string successSfxName = "Push Success";
+    [SerializeField] private string missSfxName = "Push Miss";
     
     private bool hasIntroduced;
     private int currentHit;
@@ -84,6 +88,8 @@ public class DoorPushMinigame : MonoBehaviour
         missFeedbackCoroutine = StartCoroutine(MissFeedback());
 
         UpdateInfoText();
+
+        AudioManager.Instance.PlaySFX(missSfxName);
     }
     
     IEnumerator MissFeedback(){
@@ -211,6 +217,8 @@ public class DoorPushMinigame : MonoBehaviour
         pressFeedbackCoroutine = StartCoroutine(PressFeedback());
         
         UpdateInfoText();
+
+        AudioManager.Instance.PlaySFX(successSfxName);
         
         if(currentHit >= targetHit){
             EndMinigame();

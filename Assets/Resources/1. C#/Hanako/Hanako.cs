@@ -102,6 +102,7 @@ public class Hanako : MonoBehaviour
     public void StartChase()
     {
         horizontalDirection = 1;
+        EventFlag.Instance.HasHanakoMoved = true;
     }
 
     public void EndChase()
@@ -134,6 +135,7 @@ public class Hanako : MonoBehaviour
         DialogueManager.Instance.SetDialogue(DLib.HANAKO, ".....");
         yield return new WaitWhile(() => DialogueManager.Instance.IsTypingActive());
 
+        CameraShake.Instance.ShakeCamera(true);
         AudioManager.Instance.PlaySFX(ScreamSfxClip);
         DialogueManager.Instance.SetDialogue(DLib.HANAKO, "AAAAAAAAAAAAAAAGGGGHHHHHHHHHH");
         yield return new WaitWhile(() => DialogueManager.Instance.IsTypingActive());

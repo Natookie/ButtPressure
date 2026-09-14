@@ -199,6 +199,7 @@ public class ClassroomCutscene : MonoBehaviour
 
         DialogueManager.Instance.ResetSkip();
         GameManager.Instance.EnableEssentialUI();
+        GameManager.Instance.isInitialized = true;
     }
     #endregion
 }

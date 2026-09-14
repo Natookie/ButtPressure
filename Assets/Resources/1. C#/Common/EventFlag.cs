@@ -12,6 +12,8 @@ public class EventFlag : MonoBehaviour
     public UnityEvent MathMinigameFinished;
     // Misc
     public UnityEvent JanitorMoved;
+    public UnityEvent HanakoMoved;
+    public UnityEvent DoneHailMary;
 
     public static EventFlag Instance {get; private set;}
 
@@ -32,7 +34,17 @@ public class EventFlag : MonoBehaviour
     public bool isMathMinigameFinished {set {if (value) MathMinigameFinished?.Invoke();}}
 
     [Header("Misc")]
-    public bool isJanitorMoved {set {if (value) JanitorMoved?.Invoke();}}
+    public bool hasJanitorMoved {set {if (value) JanitorMoved?.Invoke();}}
+    public bool HasHanakoMoved {
+        set {hasHanakoMoved = value; if (value) HanakoMoved?.Invoke();}
+        get {return hasHanakoMoved;}
+    }
+    private bool hasHanakoMoved;
+    public bool HasDoneHailMary{
+        set {hasDoneHailMary = value; if (value) DoneHailMary?.Invoke();}
+        get {return hasDoneHailMary;}
+    }
+    private bool hasDoneHailMary;
 
     void Awake(){
         if(Instance == null) Instance = this;

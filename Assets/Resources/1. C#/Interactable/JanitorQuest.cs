@@ -187,7 +187,7 @@ public class JanitorQuest : MonoBehaviour, IInteractable
 
         DialogueManager.Instance.HideDialogueUI();
 
-        EventFlag.Instance.isJanitorMoved = true;
+        EventFlag.Instance.hasJanitorMoved = true;
 
         //Janitor Gerak() ke arah Right door cafetaria
         MoveToTarget(cafeteriaDoorPush.transform.position, true);

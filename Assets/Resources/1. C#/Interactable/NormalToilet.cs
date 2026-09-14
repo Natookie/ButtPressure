@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using Unity.VisualScripting;
 
 [RequireComponent(typeof(InteractableComponent))]
 public class NormalToilet : MonoBehaviour, IInteractable
@@ -22,6 +23,7 @@ public class NormalToilet : MonoBehaviour, IInteractable
         Debug.Assert(targetDoor, "targetDoor is missing");
         // Connect events
         EventFlag.Instance.JanitorMoved.AddListener(OnJanitorMoved);
+        EventFlag.Instance.DoneHailMary.AddListener(()=>SetInteractableActive(true));
     }
     #endregion
 
@@ -30,7 +32,12 @@ public class NormalToilet : MonoBehaviour, IInteractable
     // ====================================================================================================
     #region Interact
     public void Interact(){
-        if(hasBeenComplied) StartCoroutine(AskJanitorWhereabout());
+        if (EventFlag.Instance.HasDoneHailMary)
+        {
+            Player.Instance.gameObject.SetActive(false);
+            GameManager.Instance.EndGame(3);
+        }
+        else if(hasBeenComplied) StartCoroutine(AskJanitorWhereabout());
         else StartCoroutine(TriggerComplaint());
     }
 
