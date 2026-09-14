@@ -3,39 +3,52 @@ using System.Collections;
 
 public class BullyBlockade : MonoBehaviour, IInteractable
 {
-    [Header("QUEST TWEAK")]
+    [Header("REFERENCES")]
+    [SerializeField] private InteractableComponent interactableComponent;
     [SerializeField] private BoxCollider2D barrier;
-    [SerializeField] private BoxCollider2D triggerDialogue;
-    [SerializeField] private InteractableObject interactableComponent;
-    [SerializeField] private GameObject stairway;
+    public Transform cameraFollow;
     
     [HideInInspector] public bool hasIntroduced;
-    private bool hasTotem => true;
-    // PlayerInteraction.Instance.hasTotem;
+    private bool hasTotem => EventFlag.Instance.HasTotem;
 
-    void Start(){
-        interactableComponent = GetComponent<InteractableObject>();
-        interactableComponent.enabled = false;
+    // ====================================================================================================
+    //                     Virtual Functions
+    // ====================================================================================================
+    #region Virtual
+    void Start()
+    {
+        // Assertion check
+        Debug.Assert(interactableComponent, "interactableComponent is missing");
+        Debug.Assert(barrier, "barrier is missing");
+        Debug.Assert(cameraFollow, "cameraFollow is missing");
+        // Connect events
+        EventFlag.Instance.TotemObtained.AddListener(()=>SetInteractableActive(true));
+    }
+    #endregion
+
+    void OnTriggerEnter2D(Collider2D collider)
+    {
+        if (!collider.CompareTag("Player")) return;
+        if (!hasIntroduced)
+        {
+            if (hasTotem) StartCoroutine(CompleteQuestTwo());
+            else StartCoroutine(IntroduceProblem());
+        }
     }
 
-    void OnTriggerEnter2D(Collider2D coll){
-        if(hasTotem){
-            if(!hasIntroduced){
-                if(!DialogueManager.Instance.IsTyping) StartCoroutine(CompleteQuestTwo());
-                stairway.SetActive(true);
-                hasIntroduced = true;
-            }else VisualCue.Instance.SetCurrentInteractable(interactableComponent);
-            return;
-        }
-
-        if(coll.CompareTag("Player") && !hasIntroduced){
-            if(!DialogueManager.Instance.IsTyping) StartCoroutine(IntroduceProblem());
-            return;
-        }
-    }
-
+    // ====================================================================================================
+    //                     Interact Functions
+    // ====================================================================================================
+    #region Interact
     public void Interact() => StartCoroutine(CompleteQuest());
 
+    public void SetInteractableActive(bool value) => interactableComponent.CanInteract = value;
+    #endregion
+
+    // ====================================================================================================
+    //                     Dialogue Functions
+    // ====================================================================================================
+    #region Dialogue
     IEnumerator IntroduceProblem(){
         yield return new WaitForSeconds(0.1f);
 
@@ -43,7 +56,7 @@ public class BullyBlockade : MonoBehaviour, IInteractable
         DialogueManager.Instance.ShowDialogueUI(() => uiReady = true);
         yield return new WaitUntil(() => uiReady);
         
-        CameraController.Instance.ChangeFollowTarget(this.transform);
+        CameraController.Instance.ChangeFollowTarget(cameraFollow.transform);
         DialogueManager.Instance.SetDialogue(
             DLib.SATO,
             "Whoa whoa whoa! Where do you think you're going?"
@@ -57,7 +70,7 @@ public class BullyBlockade : MonoBehaviour, IInteractable
         );
         yield return new WaitWhile(() => DialogueManager.Instance.IsTypingActive());
         
-        CameraController.Instance.ChangeFollowTarget(this.transform);
+        CameraController.Instance.ChangeFollowTarget(cameraFollow.transform);
         CameraShake.Instance.ShakeCamera(false);
         DialogueManager.Instance.SetDialogue(
             DLib.SATO,
@@ -78,7 +91,7 @@ public class BullyBlockade : MonoBehaviour, IInteractable
         );
         yield return new WaitWhile(() => DialogueManager.Instance.IsTypingActive());
 
-        CameraController.Instance.ChangeFollowTarget(this.transform);
+        CameraController.Instance.ChangeFollowTarget(cameraFollow.transform);
         DialogueManager.Instance.SetDialogue(
             DLib.SATO,
             "Listen here, nerd. The cafeteria is for cool kids only."
@@ -135,11 +148,9 @@ public class BullyBlockade : MonoBehaviour, IInteractable
 
         CameraController.Instance.ResetFollowTarget();
         DialogueManager.Instance.HideDialogueUI();
-        if(barrier != null) barrier.enabled = false;
+        barrier.gameObject.SetActive(false);
         ObjectiveUI.Instance.SetObjective("Go to the 2nd floor's toilet");
-        stairway.SetActive(true);
-
-        if(interactableComponent != null) interactableComponent.SelfDestruct();
+        SetInteractableActive(false);
     }
 
     IEnumerator CompleteQuestTwo(){
@@ -149,7 +160,7 @@ public class BullyBlockade : MonoBehaviour, IInteractable
         DialogueManager.Instance.ShowDialogueUI(() => uiReady = true);
         yield return new WaitUntil(() => uiReady);
         
-        CameraController.Instance.ChangeFollowTarget(this.transform);
+        CameraController.Instance.ChangeFollowTarget(cameraFollow.transform);
         DialogueManager.Instance.SetDialogue(
             DLib.SATO,
             "Sick totem! Looks just like John Kaisen's"
@@ -165,9 +176,10 @@ public class BullyBlockade : MonoBehaviour, IInteractable
         
         CameraController.Instance.ResetFollowTarget();
         DialogueManager.Instance.HideDialogueUI();
-        if(barrier != null) barrier.enabled = false;
+        barrier.gameObject.SetActive(false);
         ObjectiveUI.Instance.SetObjective("Go to the 2nd floor's toilet");
-        
-        if(interactableComponent != null) interactableComponent.SelfDestruct();
+        SetInteractableActive(false);
+        hasIntroduced = true;
     }
+    #endregion
 }

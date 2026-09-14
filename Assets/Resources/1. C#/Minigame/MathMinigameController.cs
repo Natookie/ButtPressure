@@ -33,10 +33,6 @@ public class MathMinigameController : MonoBehaviour
     [Tooltip("Start the minigame when played, default is false")]
     [SerializeField] private bool startMinigameOnRun = false;
 
-    [Header("REFERENCE")]
-    [SerializeField] private VendingMachine vendingMachine;
-    [SerializeField] private InteractableObject richKid;
-
     private string fuckeryFuckText;
 
     // Gameflow
@@ -102,8 +98,7 @@ public class MathMinigameController : MonoBehaviour
     // ====================================================================================================
     #region Minigame
     public void StartMinigame(){
-        // PlayerInteraction.Instance.skipMinigame
-        if(false){
+        if (GameDebug.Instance.skipMinigame){
             EndMinigame();
             return;
         }
@@ -114,6 +109,8 @@ public class MathMinigameController : MonoBehaviour
         wrongAnswerAmount = 0;
         isWaitingForWrongAnswer = false;
         
+        Player.Instance.EnableInput = false;
+
         GenerateQuestion();
         StartCoroutine(AnimateSlideUp());
     }
@@ -129,9 +126,7 @@ public class MathMinigameController : MonoBehaviour
         
         // Slide down animation before hiding
         StartCoroutine(AnimateSlideDown());
-        // PlayerInteraction.Instance.hasMoney = true;
-        vendingMachine.GetComponent<InteractableObject>().enabled = true;
-        richKid.SelfDestruct();
+        EventFlag.Instance.isMathMinigameFinished = true;
 
         // Reset any pending wrong answer states
         if(wrongAnswerDelayCoroutine != null){
@@ -205,6 +200,8 @@ public class MathMinigameController : MonoBehaviour
         contentBlock.Position.Value = bottomPosition;
         content.SetActive(false);
         animationCoroutine = null;
+
+        Player.Instance.EnableInput = true;
     }
     #endregion
 

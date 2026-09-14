@@ -3,30 +3,43 @@ using System.Collections;
 
 public class CrowdBlockade : MonoBehaviour, IInteractable
 {
-    [Header("QUEST TWEAK")]
-    [SerializeField] private BoxCollider2D barrier;
-    [SerializeField] private InteractableObject interactableComponent;
-    [SerializeField] private InteractableObject cafeteriaDoorInteractable;
+    [Header("REFERENCES")]
+    [SerializeField] private DoorPush cafeteriaDoorPush;
+    public Transform cameraFollow;
 
     [HideInInspector] public bool hasIntroduced;
 
-    void Start(){
-        interactableComponent = GetComponent<InteractableObject>();
-        if(interactableComponent == null) interactableComponent = gameObject.AddComponent<InteractableObject>();
-            
-        interactableComponent.enabled = false;
-        cafeteriaDoorInteractable.enabled = false;
+    // ====================================================================================================
+    //                     Virtual Functions
+    // ====================================================================================================
+    #region Virtual
+    void Start()
+    {
+        // Assertion check
+        Debug.Assert(cafeteriaDoorPush, "cafeteriaDoorPush is missing");
+        Debug.Assert(cameraFollow, "cameraFollow is missing");
     }
-
-    void OnTriggerEnter2D(Collider2D coll){
-        if(coll.CompareTag("Player") && !DialogueManager.Instance.IsTyping){
+    
+    void OnTriggerEnter2D(Collider2D collider){
+        if(collider.CompareTag("Player"))
+        {
             if(!hasIntroduced) StartCoroutine(IntroduceProblem());
             else StartCoroutine(RemindProblem());
         }
     }
+    #endregion
 
+    // ====================================================================================================
+    //                     Interact Functions
+    // ====================================================================================================
+    #region Interact
     public void Interact() => StartCoroutine(RemindProblem());
+    #endregion
 
+    // ====================================================================================================
+    //                     Dialogue Functions
+    // ====================================================================================================
+    #region Dialogue
     IEnumerator IntroduceProblem(){
         yield return new WaitForSeconds(0.1f);
 
@@ -34,7 +47,7 @@ public class CrowdBlockade : MonoBehaviour, IInteractable
         DialogueManager.Instance.ShowDialogueUI(() => uiReady = true);
         yield return new WaitUntil(() => uiReady);
         
-        CameraController.Instance.ChangeFollowTarget(transform);
+        CameraController.Instance.ChangeFollowTarget(cameraFollow.transform);
         DialogueManager.Instance.SetDialogue(
             DLib.CROWD,
             "(Crowd sounds crowding)"
@@ -48,7 +61,7 @@ public class CrowdBlockade : MonoBehaviour, IInteractable
         );
         yield return new WaitWhile(() => DialogueManager.Instance.IsTypingActive());
 
-        CameraController.Instance.ChangeFollowTarget(this.transform);
+        CameraController.Instance.ChangeFollowTarget(cameraFollow.transform);
         DialogueManager.Instance.SetDialogue(
             DLib.CROWD,
             "(Crowd sounds crowding)"
@@ -62,7 +75,7 @@ public class CrowdBlockade : MonoBehaviour, IInteractable
         );
         yield return new WaitWhile(() => DialogueManager.Instance.IsTypingActive());
 
-        CameraController.Instance.ChangeFollowTarget(this.transform);
+        CameraController.Instance.ChangeFollowTarget(cameraFollow.transform);
         DialogueManager.Instance.SetDialogue(
             DLib.CROWD,
             "(Crowd sounds crowding)"
@@ -73,7 +86,7 @@ public class CrowdBlockade : MonoBehaviour, IInteractable
         DialogueManager.Instance.HideDialogueUI();
         ObjectiveUI.Instance.SetObjective("Find a way to pass the crowd");
         hasIntroduced = true;
-        cafeteriaDoorInteractable.enabled = true;
+        cafeteriaDoorPush.ToggleLock(false);
     }
 
     IEnumerator RemindProblem(){
@@ -83,7 +96,7 @@ public class CrowdBlockade : MonoBehaviour, IInteractable
         DialogueManager.Instance.ShowDialogueUI(() => uiReady = true);
         yield return new WaitUntil(() => uiReady);
         
-        CameraController.Instance.ChangeFollowTarget(this.transform);
+        CameraController.Instance.ChangeFollowTarget(cameraFollow.transform);
         DialogueManager.Instance.SetDialogue(
             DLib.CROWD,
             "(Crowd sounds crowding)"
@@ -93,4 +106,5 @@ public class CrowdBlockade : MonoBehaviour, IInteractable
         CameraController.Instance.ResetFollowTarget();
         DialogueManager.Instance.HideDialogueUI();
     }
+    #endregion
 }

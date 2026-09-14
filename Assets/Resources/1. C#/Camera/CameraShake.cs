@@ -6,10 +6,10 @@ public class CameraShake : MonoBehaviour
     public static CameraShake Instance { get; private set; }
 
     [Header("SHAKE SETTINGS")]
+    [SerializeField] private Transform targetTransform;
     [SerializeField] private float shakeDuration = 0.5f;
     [SerializeField] private float shakeMagnitude = 0.2f;
 
-    private Transform cameraTransform;
     private Vector3 originalPosition;
 
     void Awake(){
@@ -21,8 +21,7 @@ public class CameraShake : MonoBehaviour
     }
 
     void Start(){
-        cameraTransform = Camera.main.transform;
-        originalPosition = cameraTransform.localPosition;
+        if (targetTransform) originalPosition = targetTransform.localPosition;
     }
 
     public void ShakeCamera(bool intense){
@@ -35,19 +34,19 @@ public class CameraShake : MonoBehaviour
     }
 
     IEnumerator ShakeCoroutine(float duration, float magnitude){
-        Vector3 startPosition = cameraTransform.localPosition;
+        Vector3 startPosition = targetTransform.localPosition;
         float elapsed = 0f;
 
         while(elapsed < duration){
             float x = Random.Range(-1f, 1f) * magnitude;
             float y = Random.Range(-1f, 1f) * magnitude;
 
-            cameraTransform.localPosition = startPosition + new Vector3(x, y, 0);
+            targetTransform.localPosition = startPosition + new Vector3(x, y, 0);
 
             elapsed += Time.deltaTime;
             yield return null;
         }
 
-        cameraTransform.localPosition = startPosition;
+        targetTransform.localPosition = startPosition;
     }
 }

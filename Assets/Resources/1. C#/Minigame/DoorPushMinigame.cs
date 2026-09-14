@@ -2,13 +2,17 @@ using UnityEngine;
 using System.Collections;
 using Nova;
 using UnityEngine.InputSystem;
+using UnityEngine.Events;
 
-public class DoorPush : MonoBehaviour
+public class DoorPushMinigame : MonoBehaviour
 {
+    public UnityEvent MinigameFinished;
+
     [Header("REFERENCES")]
     [SerializeField] private UIBlock2D miniGameBlock;
     [SerializeField] private UIBlock2D hitCircle;
     [SerializeField] private TextBlock infoText;
+    [SerializeField] private InteractableComponent interactableComponent;
     
     [Header("BOUNDARIES")]
     [SerializeField] private float minX = -700f;
@@ -28,9 +32,6 @@ public class DoorPush : MonoBehaviour
     [SerializeField] private int maxTargetHits = 15;
     [SerializeField] private float pressFeedbackDuration = 0.1f;
     [SerializeField] private int missPenalty = 1;
-
-    private InteractableObject io;
-    private Door doorToUnlock;
     
     private bool hasIntroduced;
     private int currentHit;
@@ -42,21 +43,23 @@ public class DoorPush : MonoBehaviour
     private Coroutine pressFeedbackCoroutine;
     private Coroutine missFeedbackCoroutine;
 
-    void Start(){
+    void Start()
+    {
+        Debug.Assert(miniGameBlock, "miniGameBlock is missing");
+        Debug.Assert(infoText, "infoText is missing");
+        Debug.Assert(hitCircle, "hitCircle is missing");
+        Debug.Assert(interactableComponent, "interactableComponent is missing");
+
         keyboard = Keyboard.current;
         mouse = Mouse.current;
         
-        if(miniGameBlock != null) miniGameBlock.gameObject.SetActive(false);
-        if(infoText != null) infoText.Text = "";
-        if(hitCircle != null){
-            hitCircle.AddGestureHandler<Gesture.OnHover>(OnCircleHover);
-            hitCircle.AddGestureHandler<Gesture.OnUnhover>(OnCircleUnhover);
-            hitCircle.AddGestureHandler<Gesture.OnPress>(OnCirclePress);
-        }
+        miniGameBlock.gameObject.SetActive(false);
+        infoText.Text = "";
+        hitCircle.AddGestureHandler<Gesture.OnHover>(OnCircleHover);
+        hitCircle.AddGestureHandler<Gesture.OnUnhover>(OnCircleUnhover);
+        hitCircle.AddGestureHandler<Gesture.OnPress>(OnCirclePress);
 
-        doorToUnlock = GetComponent<Door>();
-        io = GetComponent<InteractableObject>();
-        if(needIntroduction) io.SetPrompt("Open Cafetaria Door");
+        if(needIntroduction) interactableComponent.SetPrompt("Open Cafetaria Door");
     }
 
     void Update(){
@@ -116,8 +119,8 @@ public class DoorPush : MonoBehaviour
     }
     
     void StartMinigame(){
-        // PlayerInteraction.Instance.skipMinigame
-        if(false){
+        if (GameDebug.Instance.skipMinigame)
+        {
             EndMinigame();
             return;
         }
@@ -131,7 +134,8 @@ public class DoorPush : MonoBehaviour
         SetRandomCirclePosition();
         UpdateInfoText();
         
-        // if(PlayerMovement.Instance != null) PlayerMovement.Instance.canMove = false;
+        Player.Instance.EnableInput = false;
+        CameraController.Instance.useMouseOffset = false;
     }
     
     void EndMinigame(){
@@ -139,9 +143,10 @@ public class DoorPush : MonoBehaviour
         hasSavedProgress = false;
         miniGameBlock.gameObject.SetActive(false);
 
-        // if(PlayerMovement.Instance != null) PlayerMovement.Instance.canMove = true;
-        if(doorToUnlock != null) doorToUnlock.CompleteMinigame();
-        io.SetPrompt("Open Cafetaria Door");
+        Player.Instance.EnableInput = true;
+        CameraController.Instance.useMouseOffset = true;
+        MinigameFinished?.Invoke();
+        interactableComponent.SetPrompt("Open Cafetaria Door");
         
         if(infoText != null) infoText.Text = "";
         
@@ -154,8 +159,9 @@ public class DoorPush : MonoBehaviour
         isMinigameActive = false;
         miniGameBlock.gameObject.SetActive(false);
         
-        if(io != null) io.enabled = true;
-        // if(PlayerMovement.Instance != null) PlayerMovement.Instance.canMove = true;
+        if(interactableComponent != null) interactableComponent.enabled = true;
+        Player.Instance.EnableInput = true;
+        CameraController.Instance.useMouseOffset = true;
         
         Debug.Log($"Minigame saved! Progress: {currentHit}/{targetHit}");
     }
@@ -170,7 +176,8 @@ public class DoorPush : MonoBehaviour
         SetRandomCirclePosition();
         UpdateInfoText();
         
-        // if(PlayerMovement.Instance != null) PlayerMovement.Instance.canMove = false;
+        Player.Instance.EnableInput = false;
+        CameraController.Instance.useMouseOffset = false;
         
         Debug.Log($"Minigame resumed! Progress: {currentHit}/{targetHit}");
     }
@@ -233,7 +240,8 @@ public class DoorPush : MonoBehaviour
         DialogueManager.Instance.ShowDialogueUI(() => uiReady = true);
         yield return new WaitUntil(() => uiReady);
         
-        // PlayerMovement.Instance.canMove = false;
+        Player.Instance.EnableInput = false;
+        CameraController.Instance.useMouseOffset = false;
         
         DialogueManager.Instance.SetDialogue(
             DLib.PLAYER,
@@ -243,8 +251,9 @@ public class DoorPush : MonoBehaviour
         
         DialogueManager.Instance.HideDialogueUI();
         
-        // PlayerMovement.Instance.canMove = true;
-        io.SetPrompt("Push Cafetaria Door");
+        Player.Instance.EnableInput = true;
+        CameraController.Instance.useMouseOffset = true;
+        interactableComponent.SetPrompt("Push Cafetaria Door");
 
         hasIntroduced = true;
         StartMinigame();
@@ -257,10 +266,10 @@ public class DoorPush : MonoBehaviour
         hasSavedProgress = false;
         if(miniGameBlock != null) miniGameBlock.gameObject.SetActive(false);
         
-        if(io != null) io.enabled = true;
+        interactableComponent.enabled = true;
         
-        // if(PlayerMovement.Instance != null)
-        //     PlayerMovement.Instance.canMove = true;
+        Player.Instance.EnableInput = true;
+        CameraController.Instance.useMouseOffset = true;
         
         if(infoText != null)
             infoText.Text = "";

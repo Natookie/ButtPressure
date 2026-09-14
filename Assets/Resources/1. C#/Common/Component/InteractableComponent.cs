@@ -32,4 +32,6 @@ public class InteractableComponent : MonoBehaviour
         if (CanInteract && interactableTarget != null)
             interactableTarget.Interact();
     }
+
+    public void SetPrompt(string newPrompt) {interactionPrompt = newPrompt;}
 }

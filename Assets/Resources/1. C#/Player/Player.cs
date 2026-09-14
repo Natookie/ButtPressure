@@ -9,6 +9,16 @@ public class Player : MonoBehaviour
 
     [Header("REFERENCES")]
     [SerializeField] private PlayerMovement playerMovement;
+    [SerializeField] private PlayerInteraction playerInteraction;
+
+    public bool EnableInput
+    {
+        set
+        {
+            playerMovement.canInputMove = value;
+            playerInteraction.CanInteract = value;
+        }
+    }
 
     // ====================================================================================================
     //                     Virtual Functions
@@ -24,9 +34,11 @@ public class Player : MonoBehaviour
 
     void OnDestroy() => Instance = null;
 
-    void Start(){
+    void Start()
+    {
         // Assertion check
         Debug.Assert(playerMovement, "playerMovement is missing");
+        Debug.Assert(playerInteraction, "playerInteraction is missing");
         // Connect event
         playerMovement.ForcedMoveCompleted.AddListener(()=>ForcedMoveCompleted?.Invoke());
     }

@@ -150,6 +150,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   playerMovement: {fileID: 8598547503419947189}
+  playerInteraction: {fileID: 1668844856285890270}
 --- !u!114 &8598547503419947189
 MonoBehaviour:
   m_ObjectHideFlags: 0

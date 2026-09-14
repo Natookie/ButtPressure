@@ -1,28 +1,55 @@
 using UnityEngine;
 using System.Collections;
 
-[RequireComponent(typeof(InteractableObject))]
 public class VendingMachine : MonoBehaviour, IInteractable
 {
-    [Header("DEPENDANCY")]
-    [SerializeField] private RichKid richKid;
-    [SerializeField] private InteractableObject interactable;
-
     [Header("REFERENCES")]
+    [SerializeField] private InteractableComponent interactableComponent;
+    [SerializeField] private RichKid richKid;
+
+    [Header("AUDIO")]
     [SerializeField] private AudioClip vendingMachineSfx;
     [SerializeField] private float vendingMachineSfxTime = 6.8f;
  
     [HideInInspector] public bool canInteract;
-    private bool hasMoney => true;
-    // PlayerInteraction.Instance.hasMoney;
+    private bool hasMoney => EventFlag.Instance.hasMoney;
 
-    public void SetInteractableActive(bool value) => interactable.enabled = value;
+    // ====================================================================================================
+    //                     Virtual Functions
+    // ====================================================================================================
+    #region Virtual
+    private void Start()
+    {
+        // Assertion check
+        Debug.Assert(interactableComponent, "interactableComponent is missing");
+        Debug.Assert(richKid, "richKid is missing");
+        // Connect event
+        EventFlag.Instance.BullyQuestStarted.AddListener(()=>{SetInteractableActive(true);});
+        EventFlag.Instance.MathMinigameFinished.AddListener(OnMinigameFinished);
+    }
+    #endregion
 
+    // ====================================================================================================
+    //                     Interact Functions
+    // ====================================================================================================
+    #region Interact
     public void Interact(){
         if(!hasMoney) StartCoroutine(Zero());
         else StartCoroutine(First());
     }
-    
+
+    public void SetInteractableActive(bool value) => interactableComponent.CanInteract = value;
+
+    private void OnMinigameFinished()
+    {
+        SetInteractableActive(true);
+    }
+    #endregion
+
+    // ====================================================================================================
+    //                     Dialogue Functions
+    // ====================================================================================================
+    #region Dialogue
     IEnumerator Zero(){
         yield return new WaitForSeconds(0.1f);
 
@@ -36,14 +63,14 @@ public class VendingMachine : MonoBehaviour, IInteractable
         );
         yield return new WaitWhile(() => DialogueManager.Instance.IsTypingActive());
 
-        CameraController.Instance.ChangeFollowTarget(richKid.gameObject.transform);
+        CameraController.Instance.ChangeFollowTarget(richKid.cameraFollow);
         DialogueManager.Instance.SetDialogue(
             DLib.YAMATO,
             "HEY! NERD GUY! The one in front of the vending\nmachine."
         );
         yield return new WaitWhile(() => DialogueManager.Instance.IsTypingActive());
 
-        CameraController.Instance.ChangeFollowTarget(richKid.gameObject.transform);
+        CameraController.Instance.ChangeFollowTarget(richKid.cameraFollow);
         DialogueManager.Instance.SetDialogue(
             DLib.YAMATO,
             "You look hella broke, and you seems like ultra nerd."
@@ -63,12 +90,9 @@ public class VendingMachine : MonoBehaviour, IInteractable
         yield return new WaitWhile(() => DialogueManager.Instance.IsTypingActive());
         
         DialogueManager.Instance.HideDialogueUI();
-        richKid.GetComponent<InteractableObject>().enabled = true;
-        GetComponent<InteractableObject>().SelfDestruct();
+        richKid.SetInteractableActive(true);
+        SetInteractableActive(false);
         CameraController.Instance.ResetFollowTarget();
-
-        InteractableObject io = GetComponent<InteractableObject>();
-        io.SetPrompt("Buy a drink");
     }
 
     IEnumerator First(){
@@ -94,7 +118,8 @@ public class VendingMachine : MonoBehaviour, IInteractable
         yield return new WaitWhile(() => DialogueManager.Instance.IsTypingActive());
         
         DialogueManager.Instance.HideDialogueUI();
-        GetComponent<InteractableObject>().SelfDestruct();
-        // PlayerInteraction.Instance.hasDrink = true;
+        SetInteractableActive(false);
+        EventFlag.Instance.hasDrink = true;
     }
+    #endregion
 }

@@ -24,6 +24,7 @@ public class PlayerInteraction : MonoBehaviour
     private VisualCue visualCue;
     private bool canInteract = true;
     private readonly List<InteractableComponent> interactable_list = new List<InteractableComponent>();
+    private InteractableComponent pendingInteractableDeletion;
 
     private void Start()
     {
@@ -32,8 +33,9 @@ public class PlayerInteraction : MonoBehaviour
 
     private void Update()
     {
+        if (!canInteract) return;
         UpdateCurrentTarget();
-        if (Keyboard.current.eKey.isPressed) TryInteract();
+        if (Keyboard.current.eKey.wasPressedThisFrame) TryInteract();
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -65,14 +67,20 @@ public class PlayerInteraction : MonoBehaviour
         // Clean up any destroyed/disabled objects first.
         interactable_list.RemoveAll(c => c == null || !((MonoBehaviour)c) || c.Equals(null));
         // Find the closest interactable
+        pendingInteractableDeletion = null;
         InteractableComponent closest = null;
         float closestDistance = float.MaxValue;
         foreach (InteractableComponent interactable in interactable_list)
         {
+            // Check is valid
             if (interactable == null || !interactable.CanInteract) continue;
+            // Mark for deletion if not active
+            if (!interactable.isActiveAndEnabled) pendingInteractableDeletion = interactable;
+            // Calculate distance
             var mono = interactable as MonoBehaviour;
             if (mono == null) continue;
             float distance = Vector3.SqrMagnitude(mono.transform.position - transform.position);
+            // Update if it's closer
             if (distance < closestDistance)
             {
                 closestDistance = distance;
@@ -83,6 +91,8 @@ public class PlayerInteraction : MonoBehaviour
         CurrentTarget = closest;
         if (CurrentTarget) visualCue.ShowPrompt(closest);
         else visualCue.HidePrompt();
+        // Do deletion
+        interactable_list.Remove(pendingInteractableDeletion);
     }
 
     private void TryInteract()

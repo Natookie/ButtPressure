@@ -73,8 +73,7 @@ public class DialogueManager : MonoBehaviour
 
     void SetDialogue(string characterName, Color characterColor, string content){
         if(visual == null) return;
-        // PlayerInteraction.Instance.ignoreDialogue
-        if(false) return;
+        if(GameDebug.Instance.ignoreDialogue) return;
 
         if(typingRoutine != null) StopCoroutine(typingRoutine);
 
@@ -172,7 +171,8 @@ public class DialogueManager : MonoBehaviour
     public bool IsTypingActive() => isTyping && !skipAllDialogues;
 
     public void ShowDialogueUI(System.Action onComplete = null){
-        // PlayerMovement.Instance.canMove = false;
+        Player.Instance.EnableInput = false;
+        CameraController.Instance.useMouseOffset = false;
 
         if(dialogueUI != null) dialogueUI.PopGradient(true, () => {
             if(visualGameObject != null) visualGameObject.SetActive(true);
@@ -181,7 +181,8 @@ public class DialogueManager : MonoBehaviour
     }
 
     public void HideDialogueUI(){
-        // PlayerMovement.Instance.canMove = true;
+        Player.Instance.EnableInput = true;
+        CameraController.Instance.useMouseOffset = true;
 
         if(visualGameObject != null) visualGameObject.SetActive(false);
         if(dialogueUI != null) dialogueUI.PopGradient(false);

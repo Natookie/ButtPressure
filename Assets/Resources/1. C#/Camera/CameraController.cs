@@ -17,7 +17,7 @@ public class CameraController : MonoBehaviour
     public CameraBoundary cameraBoundary;
 
     [Header("MOUSE TRACKING")]
-    [SerializeField] private bool useMouseOffset = true;
+    public bool useMouseOffset = true;
     [SerializeField] private float mouseInfluence = 1f;
     [SerializeField] private bool invertX = false;
     

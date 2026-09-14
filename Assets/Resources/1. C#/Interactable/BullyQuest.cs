@@ -3,26 +3,27 @@ using System.Collections;
 
 public class BullyQuest : MonoBehaviour
 {
-    [Header("DEPENDANCY")]
-    [SerializeField] private InteractableObject vendingMachine;
-    [SerializeField] private BullyBlockade bullyBlockade;
+    private bool hasIntroduced = false;
+    private bool hasDrink => EventFlag.Instance.hasDrink;
 
-    [HideInInspector] private bool hasIntroduced;
-    private bool hasDrink => true;
-    // PlayerInteraction.Instance.hasDrink;
-
-    private InteractableObject door;
-
-    public void EnterRoom(InteractableObject d){
-        if(door == null) door = d;
-
+    // ====================================================================================================
+    //                     Interact Functions
+    // ====================================================================================================
+    #region Interact
+    public void EnterRoom()
+    {
         if(!hasDrink){
-            if(!hasIntroduced) StartCoroutine(TriggerQuest());
+            if (!hasIntroduced) StartCoroutine(TriggerQuest());
             else StartCoroutine(RemindQuest());
         }
         else StartCoroutine(CompleteQuest());
     }
+    #endregion
 
+    // ====================================================================================================
+    //                     Dialogue Functions
+    // ====================================================================================================
+    #region Dialogue
     public IEnumerator TriggerQuest(){
         yield return new WaitForSeconds(0.1f);
 
@@ -101,7 +102,7 @@ public class BullyQuest : MonoBehaviour
         ObjectiveUI.Instance.SetObjective("Buy a drink");
 
         DialogueManager.Instance.HideDialogueUI();
-        vendingMachine.enabled = true;
+        EventFlag.Instance.isBullyQuestStarted = true;
         hasIntroduced = true;
     }
 
@@ -134,11 +135,9 @@ public class BullyQuest : MonoBehaviour
 
         CameraController.Instance.ResetFollowTarget();
         ObjectiveUI.Instance.SetObjective("Go to the 2nd floor");
-        door.enabled = false;
 
         DialogueManager.Instance.HideDialogueUI();
-        // PlayerInteraction.Instance.hasTotem = true;
-        bullyBlockade.GetComponent<InteractableObject>().enabled = true;
+        EventFlag.Instance.HasTotem = true;
     }
 
     public IEnumerator RemindQuest(){
@@ -182,4 +181,5 @@ public class BullyQuest : MonoBehaviour
         
         DialogueManager.Instance.HideDialogueUI();
     }
+    #endregion
 }

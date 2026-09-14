@@ -1,25 +1,44 @@
 using UnityEngine;
 using System.Collections;
 
-[RequireComponent(typeof(InteractableObject))]
+[RequireComponent(typeof(InteractableComponent))]
 public class NormalToilet : MonoBehaviour, IInteractable
 {
     [Header("REFERENCES")]
+    [SerializeField] private InteractableComponent interactableComponent;
+
+    [Header("TOILET SETTINGS")]
     public bool hasBeenComplied;
-    [SerializeField] private JanitorQuest janitor;
-    [SerializeField] private InteractableObject stairway;
 
-    private InteractableObject io;
-
-    void Start(){
-        io = GetComponent<InteractableObject>();
+    // ====================================================================================================
+    //                     Virtual Functions
+    // ====================================================================================================
+    #region Virtual
+    void Start()
+    {
+        // Assertion check
+        Debug.Assert(interactableComponent, "interactableComponent is missing");
+        // Connect events
+        EventFlag.Instance.JanitorMoved.AddListener(OnJanitorMoved);
     }
+    #endregion
 
+    // ====================================================================================================
+    //                     Interact Functions
+    // ====================================================================================================
+    #region Interact
     public void Interact(){
         if(hasBeenComplied) StartCoroutine(AskJanitorWhereabout());
         else StartCoroutine(TriggerComplaint());
     }
 
+    public void SetInteractableActive(bool value) => interactableComponent.CanInteract = value;
+    #endregion
+
+    // ====================================================================================================
+    //                     Dialogue Functions
+    // ====================================================================================================
+    #region Dialogue
     IEnumerator TriggerComplaint(){
         yield return new WaitForSeconds(0.1f);
         bool uiReady = false;
@@ -34,9 +53,8 @@ public class NormalToilet : MonoBehaviour, IInteractable
         ObjectiveUI.Instance.SetObjective("Ask for a key to the janitor");
 
         DialogueManager.Instance.HideDialogueUI();
-        janitor.SetAskForKey();
-        janitor.GetComponent<InteractableObject>().enabled = true;
-        io.SelfDestruct();
+        EventFlag.Instance.isJanitorQuestStarted = true;
+        SetInteractableActive(false);
     }
 
     IEnumerator AskJanitorWhereabout(){
@@ -65,7 +83,20 @@ public class NormalToilet : MonoBehaviour, IInteractable
         ObjectiveUI.Instance.SetObjective("Go to the 1st floor's toilet");
 
         DialogueManager.Instance.HideDialogueUI();
-        io.SelfDestruct();
-        stairway.enabled = true;
+        SetInteractableActive(false);
+        Debug.Log("done");
+        // stairway.enabled = true;
     }
+    #endregion
+
+    // ====================================================================================================
+    //                     Event Functions
+    // ====================================================================================================
+    #region Event
+    private void OnJanitorMoved()
+    {
+        SetInteractableActive(true);
+        hasBeenComplied = true;
+    }
+    #endregion
 }
