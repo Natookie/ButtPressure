@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections;
 
 // UNUSED!
-[RequireComponent(typeof(InteractableComponent))]
+// [RequireComponent(typeof(InteractableComponent))]
 public class Stall : MonoBehaviour, IInteractable
 {
     [Header("TWEAKS")]

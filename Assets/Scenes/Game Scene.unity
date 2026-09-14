@@ -27354,7 +27354,6 @@ GameObject:
   m_Component:
   - component: {fileID: 378182746}
   - component: {fileID: 378182747}
-  - component: {fileID: 378182749}
   - component: {fileID: 378182750}
   m_Layer: 0
   m_Name: Clock - 1
@@ -27436,18 +27435,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &378182749
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 378182745}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 859d9a315ff70074f91eb679d3401e6b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::InteractableObject
 --- !u!114 &378182750
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28973,7 +28960,6 @@ GameObject:
   m_Component:
   - component: {fileID: 394780289}
   - component: {fileID: 394780292}
-  - component: {fileID: 394780291}
   - component: {fileID: 394780290}
   m_Layer: 0
   m_Name: Locker - 1 (2)
@@ -29010,18 +28996,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 501215310672a4b4b99c6826683daa8b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Locker
---- !u!114 &394780291
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 394780288}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 859d9a315ff70074f91eb679d3401e6b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::InteractableObject
 --- !u!212 &394780292
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -34266,7 +34240,6 @@ GameObject:
   m_Component:
   - component: {fileID: 466284305}
   - component: {fileID: 466284308}
-  - component: {fileID: 466284307}
   - component: {fileID: 466284306}
   m_Layer: 0
   m_Name: Stall - 1
@@ -34308,18 +34281,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Stall
   hasHanako: 0
   hanakoSpawnPoint: {fileID: 0}
---- !u!114 &466284307
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 466284304}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 859d9a315ff70074f91eb679d3401e6b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::InteractableObject
 --- !u!212 &466284308
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -54755,7 +54716,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: -584.8375, y: -0, z: -584.8375, w: -0}
+  m_margin: {x: -679, y: -0, z: -679, w: -0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   _SortingLayer: 0
@@ -54791,7 +54752,7 @@ MonoBehaviour:
         Type: 0
     Position:
       X:
-        Raw: 233.32501
+        Raw: 45
         Type: 0
       Y:
         Raw: 0
@@ -62374,7 +62335,6 @@ GameObject:
   m_Component:
   - component: {fileID: 874490064}
   - component: {fileID: 874490067}
-  - component: {fileID: 874490066}
   - component: {fileID: 874490065}
   m_Layer: 0
   m_Name: Stall - 2
@@ -62416,18 +62376,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Stall
   hasHanako: 0
   hanakoSpawnPoint: {fileID: 0}
---- !u!114 &874490066
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 874490063}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 859d9a315ff70074f91eb679d3401e6b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::InteractableObject
 --- !u!212 &874490067
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -105861,7 +105809,6 @@ GameObject:
   - component: {fileID: 1428007891}
   - component: {fileID: 1428007890}
   - component: {fileID: 1428007889}
-  - component: {fileID: 1428007888}
   - component: {fileID: 1428007892}
   - component: {fileID: 1428007893}
   m_Layer: 0
@@ -105889,18 +105836,6 @@ Transform:
   - {fileID: 206961914}
   m_Father: {fileID: 514245847}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1428007888
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1428007886}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 859d9a315ff70074f91eb679d3401e6b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::InteractableObject
 --- !u!61 &1428007889
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -133514,7 +133449,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1806289575}
   - component: {fileID: 1806289576}
-  - component: {fileID: 1806289578}
   - component: {fileID: 1806289577}
   m_Layer: 0
   m_Name: Locker - 1
@@ -133609,18 +133543,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 501215310672a4b4b99c6826683daa8b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Locker
---- !u!114 &1806289578
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1806289574}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 859d9a315ff70074f91eb679d3401e6b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::InteractableObject
 --- !u!1001 &1808303051
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -141275,7 +141197,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1918756691}
   - component: {fileID: 1918756694}
-  - component: {fileID: 1918756693}
   - component: {fileID: 1918756692}
   m_Layer: 0
   m_Name: Locker - 1 (1)
@@ -141312,18 +141233,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 501215310672a4b4b99c6826683daa8b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Locker
---- !u!114 &1918756693
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1918756690}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 859d9a315ff70074f91eb679d3401e6b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::InteractableObject
 --- !u!212 &1918756694
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -146057,7 +145966,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1998485057}
   - component: {fileID: 1998485060}
-  - component: {fileID: 1998485059}
   - component: {fileID: 1998485058}
   m_Layer: 0
   m_Name: Stall - 3
@@ -146100,18 +146008,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Stall
   hasHanako: 1
   hanakoSpawnPoint: {fileID: 286852063}
---- !u!114 &1998485059
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1998485056}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 859d9a315ff70074f91eb679d3401e6b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::InteractableObject
 --- !u!212 &1998485060
 SpriteRenderer:
   m_ObjectHideFlags: 0

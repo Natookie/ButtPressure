@@ -1,7 +1,7 @@
 using UnityEngine;
 
 // UNUSED!
-[RequireComponent(typeof(InteractableComponent))]
+// [RequireComponent(typeof(InteractableComponent))]
 public class Locker : MonoBehaviour, IInteractable
 {
     private bool cache = false;
