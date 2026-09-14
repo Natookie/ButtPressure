@@ -16,6 +16,7 @@ public class Player : MonoBehaviour
         set
         {
             playerMovement.canInputMove = value;
+            playerMovement.StopMoving();
             playerInteraction.CanInteract = value;
         }
     }

@@ -6,6 +6,7 @@ public class NormalToilet : MonoBehaviour, IInteractable
 {
     [Header("REFERENCES")]
     [SerializeField] private InteractableComponent interactableComponent;
+    [SerializeField] private Door targetDoor;
 
     [Header("TOILET SETTINGS")]
     public bool hasBeenComplied;
@@ -18,6 +19,7 @@ public class NormalToilet : MonoBehaviour, IInteractable
     {
         // Assertion check
         Debug.Assert(interactableComponent, "interactableComponent is missing");
+        Debug.Assert(targetDoor, "targetDoor is missing");
         // Connect events
         EventFlag.Instance.JanitorMoved.AddListener(OnJanitorMoved);
     }
@@ -84,8 +86,7 @@ public class NormalToilet : MonoBehaviour, IInteractable
 
         DialogueManager.Instance.HideDialogueUI();
         SetInteractableActive(false);
-        Debug.Log("done");
-        // stairway.enabled = true;
+        targetDoor.ToggleLock(false);
     }
     #endregion
 

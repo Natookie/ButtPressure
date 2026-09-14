@@ -14,7 +14,7 @@ public class PlayerMovement : MonoBehaviour
     [Header("MOVEMENT SETTINGS")]
     [SerializeField] private float moveSpeed = 5f;
     [SerializeField] private float forceMoveSpeed = 3f;
-    [SerializeField] private float stoppingDistance = 0.1f;
+    [SerializeField] private float stoppingDistance = 0.2f;
 
     [Header("Input")]
     public bool canInputMove = true;
@@ -49,8 +49,10 @@ public class PlayerMovement : MonoBehaviour
         else AudioManager.Instance.StopSFXLooping();
     }
 
-    void FixedUpdate(){
-        if(isForcedMoving){
+    void FixedUpdate()
+    {
+        if (isForcedMoving)
+        {
             // Do forced movement
             Vector2 direction = (forcedMoveTargetPosition - transform.position).normalized;
             Vector2 newVelocity = new Vector2(direction.x * forceMoveSpeed, rb.linearVelocity.y);
@@ -79,7 +81,14 @@ public class PlayerMovement : MonoBehaviour
     //                     Movement Functions
     // ====================================================================================================
     #region Movement
-    public void ForceMove(Vector3 targetPosition){
+    public void StopMoving()
+    {
+        horizontalDirection = 0;
+        rb.linearVelocity = Vector2.zero;
+    }
+
+    public void ForceMove(Vector3 targetPosition)
+    {
         isForcedMoving = true;
         forcedMoveTargetPosition = targetPosition;
     }

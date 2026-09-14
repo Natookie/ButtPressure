@@ -12,7 +12,7 @@ public class Stall : MonoBehaviour, IInteractable
 
     void Start(){
         if(hasHanako){
-            evtManager = FindObjectOfType<EvtManager>();
+            // evtManager = FindObjectOfType<EvtManager>();
             if(evtManager == null) Debug.LogWarning("Stall: EvtManager not found in scene!");
         }
     }

@@ -23,7 +23,7 @@ public class DialogueManager : MonoBehaviour
     [SerializeField] private Color32 skipUnhoverColor;
 
     [Header("AUDIO SETTINGS")]
-    [SerializeField] private string skipPressedSFXKey = "buttonPress";
+    [SerializeField] private string skipPressedSFXKey = "Button Pressed";
 
     [Header("REFERENCES")]
     [SerializeField] private DialogueUI dialogueUI;
@@ -52,9 +52,9 @@ public class DialogueManager : MonoBehaviour
         
         if(visual != null) visualGameObject = dialogueItemVisual.gameObject;
         
-        skipButton.AddGestureHandler<Gesture.OnPress>(skipClick);
-        skipButton.AddGestureHandler<Gesture.OnHover>(skipHover);
-        skipButton.AddGestureHandler<Gesture.OnUnhover>(skipUnhover);
+        skipButton.AddGestureHandler<Gesture.OnPress>(SkipClick);
+        skipButton.AddGestureHandler<Gesture.OnHover>(SkipHover);
+        skipButton.AddGestureHandler<Gesture.OnUnhover>(SkipUnhover);
         
         if(visualGameObject != null){
             ShowDialogueUI();
@@ -170,10 +170,11 @@ public class DialogueManager : MonoBehaviour
     public void ResetSkip() => skipAllDialogues = false;
     public bool IsTypingActive() => isTyping && !skipAllDialogues;
 
-    public void ShowDialogueUI(System.Action onComplete = null){
+    public void ShowDialogueUI(System.Action onComplete = null, bool isSkipable = false){
         Player.Instance.EnableInput = false;
         CameraController.Instance.useMouseOffset = false;
 
+        if (isSkipable) skipButton.gameObject.SetActive(true);
         if(dialogueUI != null) dialogueUI.PopGradient(true, () => {
             if(visualGameObject != null) visualGameObject.SetActive(true);
             onComplete?.Invoke();
@@ -186,15 +187,17 @@ public class DialogueManager : MonoBehaviour
 
         if(visualGameObject != null) visualGameObject.SetActive(false);
         if(dialogueUI != null) dialogueUI.PopGradient(false);
+        if(skipButton != null) skipButton.gameObject.SetActive(false);
     }
 
     #region SKIP BUTTON
-    void skipClick(Gesture.OnPress evt){
+    void SkipClick(Gesture.OnPress evt){
         SkipTyping();
         GameManager.Instance.isInitialized = true;
+        AudioManager.Instance.PlaySFX(skipPressedSFXKey);
     }
-    void skipHover(Gesture.OnHover evt) => StartCoroutine(LerpSkipButton(skipHoverColor, 1.1f));
-    void skipUnhover(Gesture.OnUnhover evt) => StartCoroutine(LerpSkipButton(skipUnhoverColor, 1f));
+    void SkipHover(Gesture.OnHover evt) => StartCoroutine(LerpSkipButton(skipHoverColor, 1.1f));
+    void SkipUnhover(Gesture.OnUnhover evt) => StartCoroutine(LerpSkipButton(skipUnhoverColor, 1f));
 
     IEnumerator LerpSkipButton(Color32 targetColor, float targetScale){
         if(skipButton == null) yield break;
