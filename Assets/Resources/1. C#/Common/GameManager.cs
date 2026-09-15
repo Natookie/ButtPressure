@@ -1,7 +1,5 @@
 using UnityEngine;
-using System.Collections;
 using UnityEngine.InputSystem;
-using UnityEditor;
 
 public class GameManager : MonoBehaviour
 {
