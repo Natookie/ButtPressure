@@ -1,7 +1,6 @@
 using Nova;
 using UnityEngine;
 using DG.Tweening;
-using Unity.VisualScripting;
 
 [RequireComponent(typeof(Interactable))]
 public class BasicEffectButton : DefaultButton
@@ -11,6 +10,7 @@ public class BasicEffectButton : DefaultButton
     [SerializeField] private float hoverScale = 1.1f;
     [SerializeField] private float pressedScale = 0.9f;
     [SerializeField] private float scaleDuration = 0.2f;
+
     [Header("Text Color Effect")]
     [SerializeField] private TextBlock textBlock;
     [SerializeField] private Color normalTextColor = Color.white;
@@ -21,78 +21,49 @@ public class BasicEffectButton : DefaultButton
     private Tween scaleTween;
     private Tween textColorTween;
 
-    // ====================================================================================================
-    //                     Interactable Functions
-    // ====================================================================================================
-    #region Button
+    void OnDestroy()
+    {
+        scaleTween?.Kill();
+        textColorTween?.Kill();
+    }
+
+    private void AnimateTo(float targetScale, Color targetColor)
+    {
+        scaleTween?.Kill();
+        scaleTween = transform.DOScale(Vector3.one * targetScale, scaleDuration);
+
+        if (textBlock != null)
+        {
+            textColorTween?.Kill();
+            textColorTween = DOTween.To(
+                () => textBlock.Color,
+                x => textBlock.Color = x,
+                targetColor,
+                textColorDuration
+            );
+        }
+    }
+
     override public void ResetButton()
     {
+        scaleTween?.Kill();
+        textColorTween?.Kill();
         transform.localScale = Vector3.one * normalScale;
-        textBlock.Color = normalTextColor;
+        if (textBlock != null) textBlock.Color = normalTextColor;
     }
 
     override public void ButtonNormal(Gesture.OnUnhover evt)
-    {
-        // Do scale effect
-        if (!scaleTween.IsUnityNull()) scaleTween.Kill();
-        scaleTween = DOTween.To(
-            ()=>transform.localScale,
-            x=>transform.localScale = x,
-            Vector3.one * normalScale,
-            scaleDuration
-        );
-        // Do text color effect
-        if (!textColorTween.IsUnityNull()) textColorTween.Kill();
-        textColorTween = DOTween.To(
-            ()=>textBlock.Color,
-            x=>textBlock.Color = x,
-            normalTextColor,
-            textColorDuration
-        );
-    }
+        => AnimateTo(normalScale, normalTextColor);
 
     override public void ButtonHover(Gesture.OnHover evt)
     {
-        // Play SFX
-        if (hoverSFXName != ""){AudioManager.Instance.PlaySFX(hoverSFXName);}
-        // Do scale effect
-        if (!scaleTween.IsUnityNull()) scaleTween.Kill();
-        scaleTween = DOTween.To(
-            ()=>transform.localScale,
-            x=>transform.localScale = x,
-            Vector3.one * hoverScale,
-            scaleDuration
-        );
-        // Do text color effect
-        if (!textColorTween.IsUnityNull()) textColorTween.Kill();
-        textColorTween = DOTween.To(
-            ()=>textBlock.Color,
-            x=>textBlock.Color = x,
-            hoverTextColor,
-            textColorDuration
-        );
+        if (hoverSFXName != "") AudioManager.Instance.PlaySFX(hoverSFXName);
+        AnimateTo(hoverScale, hoverTextColor);
     }
 
     override public void ButtonPressed(Gesture.OnPress evt)
     {
-        // Play SFX
-        if (pressedSFXName != ""){AudioManager.Instance.PlaySFX(pressedSFXName);}
-        // Do scale effect
-        if (!scaleTween.IsUnityNull()) scaleTween.Kill();
-        scaleTween = DOTween.To(
-            ()=>transform.localScale,
-            x=>transform.localScale = x,
-            Vector3.one * pressedScale,
-            scaleDuration
-        );
-        // Do text color effect
-        if (!textColorTween.IsUnityNull()) textColorTween.Kill();
-        textColorTween = DOTween.To(
-            ()=>textBlock.Color,
-            x=>textBlock.Color = x,
-            pressedTextColor,
-            textColorDuration
-        );
+        if (pressedSFXName != "") AudioManager.Instance.PlaySFX(pressedSFXName);
+        AnimateTo(pressedScale, pressedTextColor);
     }
-    #endregion
 }
