@@ -168,22 +168,41 @@ flowchart TD
 
 ## Additional Info 📝
 
-| Team Member |
-| --- |
-| Maximillian Kenas |
-| Natanael Kevin Kurniawan |
-| Dave Franklin Lewandi |
-| Delvin Susilo |
+<ul align="justify">
+<li><strong>Made by:</strong><br>Maximillian Kenas<br>Natanael Kevin Kurniawan<br>Dave Franklin Lewandi<br>Delvin Susilo</li>
+</ul>
 
 <br>
 
-| Contributions (Maximillian520) |
+| Contributions by **Maximillian Kenas** |
 | --- |
 | Designed and arranged the environment layout and level composition |
 | Identified and fixed gameplay bugs and technical issues |
 | Built and refined the main menu UI |
-| Implemented and managed the audio system |
 | Did a major post-jam refactor to improve structure and maintainability |
+
+<br>
+
+| Contributions by **Natanael Kevin Kurniawan** |
+| --- |
+| Developed core game mechanics and system logic |
+| Developed the gameplay flow and sequence structure |
+| Created and refined the in-game UI |
+| Worked on polishing, visual finishing, and lighting improvements |
+
+<br>
+
+| Contributions by **Dave Franklin Lewandi** |
+| --- |
+| Created the 2D character and 3D environment assets used across the project |
+
+<br>
+
+| Contributions by **Delvin Susilo** |
+| --- |
+| Design and shape the overall game design and direction |
+| Sourced supporting assets such as audio and fonts |
+
 
 <br>
 
