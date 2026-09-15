@@ -21,7 +21,7 @@ public class PlayerInteraction : MonoBehaviour
         }
     }
 
-    private VisualCue visualCue;
+    [SerializeField] private VisualCue visualCue;
     private bool canInteract = true;
     private readonly List<InteractableComponent> interactable_list = new List<InteractableComponent>();
     private InteractableComponent pendingInteractableDeletion;
